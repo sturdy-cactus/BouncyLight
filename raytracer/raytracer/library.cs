@@ -1,5 +1,27 @@
-﻿namespace mialibreria;
+﻿using System.Diagnostics;
+namespace mialibreria;
 
+public struct check
+{
+    public static bool IsClose(float a, float b)
+    {
+        const float epsilon = 1e-4f; //fallisce a e-5!
+        return Math.Abs(a - b) < epsilon;
+    }
+    public static void AssertColor()
+    {
+        Color c = new Color(1.0f, 2.1f, 3f);
+        Color b = new Color(256.3f, 90.1f, 3.56f);
+        Color d = c;
+        c.AddColor(b);
+        Console.WriteLine("{0} {1} {2}", c.r, c.g, c.b);
+        Debug.Assert(check.IsClose(c.r, 257.3f));
+        d.Cmult(b);
+        Console.WriteLine("{0} {1}", d.g, 189.21f);
+        Debug.Assert(check.IsClose(d.g, 189.21f));
+        Console.WriteLine("il test ha avuto successo!");
+    }
+}
 public struct Color
 {
     public float r = 0, g = 0, b = 0;
