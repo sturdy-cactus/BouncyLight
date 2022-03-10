@@ -1,0 +1,15 @@
+C:\Users\giuli\Documents\magistrale\raytracing\raytracer\raytracer\obj\Debug\net6.0\raytracer.csproj.AssemblyReference.cache
+C:\Users\giuli\Documents\magistrale\raytracing\raytracer\raytracer\obj\Debug\net6.0\raytracer.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\giuli\Documents\magistrale\raytracing\raytracer\raytracer\obj\Debug\net6.0\raytracer.AssemblyInfoInputs.cache
+C:\Users\giuli\Documents\magistrale\raytracing\raytracer\raytracer\obj\Debug\net6.0\raytracer.AssemblyInfo.cs
+C:\Users\giuli\Documents\magistrale\raytracing\raytracer\raytracer\obj\Debug\net6.0\raytracer.csproj.CoreCompileInputs.cache
+C:\Users\giuli\Documents\magistrale\raytracing\raytracer\raytracer\bin\Debug\net6.0\raytracer.exe
+C:\Users\giuli\Documents\magistrale\raytracing\raytracer\raytracer\bin\Debug\net6.0\raytracer.deps.json
+C:\Users\giuli\Documents\magistrale\raytracing\raytracer\raytracer\bin\Debug\net6.0\raytracer.runtimeconfig.json
+C:\Users\giuli\Documents\magistrale\raytracing\raytracer\raytracer\bin\Debug\net6.0\raytracer.dll
+C:\Users\giuli\Documents\magistrale\raytracing\raytracer\raytracer\bin\Debug\net6.0\raytracer.pdb
+C:\Users\giuli\Documents\magistrale\raytracing\raytracer\raytracer\obj\Debug\net6.0\raytracer.dll
+C:\Users\giuli\Documents\magistrale\raytracing\raytracer\raytracer\obj\Debug\net6.0\refint\raytracer.dll
+C:\Users\giuli\Documents\magistrale\raytracing\raytracer\raytracer\obj\Debug\net6.0\raytracer.pdb
+C:\Users\giuli\Documents\magistrale\raytracing\raytracer\raytracer\obj\Debug\net6.0\raytracer.genruntimeconfig.cache
+C:\Users\giuli\Documents\magistrale\raytracing\raytracer\raytracer\obj\Debug\net6.0\ref\raytracer.dll
