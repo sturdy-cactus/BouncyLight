@@ -14,7 +14,7 @@ public struct check
         Color b = new Color(256.3f, 90.1f, 3.56f);
         Color d = c;
         c.Add(b);
-        Console.WriteLine("{0} {1} {2}", c.r, c.g, c.b);
+        Console.WriteLine("\ninizio assert...\n{0} {1} {2}", c.r, c.g, c.b);
         Debug.Assert(check.IsClose(c.r, 257.3f));
         d.Cmult(b);
         Console.WriteLine("{0} {1}", d.g, 189.21f);
