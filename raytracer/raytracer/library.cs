@@ -13,7 +13,7 @@ public struct check
         Color c = new Color(1.0f, 2.1f, 3f);
         Color b = new Color(256.3f, 90.1f, 3.56f);
         Color d = c;
-        c.AddColor(b);
+        c.Add(b);
         Console.WriteLine("{0} {1} {2}", c.r, c.g, c.b);
         Debug.Assert(check.IsClose(c.r, 257.3f));
         d.Cmult(b);
@@ -40,7 +40,7 @@ public struct Color
         this.b += c;
         return this;
     }
-    public Color AddColor(Color a)
+    public Color Add(Color a)
     {
         this.r += a.r;
         this.g += a.g;
