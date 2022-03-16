@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using mialibreria;
+using metodiImmagini;
 
 internal static partial class Program
 {

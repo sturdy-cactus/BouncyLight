@@ -1,4 +1,6 @@
 ﻿using System.Diagnostics;
+using System.Text;
+
 namespace mialibreria;
 
 public struct check
@@ -20,6 +22,11 @@ public struct check
         Console.WriteLine("{0} {1}", d.g, 189.21f);
         Debug.Assert(check.IsClose(d.g, 189.21f));
         Console.WriteLine("il test ha avuto successo!");
+    }
+
+    public static void AssertHdrImage()
+    {
+       return; 
     }
 }
 public struct Color
@@ -89,5 +96,5 @@ public class HdrImage
         int pos = b * this.w + a;
         this.pixels[pos] = c;
     }
-    
+
 }
