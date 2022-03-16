@@ -129,7 +129,7 @@ public class HdrImage
             {
                 width = int.Parse(res[0]);
                 height = int.Parse(res[1]);
-                if (width*height < 0) throw new Exception("negative resolution of image");
+                if (width * height < 0) throw new Exception("negative resolution of image");
                 Console.WriteLine("La risoluzione è {0}x{1}", width, height);
             }
             catch (Exception e)
@@ -167,7 +167,8 @@ public class HdrImage
                 path = Console.ReadLine();
                 continue;
             }
-            isBigEndian = (float.Parse(line)>0);
+
+            isBigEndian = (float.Parse(line) > 0);
             if (isBigEndian)
             {
                 Console.WriteLine("Il file ha una codifica big endian");
@@ -178,10 +179,10 @@ public class HdrImage
             }
 
             byte[] pixelArray = new byte[4];
-            
+
             var i = 1;
             //lettura da sinistra a destra, dal basso in alto:
-            for (int j = this.h-1; j >= 0; j--)
+            for (int j = this.h - 1; j >= 0; j--)
             {
                 for (int k = 0; k < this.w; k++)
                 {
@@ -221,6 +222,7 @@ public class HdrImage
                     }
                 }
             }
+
             Console.BackgroundColor = ConsoleColor.Green;
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("L'immagine è stata letta correttamente!");
@@ -238,12 +240,49 @@ public class HdrImage
             for (int j = 0; j < this.w; j++)
             {
                 var pixel = GetPixel(i, j);
-                Console.Write("(" + pixel.r.ToString() + ", " + pixel.g.ToString() + ", " + pixel.b.ToString() + ") ");
+                Console.Write("( {0,4} {1,4} {2,4} ) ", pixel.r, pixel.g, pixel.b);
 
             }
 
             Console.Write("\n");
         }
+
+    }
+
+    public void SavePFM(Stream stream)
+    {
+        Console.WriteLine("Scrittura dello stream in corso...");
+        float endianness = 1.0f;
+        if (BitConverter.IsLittleEndian)
+        {
+            endianness = -1.0f;
+        }
+
+        var headString = "PF\n"+this.w.ToString()+" "+this.h.ToString()+"\n"+endianness.ToString()+"\n";
+        byte[] head = new UTF8Encoding(true).GetBytes(headString);
+        stream.Write(head, 0, head.Length);
+
+        for (int i = this.h-1; i >=0; i--)
+        {
+            for (int j = 0; j < this.w; j++)
+            {
+                var myColor = GetPixel(i,j);
+                
+                byte[] red = BitConverter.GetBytes(myColor.r);
+                stream.Write(red, 0, red.Length);
+                
+                byte[] green = BitConverter.GetBytes(myColor.g);
+                stream.Write(green, 0, green.Length);
+                
+                byte[] blue = BitConverter.GetBytes(myColor.b);
+                stream.Write(blue, 0, blue.Length);
+            }
+        }
+
+        Console.BackgroundColor = ConsoleColor.Green;
+        Console.ForegroundColor = ConsoleColor.White;
+        Console.WriteLine("L'immagine è stata scritta correttamente nello stream!");
+        Console.ResetColor();
     }
 
     public Color GetPixel(int row, int column)
