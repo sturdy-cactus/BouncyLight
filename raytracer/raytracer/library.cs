@@ -95,7 +95,7 @@ public class HdrImage
             try
             {
                 stream = File.Open(path, FileMode.Open);
-                Console.WriteLine("Il file è stato aperto");
+                Console.WriteLine("Il file " + path + " è stato aperto");
             }
             catch (Exception e)
             {
