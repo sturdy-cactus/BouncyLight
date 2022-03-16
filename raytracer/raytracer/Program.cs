@@ -16,7 +16,7 @@ internal static partial class Program
         Console.WriteLine("Inserire il percorso del file PFM da aprire:");
         HdrImage img = new HdrImage(Console.ReadLine());
         
-        
+        img.PrintImg();
 
     }
 

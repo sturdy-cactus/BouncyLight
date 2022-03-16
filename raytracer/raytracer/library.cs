@@ -147,11 +147,7 @@ public class HdrImage
             this.h = int.Parse(res[1]);
             this.pixels = new Color[this.w * this.h];
 
-            Console.WriteLine("generando nuova immagine");
-            Console.WriteLine("fatto");
-            
             line = Read.ReadLine();
-            Console.WriteLine(line);
             bool isBigEndian;
             try
             {
@@ -172,6 +168,14 @@ public class HdrImage
                 continue;
             }
             isBigEndian = (float.Parse(line)>0);
+            if (isBigEndian)
+            {
+                Console.WriteLine("Il file ha una codifica big endian");
+            }
+            else
+            {
+                Console.WriteLine("Il file ha una codifica little endian");
+            }
 
             byte[] pixelArray = new byte[4];
             
@@ -188,21 +192,18 @@ public class HdrImage
                             Array.Reverse(
                                 pixelArray); //se la codifica è big e la lettura little o viceversa, inverti solo se ti aspetti little endian.
                         float r = BitConverter.ToSingle(pixelArray, 0);
-                        Console.WriteLine("Subpixel " + i++ + ": " + r);
 
                         pixelArray = Read.ReadBytes(4);
                         if (BitConverter.IsLittleEndian == isBigEndian)
                             Array.Reverse(
                                 pixelArray); //se la codifica è big e la lettura little o viceversa, inverti solo se ti aspetti little endian.
                         float g = BitConverter.ToSingle(pixelArray, 0);
-                        Console.WriteLine("Subpixel " + i++ + ": " + g);
 
                         pixelArray = Read.ReadBytes(4);
                         if (BitConverter.IsLittleEndian == isBigEndian)
                             Array.Reverse(
                                 pixelArray); //se la codifica è big e la lettura little o viceversa, inverti solo se ti aspetti little endian.
                         float b = BitConverter.ToSingle(pixelArray, 0);
-                        Console.WriteLine("Subpixel " + i++ + ": " + b);
 
                         Color pixel = new Color(r, g, b);
 
@@ -226,6 +227,22 @@ public class HdrImage
             Console.ResetColor();
 
             return;
+        }
+    }
+
+    public void PrintImg()
+    {
+        Console.WriteLine("I pixel dell'immagine sono:");
+        for (int i = 0; i < this.h; i++)
+        {
+            for (int j = 0; j < this.w; j++)
+            {
+                var pixel = GetPixel(i, j);
+                Console.Write("(" + pixel.r.ToString() + ", " + pixel.g.ToString() + ", " + pixel.b.ToString() + ") ");
+
+            }
+
+            Console.Write("\n");
         }
     }
 
