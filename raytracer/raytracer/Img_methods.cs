@@ -25,9 +25,6 @@ static IEnumerable<string> Split(string str, int chunkSize) {
 }
         
 Split(binario,4)
-static float BinaryStringToSingle(string s)
-{
-    int i = Convert.ToInt32(s, 2);
-    byte[] b = BitConverter.GetBytes(i);
-    return BitConverter.ToSingle(b, 0);
+
+
 

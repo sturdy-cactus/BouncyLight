@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Text;
+using extra;
 
 namespace mialibreria;
 
@@ -85,34 +86,36 @@ public class HdrImage
         this.pixels = new Color[this.w * this.h];
     }
 
-    public HdrImage(string? path)
+    public HdrImage(string path)
     {
         while (true)
         {
-            StreamReader Read = null;
+            FileStream stream = null;
             try
             {
-                Read = new StreamReader(path);
+                stream = File.Open(path, FileMode.Open);
+                Console.WriteLine("Il file è stato aperto");
             }
-            catch (NullReferenceException e)
+            catch (Exception e)
             {
-                Console.WriteLine(
-                    "il percorso non è corretto oppure il file non esiste:\n Inserire il percorso corretto:");
-                path = Console.ReadLine();
-                continue;
-            }
-            catch (FileNotFoundException e)
-            {
-                Console.WriteLine(
-                    "il percorso non è corretto oppure il file non esiste:\n Inserire il percorso corretto:");
+                Console.BackgroundColor = ConsoleColor.Red;
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine("Il percorso non è corretto oppure il file non esiste!");
+                Console.ResetColor();
+                Console.WriteLine("Inserire il percorso corretto:");
                 path=Console.ReadLine();
                 continue;
             }
-
+            
+            BinaryReader Read = new BinaryReader(stream);
             string line = Read.ReadLine();
             if (line != "PF")
             {
-                Console.WriteLine("non hai fornito un file PFM!\nInserire il percorso del file corretto:");
+                Console.BackgroundColor = ConsoleColor.Red;
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine("Non hai fornito un file PFM!");
+                Console.ResetColor();
+                Console.WriteLine("Inserire il percorso del file corretto:");
                 path = Console.ReadLine();
                 continue;
             }
@@ -121,17 +124,58 @@ public class HdrImage
             var res = line.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries);
             try
             {
-                this.w = Int32.Parse(res[0]);
-                this.h = Int32.Parse(res[1]);
-                Console.WriteLine("La risoluzione è {0} {1}",w, h);
+                this.w = int.Parse(res[0]);
+                this.h = int.Parse(res[1]);
+                if (w < 0 || h < 0) throw new Exception("negative resolution of image");
+                Console.WriteLine("La risoluzione è {0}x{1}",w, h);
             }
             catch (Exception e)
             {
-                Console.WriteLine("C'è stato un errore durante la lettura della risoluzione.\nInserire il percorso del file corretto:");
+                Console.BackgroundColor = ConsoleColor.Red;
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine("Errore nella lettura della risoluzione!");
+                Console.ResetColor();
+                Console.WriteLine("Inserire il percorso del file corretto:");
+                path = Console.ReadLine();
+                continue;
+            }
+
+            line = Read.ReadLine();
+            try
+            {
+                float endianness = float.Parse(line);
+                if (endianness==0)
+                {
+                    throw new Exception("0 endianness value");
+                }
+            }
+            catch (Exception e)
+            {
+                Console.BackgroundColor = ConsoleColor.Red;
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine("Errore nella lettura della endianness!");
+                Console.ResetColor();
+                Console.WriteLine("Inserire il percorso del file corretto:");
                 path = Console.ReadLine();
                 continue;
             }
             
+            var pixel = 0;
+            Console.WriteLine("{0} {1}", Read.BaseStream.Position, Read.BaseStream.Length);
+            while (stream.Position != stream.Length)
+            {
+                pixel = Read.Read();
+                Console.WriteLine("{0}", pixel);
+
+                static float BinaryToFloat(string s)
+                {
+                    int i = Convert.ToInt32(s, 2);
+                    byte[] b = BitConverter.GetBytes(i);
+                    return BitConverter.ToSingle(b, 0);
+                }
+            }
+
+
             break;
         }
     }
