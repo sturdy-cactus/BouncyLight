@@ -84,6 +84,57 @@ public class HdrImage
         this.h = h;
         this.pixels = new Color[this.w * this.h];
     }
+
+    public HdrImage(string? path)
+    {
+        while (true)
+        {
+            StreamReader Read = null;
+            try
+            {
+                Read = new StreamReader(path);
+            }
+            catch (NullReferenceException e)
+            {
+                Console.WriteLine(
+                    "il percorso non è corretto oppure il file non esiste:\n Inserire il percorso corretto:");
+                path = Console.ReadLine();
+                continue;
+            }
+            catch (FileNotFoundException e)
+            {
+                Console.WriteLine(
+                    "il percorso non è corretto oppure il file non esiste:\n Inserire il percorso corretto:");
+                path=Console.ReadLine();
+                continue;
+            }
+
+            string line = Read.ReadLine();
+            if (line != "PF")
+            {
+                Console.WriteLine("non hai fornito un file PFM!\nInserire il percorso del file corretto:");
+                path = Console.ReadLine();
+                continue;
+            }
+
+            line = Read.ReadLine();
+            var res = line.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries);
+            try
+            {
+                this.w = Int32.Parse(res[0]);
+                this.h = Int32.Parse(res[1]);
+                Console.WriteLine("La risoluzione è {0} {1}",w, h);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("C'è stato un errore durante la lettura della risoluzione.\nInserire il percorso del file corretto:");
+                path = Console.ReadLine();
+                continue;
+            }
+            
+            break;
+        }
+    }
     
     public Color GetPixel(int a, int b)
     {

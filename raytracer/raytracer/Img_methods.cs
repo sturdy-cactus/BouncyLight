@@ -2,12 +2,32 @@
 
 namespace metodiImmagini;
 
-public struct metodi
+public class metodi
 {
-    float ReadPixel(int a, int b)
+    public static StreamReader Read = new StreamReader("reference_le.pfm");
+    string line = Read.ReadLine();
+
+    public bool magic()
     {
-        FileStream fs = File.Open("reference_le.pfm")
-        var reader = new BinaryReader(stream, Encoding.UTF8, false);
-        return a;
+        Console.WriteLine(this.line);
+        return true;
+        /*if (line == "PF")
+        {
+            return true;
+        }
+        return false;*/
     }
 }
+
+static IEnumerable<string> Split(string str, int chunkSize) {
+    for (int i = 0; i < str.Length; i += chunkSize) 
+        yield return str.Substring(i, chunkSize);
+}
+        
+Split(binario,4)
+static float BinaryStringToSingle(string s)
+{
+    int i = Convert.ToInt32(s, 2);
+    byte[] b = BitConverter.GetBytes(i);
+    return BitConverter.ToSingle(b, 0);
+

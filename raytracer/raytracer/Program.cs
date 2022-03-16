@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
+using System.Reflection.PortableExecutable;
 using mialibreria;
-using metodiImmagini;
 
 internal static partial class Program
 {
@@ -13,6 +13,9 @@ internal static partial class Program
         Console.WriteLine("le componenti del prodotto sono {0} {1} {2}", a.r, a.g, a.b);
 
         check.AssertColor();
+        
+        HdrImage img = new HdrImage("zio.pdb");
 
     }
+
 }
