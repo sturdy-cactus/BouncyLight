@@ -90,6 +90,7 @@ public class HdrImage
     {
         while (true)
         {
+            Inizio:
             FileStream stream = null;
             try
             {
@@ -122,12 +123,14 @@ public class HdrImage
 
             line = Read.ReadLine();
             var res = line.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries);
+            int width;
+            int height;
             try
             {
-                this.w = int.Parse(res[0]);
-                this.h = int.Parse(res[1]);
-                if (w < 0 || h < 0) throw new Exception("negative resolution of image");
-                Console.WriteLine("La risoluzione è {0}x{1}", w, h);
+                width = int.Parse(res[0]);
+                height = int.Parse(res[1]);
+                if (width*height < 0) throw new Exception("negative resolution of image");
+                Console.WriteLine("La risoluzione è {0}x{1}", width, height);
             }
             catch (Exception e)
             {
@@ -140,7 +143,15 @@ public class HdrImage
                 continue;
             }
 
+            this.w = int.Parse(res[0]);
+            this.h = int.Parse(res[1]);
+            this.pixels = new Color[this.w * this.h];
+
+            Console.WriteLine("generando nuova immagine");
+            Console.WriteLine("fatto");
+            
             line = Read.ReadLine();
+            Console.WriteLine(line);
             bool isBigEndian;
             try
             {
@@ -165,27 +176,68 @@ public class HdrImage
             byte[] pixelArray = new byte[4];
             
             var i = 1;
-            while (stream.Position != stream.Length)
+            //lettura da sinistra a destra, dal basso in alto:
+            for (int j = this.h-1; j >= 0; j--)
             {
-                pixelArray = Read.ReadBytes(4);
-                if (BitConverter.IsLittleEndian==isBigEndian) 
-                    Array.Reverse(pixelArray);//se la codifica è big e la lettura little o viceversa, inverti solo se ti aspetti little endian.
-                float mycolor = BitConverter.ToSingle(pixelArray, 0);
-                Console.WriteLine("Subpixel " + i++ +": "+ mycolor);
+                for (int k = 0; k < this.w; k++)
+                {
+                    try
+                    {
+                        pixelArray = Read.ReadBytes(4);
+                        if (BitConverter.IsLittleEndian == isBigEndian)
+                            Array.Reverse(
+                                pixelArray); //se la codifica è big e la lettura little o viceversa, inverti solo se ti aspetti little endian.
+                        float r = BitConverter.ToSingle(pixelArray, 0);
+                        Console.WriteLine("Subpixel " + i++ + ": " + r);
+
+                        pixelArray = Read.ReadBytes(4);
+                        if (BitConverter.IsLittleEndian == isBigEndian)
+                            Array.Reverse(
+                                pixelArray); //se la codifica è big e la lettura little o viceversa, inverti solo se ti aspetti little endian.
+                        float g = BitConverter.ToSingle(pixelArray, 0);
+                        Console.WriteLine("Subpixel " + i++ + ": " + g);
+
+                        pixelArray = Read.ReadBytes(4);
+                        if (BitConverter.IsLittleEndian == isBigEndian)
+                            Array.Reverse(
+                                pixelArray); //se la codifica è big e la lettura little o viceversa, inverti solo se ti aspetti little endian.
+                        float b = BitConverter.ToSingle(pixelArray, 0);
+                        Console.WriteLine("Subpixel " + i++ + ": " + b);
+
+                        Color pixel = new Color(r, g, b);
+
+                        SetPixel(k, j, pixel);
+                    }
+                    catch (ArgumentException e)
+                    {
+                        Console.BackgroundColor = ConsoleColor.Red;
+                        Console.ForegroundColor = ConsoleColor.White;
+                        Console.WriteLine("I pixel presenti non corrispondono alla risoluzione!");
+                        Console.ResetColor();
+                        Console.WriteLine("Inserire il percorso del file corretto:");
+                        path = Console.ReadLine();
+                        goto Inizio;
+                    }
+                }
             }
-            path=Console.ReadLine();
+            Console.BackgroundColor = ConsoleColor.Green;
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("L'immagine è stata letta correttamente!");
+            Console.ResetColor();
+
+            return;
         }
     }
 
-    public Color GetPixel(int a, int b)
+    public Color GetPixel(int row, int column)
     {
-        int pos = b * this.w + a;
+        int pos = row * this.w + column;
         return this.pixels[pos];
     }
 
-    public void SetPixel(int a, int b, Color c)
+    public void SetPixel(int row, int column, Color c)
     {
-        int pos = b * this.w + a;
+        int pos = column * this.w + row;
         this.pixels[pos] = c;
     }
 
