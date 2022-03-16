@@ -103,10 +103,10 @@ public class HdrImage
                 Console.WriteLine("Il percorso non è corretto oppure il file non esiste!");
                 Console.ResetColor();
                 Console.WriteLine("Inserire il percorso corretto:");
-                path=Console.ReadLine();
+                path = Console.ReadLine();
                 continue;
             }
-            
+
             BinaryReader Read = new BinaryReader(stream);
             string line = Read.ReadLine();
             if (line != "PF")
@@ -127,7 +127,7 @@ public class HdrImage
                 this.w = int.Parse(res[0]);
                 this.h = int.Parse(res[1]);
                 if (w < 0 || h < 0) throw new Exception("negative resolution of image");
-                Console.WriteLine("La risoluzione è {0}x{1}",w, h);
+                Console.WriteLine("La risoluzione è {0}x{1}", w, h);
             }
             catch (Exception e)
             {
@@ -141,10 +141,11 @@ public class HdrImage
             }
 
             line = Read.ReadLine();
+            bool isBigEndian;
             try
             {
-                float endianness = float.Parse(line);
-                if (endianness==0)
+                var temp = float.Parse(line);
+                if (temp == 0)
                 {
                     throw new Exception("0 endianness value");
                 }
@@ -159,33 +160,29 @@ public class HdrImage
                 path = Console.ReadLine();
                 continue;
             }
+            isBigEndian = (float.Parse(line)>0);
+
+            byte[] pixelArray = new byte[4];
             
-            var pixel = 0;
-            Console.WriteLine("{0} {1}", Read.BaseStream.Position, Read.BaseStream.Length);
+            var i = 1;
             while (stream.Position != stream.Length)
             {
-                pixel = Read.Read();
-                Console.WriteLine("{0}", pixel);
-
-                static float BinaryToFloat(string s)
-                {
-                    int i = Convert.ToInt32(s, 2);
-                    byte[] b = BitConverter.GetBytes(i);
-                    return BitConverter.ToSingle(b, 0);
-                }
+                pixelArray = Read.ReadBytes(4);
+                if (BitConverter.IsLittleEndian==isBigEndian) 
+                    Array.Reverse(pixelArray);//se la codifica è big e la lettura little o viceversa, inverti solo se ti aspetti little endian.
+                float mycolor = BitConverter.ToSingle(pixelArray, 0);
+                Console.WriteLine("Subpixel " + i++ +": "+ mycolor);
             }
-
-
-            break;
+            path=Console.ReadLine();
         }
     }
-    
+
     public Color GetPixel(int a, int b)
     {
         int pos = b * this.w + a;
         return this.pixels[pos];
     }
-    
+
     public void SetPixel(int a, int b, Color c)
     {
         int pos = b * this.w + a;
