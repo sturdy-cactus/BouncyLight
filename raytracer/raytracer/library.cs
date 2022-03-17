@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Runtime.InteropServices;
 using System.Text;
 using extra;
 
@@ -101,7 +102,7 @@ public class HdrImage
             {
                 Console.BackgroundColor = ConsoleColor.Red;
                 Console.ForegroundColor = ConsoleColor.White;
-                Console.WriteLine("Il percorso non è corretto oppure il file non esiste!");
+                Console.WriteLine("Il percorso non è corretto, il file non esiste oppure non è accessibile!");
                 Console.ResetColor();
                 Console.WriteLine("Inserire il percorso corretto:");
                 path = Console.ReadLine();
@@ -232,19 +233,71 @@ public class HdrImage
         }
     }
 
+    //include contrbuti da stackoverflow, https://stackoverflow.com/a/43321133
+    //CC-BY-SA-4.0 Alexei Shcherbakov, Olivier Jacot-Descombes
+    [DllImport( "kernel32.dll", SetLastError = true )]
+    public static extern bool SetConsoleMode( IntPtr hConsoleHandle, int mode );
+    [DllImport( "kernel32.dll", SetLastError = true )]
+    public static extern bool GetConsoleMode( IntPtr handle, out int mode );
+
+    [DllImport( "kernel32.dll", SetLastError = true )]
+    public static extern IntPtr GetStdHandle( int handle );
     public void PrintImg()
     {
+
+        var handle = GetStdHandle( -11 );
+        int mode;
+        GetConsoleMode( handle, out mode );
+        SetConsoleMode( handle, mode | 0x4 );
+        
         Console.WriteLine("I pixel dell'immagine sono:");
+        float max = 0;
+        //questo primo ciclo calcola il massimo valore di RGB
         for (int i = 0; i < this.h; i++)
         {
             for (int j = 0; j < this.w; j++)
             {
                 var pixel = GetPixel(i, j);
-                Console.Write("( {0,4} {1,4} {2,4} ) ", pixel.r, pixel.g, pixel.b);
+                var temp = pixel;
+                max = temp.r;
+                if (temp.g > max)
+                    max = temp.g;
+                if (temp.b > max)
+                    max = temp.b;
+            }
+        }
+        //adesso posso normalizzare i valori di RGB per stamparli a video
+        for (int i = 0; i < this.h; i++)
+        {
+            for (int k = 0; k < 9; k++)
 
+            {
+                for (int j = 0; j < this.w; j++)
+
+                {
+                    var pixel = GetPixel(i, j);
+                    var temp = pixel;
+
+                    temp.r = (int) (temp.r * 255 / max);
+                    temp.g = (int) (temp.g * 255 / max);
+                    temp.b = (int) (temp.b * 255 / max);
+                    if (k == 4)
+                    {
+                        Console.Write(
+                            "\x1b[48;2;" + temp.r + ";" + temp.g + ";" + temp.b + "m ( {0,4} {1,4} {2,4} ) ",
+                            pixel.r, pixel.g, pixel.b);
+                    }
+                    else
+                        Console.Write(
+                            "\x1b[48;2;" + temp.r + ";" + temp.g + ";" + temp.b + "m   {0,4} {1,4} {2,4}   ",
+                            null, null, null);
+                }
+                
+                Console.ResetColor();
+                Console.Write("\n");
             }
 
-            Console.Write("\n");
+            Console.ResetColor();
         }
 
     }
@@ -254,9 +307,7 @@ public class HdrImage
         Console.WriteLine("Scrittura dello stream in corso...");
         float endianness = 1.0f;
         if (BitConverter.IsLittleEndian)
-        {
             endianness = -1.0f;
-        }
 
         var headString = "PF\n"+this.w.ToString()+" "+this.h.ToString()+"\n"+endianness.ToString()+"\n";
         byte[] head = new UTF8Encoding(true).GetBytes(headString);

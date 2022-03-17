@@ -1,13 +1,13 @@
-﻿using System.Text;
+﻿using System.Runtime.InteropServices;
+using System.Text;
 namespace extra;
 
-//source: https://www.codeproject.com/Articles/996254/BinaryReader-ReadLine-extension
-//CPOL 1.02 licensed - Pascal Ganaye
-
-//aggiunge metodo .ReadLine a BinaryReader
 public static class BinaryReaderExtension
 {
+    //source: https://www.codeproject.com/Articles/996254/BinaryReader-ReadLine-extension
+    //CPOL 1.02 licensed - Pascal Ganaye
 
+    //aggiunge metodo .ReadLine a BinaryReader
     public static String ReadLine(this BinaryReader reader)
     {
         var result = new StringBuilder();

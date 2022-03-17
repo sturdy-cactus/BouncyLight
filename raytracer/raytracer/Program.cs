@@ -20,20 +20,35 @@ internal static partial class Program
 
         img.PrintImg();
         
-        Console.WriteLine("come vuoi chiamare il file copia?");
+        Copia:
+        Console.WriteLine("Come vuoi chiamare il file copia?");
         var path = Console.ReadLine();
-        if (File.Exists(path)) File.Delete(path);
+        if (File.Exists(path))
+        {        
+            Console.BackgroundColor = ConsoleColor.Yellow;
+            Console.ForegroundColor = ConsoleColor.Black;
+            Console.WriteLine("Il file esiste già. Sovrascriverlo? (s/n)");
+            Console.ResetColor();
+            if (Console.ReadLine() != "s")
+                goto Copia;
+            File.Delete(path);
+        }
 
-        FileStream stream = File.Create(path);
-        img.SavePFM(stream);
-        stream.Close();
+        using (FileStream stream = File.Create(path))
+        {
+            img.SavePFM(stream);
+            stream.Close();
+            stream.Dispose();
+        }
 
         HdrImage img2 = new HdrImage(path);
         img2.PrintImg();
 
-
+        Console.BackgroundColor = ConsoleColor.Yellow;
+        Console.ForegroundColor = ConsoleColor.Black;
         Console.WriteLine("Scrivi qualunque cosa per riavviare il programma, oppure premi invio per chiudere il programma.");
-        if (Console.ReadLine() != null)
+        Console.ResetColor();
+        if (Console.ReadLine() != "")
             goto Inizio;
     }
 
