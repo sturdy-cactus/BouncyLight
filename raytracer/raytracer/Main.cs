@@ -1,5 +1,5 @@
 using System.Globalization;
-using lib;
+using PFMlib;
 
 internal static partial class Program
 {
@@ -32,7 +32,7 @@ internal static partial class Program
             catch (Exception)
             {
                 Console.WriteLine("usage: raytracer.exe \"input_file_name\" factor gamma \"output_file_name\"");
-                Environment.Exit(0);
+                Environment.Exit(1);
             }
         }
     }

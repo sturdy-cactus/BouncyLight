@@ -5,7 +5,7 @@ using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 
-namespace lib;
+namespace PFMlib;
 public struct Color
 {
 	//MEMBERS
@@ -34,20 +34,20 @@ public struct Color
 		return c;
     }
 
-	public static Color SMult(Color x, float a)
+	public static Color Mult(Color x, float a)
     {
 		var c = new Color(a*x.r, a*x.g, a*x.b);
 		return c;
 	}
 
-	public static Color CMult(Color x, Color y)
+	public static Color Mult(Color x, Color y)
     {
 		var c = new Color(x.r * y.r, x.g * y.b, x.b * y.b);
 		return c;
 	}
 
 	public float Luminosity()
-    {	//correzione bug: c'era un segno +!
+    {	//correzione_bug: c'era un segno +!
 		return (Math.Max(this.r, Math.Max(this.g, this.b)) - Math.Min(this.r, Math.Min(this.g, this.b))) / 2f;
     }
 }
@@ -73,35 +73,73 @@ public class HdrImage
     {
 		//apertura stream e inizializzazione
 		int offset = 0;
-		var fs = new FileStream(path, FileMode.Open);
-		var sr = new StreamReader(fs);
+		FileStream fs = null;
+		StreamReader sr = null;
+		try
+		{
+			fs = new FileStream(path, FileMode.Open);
+			sr = new StreamReader(fs);
+		}
+		catch(Exception)
+		{
+			Console.WriteLine("Impossibile aprire il file!");
+			Environment.Exit(2);
+		}
 
 		//riga 1
 		string magic = sr.ReadLine();
 		offset += magic.Length;
 		if (magic != "PF")
+		{
 			Console.WriteLine("il file non e' PFM");
-        
+			Environment.Exit(3);
+		}
+
 		//riga2
 		string dim = sr.ReadLine();
 		offset += dim.Length;
 
 		//riga3
-		string endianness_string = sr.ReadLine();
-		offset += endianness_string.Length;
-		bool endianness;
-		if (Single.Parse(endianness_string) < 0)
-			endianness = true;
-		else
-			endianness = false;
+		bool endianness = false;//true se little endian
+		try
+		{
+			string endianness_string = sr.ReadLine();
+			offset += endianness_string.Length;
+
+			if (Single.Parse(endianness_string) < 0)
+				endianness = true;
+		}
+		catch (Exception)
+		{
+			Console.WriteLine("Error while reading endianness");
+			Environment.Exit(4);
+		}
 
 		//istanziazione membri
-		w = HdrImage.StringToDim(dim)[0];
-		h = HdrImage.StringToDim(dim)[1];
+		try
+		{
+			w = HdrImage.StringToDim(dim)[0];
+			h = HdrImage.StringToDim(dim)[1];
+		}
+		catch (Exception)
+		{
+			Console.WriteLine("Errore nella lettura della risoluzione");
+			Environment.Exit(5);
+		}
+
 		pixels = new Color[h * w];
 
-		//lettura bytes
-		HdrImage.MyByteReader(w, h, endianness, offset, fs, ref pixels);
+		try
+		{
+			//lettura bytes
+			HdrImage.MyByteReader(w, h, endianness, offset, fs, ref pixels);
+		}
+		catch (Exception)
+		{
+			Console.WriteLine("Errore nella lettura dei pixel!");
+			Environment.Exit(6);
+		}
+
 		Array.Reverse(pixels);
 		HdrImage.FlipImg(w, h, ref pixels);
 
@@ -213,11 +251,20 @@ public class HdrImage
 		string nome = path.Split('\\').Last();
 		string type = path.Split('.').Last();
 
-		//salvataggio
-		if (type is "png" or "PNG")
-			bmp.Save(nome,ImageFormat.Png);
-		if (type is "jpg" or "JPG" or "jpeg" or "JPEG")
-			bmp.Save(nome,ImageFormat.Jpeg);
+		try
+		{
+			//salvataggio
+			if (type is "png" or "PNG")
+				bmp.Save(nome, ImageFormat.Png);
+			if (type is "jpg" or "JPG" or "jpeg" or "JPEG")
+				bmp.Save(nome, ImageFormat.Jpeg);
+			else throw new Exception("Invalid file format");
+		}
+		catch (Exception)
+		{
+			Console.WriteLine("Errore nel salvataggio del file. I formati validi sono png o jpeg.");
+			Environment.Exit(8);
+		}
 	}
 
 	//METODI PRIVATI
