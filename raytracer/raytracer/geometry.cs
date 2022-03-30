@@ -81,7 +81,8 @@ public struct Point
 
 public struct Transformation
 {
-    public Matrix4x4 m, invm;
+    public Matrix4x4 m;
+    public Matrix4x4 invm;
     public Transformation()
     {
         m=Matrix4x4.Identity;
@@ -92,10 +93,7 @@ public struct Transformation
     {
         this.m = m;
         this.invm = invm;
-        try
-        {
-            Debug.Assert(m.);
-        }
+        Debug.Assert(Matrix4x4.Multiply(m,invm) == Matrix4x4.Identity);
     }
 
     public static Matrix4x4 operator *(Transformation A, Transformation B)
