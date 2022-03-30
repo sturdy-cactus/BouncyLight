@@ -1,8 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "RgwTwmQjH3GwYj1Hwaci3RzHyHHAnUHlNEolIo2PXo5uGklUdB6uh5QZ9e0CQ/7nxRnXzy4nxC+t2D5Z0qrz1g==",
+  "dgSpecHash": "qwWMgm1MIgRWAuUfLrSSWyuOcUKRLwFhRXzvKM9YHbEHDIEjdi/Zg5F4KIcoeX0FOSf+ve6zerXVdtGPhuNnTQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\giuli\\Documents\\magistrale\\raytracing\\raytracer\\raytracer\\raytracer.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\giuli\\.nuget\\packages\\microsoft.win32.systemevents\\6.0.0\\microsoft.win32.systemevents.6.0.0.nupkg.sha512",
+    "C:\\Users\\giuli\\.nuget\\packages\\system.drawing.common\\6.0.0\\system.drawing.common.6.0.0.nupkg.sha512"
+  ],
   "logs": []
 }

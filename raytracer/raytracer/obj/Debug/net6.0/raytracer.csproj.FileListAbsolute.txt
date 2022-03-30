@@ -13,3 +13,9 @@ C:\Users\giuli\Documents\magistrale\raytracing\raytracer\raytracer\obj\Debug\net
 C:\Users\giuli\Documents\magistrale\raytracing\raytracer\raytracer\obj\Debug\net6.0\raytracer.pdb
 C:\Users\giuli\Documents\magistrale\raytracing\raytracer\raytracer\obj\Debug\net6.0\raytracer.genruntimeconfig.cache
 C:\Users\giuli\Documents\magistrale\raytracing\raytracer\raytracer\obj\Debug\net6.0\ref\raytracer.dll
+C:\Users\giuli\Documents\magistrale\raytracing\raytracer\raytracer\bin\Debug\net6.0\Microsoft.Win32.SystemEvents.dll
+C:\Users\giuli\Documents\magistrale\raytracing\raytracer\raytracer\bin\Debug\net6.0\System.Drawing.Common.dll
+C:\Users\giuli\Documents\magistrale\raytracing\raytracer\raytracer\bin\Debug\net6.0\runtimes\win\lib\net6.0\Microsoft.Win32.SystemEvents.dll
+C:\Users\giuli\Documents\magistrale\raytracing\raytracer\raytracer\bin\Debug\net6.0\runtimes\unix\lib\net6.0\System.Drawing.Common.dll
+C:\Users\giuli\Documents\magistrale\raytracing\raytracer\raytracer\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Drawing.Common.dll
+C:\Users\giuli\Documents\magistrale\raytracing\raytracer\raytracer\obj\Debug\net6.0\raytracer.csproj.CopyComplete

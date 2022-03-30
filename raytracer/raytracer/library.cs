@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Net.Mail;
 using System.Runtime.InteropServices;
 using System.Text;
 using extra;
@@ -71,6 +72,11 @@ public struct Color
         this.g *= a.g;
         this.b *= a.b;
         return this;
+    }
+
+    public float Luminosity()
+    {
+        return (Math.Max(Math.Max(r,g),b)-Math.Min(Math.Max(r,g),b))/2;
     }
 
 }
@@ -226,8 +232,9 @@ public class HdrImage
 
             Console.BackgroundColor = ConsoleColor.Green;
             Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine("L'immagine è stata letta correttamente!");
+            Console.Write("L'immagine è stata letta correttamente!");
             Console.ResetColor();
+            Console.Write("\n");
 
             return;
         }
@@ -250,7 +257,7 @@ public class HdrImage
         GetConsoleMode( handle, out mode );
         SetConsoleMode( handle, mode | 0x4 );
         
-        Console.WriteLine("I pixel dell'immagine sono:");
+        Console.WriteLine("I pixel dell'immagine sono:\n");
         float max = 0;
         //questo primo ciclo calcola il massimo valore di RGB
         for (int i = 0; i < this.h; i++)
@@ -281,6 +288,8 @@ public class HdrImage
                     temp.r = (int) (temp.r * 255 / max);
                     temp.g = (int) (temp.g * 255 / max);
                     temp.b = (int) (temp.b * 255 / max);
+                    //include contrbuti da stackoverflow, https://stackoverflow.com/a/43321133
+                    //CC-BY-SA-4.0 Alexei Shcherbakov, Olivier Jacot-Descombes
                     if (k == 4)
                     {
                         Console.Write(
@@ -300,6 +309,7 @@ public class HdrImage
             Console.ResetColor();
         }
 
+        Console.WriteLine();
     }
 
     public void SavePFM(Stream stream)
@@ -332,8 +342,9 @@ public class HdrImage
 
         Console.BackgroundColor = ConsoleColor.Green;
         Console.ForegroundColor = ConsoleColor.White;
-        Console.WriteLine("L'immagine è stata scritta correttamente nello stream!");
+        Console.Write("L'immagine è stata scritta correttamente nello stream!");
         Console.ResetColor();
+        Console.Write("\n");
     }
 
     public Color GetPixel(int row, int column)

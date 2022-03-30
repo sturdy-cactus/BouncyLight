@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+﻿/*using System.Diagnostics;
 using System.Reflection.PortableExecutable;
 using mialibreria;
 
@@ -27,8 +27,9 @@ internal static partial class Program
         {        
             Console.BackgroundColor = ConsoleColor.Yellow;
             Console.ForegroundColor = ConsoleColor.Black;
-            Console.WriteLine("Il file esiste già. Sovrascriverlo? (s/n)");
+            Console.Write("Il file esiste già. Sovrascriverlo? (s/n)");
             Console.ResetColor();
+            Console.Write("\n");
             if (Console.ReadLine() != "s")
                 goto Copia;
             File.Delete(path);
@@ -46,10 +47,11 @@ internal static partial class Program
 
         Console.BackgroundColor = ConsoleColor.Yellow;
         Console.ForegroundColor = ConsoleColor.Black;
-        Console.WriteLine("Scrivi qualunque cosa per riavviare il programma, oppure premi invio per chiudere il programma.");
+        Console.Write("Scrivi qualunque cosa per riavviare il programma, oppure premi invio per chiudere il programma.");
         Console.ResetColor();
+        Console.Write("\n");
         if (Console.ReadLine() != "")
             goto Inizio;
     }
 
-}
+}*/
