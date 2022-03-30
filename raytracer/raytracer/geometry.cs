@@ -1,64 +1,54 @@
-﻿using System.Diagnostics;
-using static mialibreria.check;
+﻿namespace geometry;
 
-namespace geometry;
+//fiore
 
-struct Point
+public struct Vector
 {
-    public float x, y, z;
+    //MEMBRI
+    public float x;
+    public float y;
+    public float z;
 
-    public Point()
+    //COSTRUTTORE DEFAULT
+    public Vector()
     {
-        x = 0;
-        y = 0;
-        z = 0;
+        x = .0f;
+        y = .0f;
+        z = .0f;
     }
-    public Point(float x, float y, float z)
+
+    //COSTRUTTORE
+    public Vector(float x, float y, float z)
     {
         this.x = x;
         this.y = y;
         this.z = z;
     }
 
-    public string toString()
+    //METODI
+    public string ConvertToString()
     {
-        string s = $"(x = {x.ToString()}, y = {y.ToString()}, z = {z.ToString()})";
+        string s = "({this.x}, {this.y}, {this.z})";
         return s;
     }
 
-    public bool isClose(Point p)
+    public Vector Sum(Vector v1, Vector v2)
     {
-        return (IsClose(x,p.x) && IsClose(y,p.y) && IsClose(z,p.z));
-        Point a = new Point(1, 2, 3);
-        Point b = new Point(2, 3, 4);
-        Debug.Assert(a.isClose(b));
+        var sum = new Vector();
+        sum.x = v1.x + v2.x;
+        sum.y = v1.y + v2.y;
+        sum.z = v1.z + v2.z;
+
+        return sum;
     }
 
-    public Point Sum(Vector v)
+    public Vector Diff(Vector v1, Vector v2)
     {
-        x += v.x;
-        y += v.y;
-        z += v.z;
-        return this;
-    }
+        var diff = new Vector();
+        diff.x = v1.x + v2.x;
+        diff.y = v1.y + v2.y;
+        diff.z = v1.z + v2.z;
 
-    public Vector Diff(Point p)
-    {
-        Vector v = new Vector();
-        v.x = x - p.x;
-        v.y = y - p.y;
-        v.z = z - p.z;
-        
-        return v;
-    }
-
-    public Vector toVector()
-    {
-        Vector v = new Vector();
-        v.x = x;
-        v.y = y;
-        v.z = z;
-
-        return v;
+        return diff;
     }
 }
