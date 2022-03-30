@@ -1,10 +1,13 @@
 using System.Globalization;
 using PFMlib;
+using test;
 
 internal static partial class Program
 {
     private static void Main(string[] args)
     {
+
+        Test.Point();
         Parameters myParams = new Parameters(args);
 
         HdrImage myImage = new HdrImage(path:myParams.input_file_name);
