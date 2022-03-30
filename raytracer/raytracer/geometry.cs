@@ -1,54 +1,105 @@
-﻿namespace geometry;
+﻿using System.Diagnostics;
+using System.Numerics;
+using System.Transactions;
+using static mialibreria.check;
 
-//fiore
+namespace geometry;
 
-public struct Vector
+public struct Point
 {
-    //MEMBRI
-    public float x;
-    public float y;
-    public float z;
+    public float x, y, z;
 
-    //COSTRUTTORE DEFAULT
-    public Vector()
+    public Point()
     {
-        x = .0f;
-        y = .0f;
-        z = .0f;
+        x = 0;
+        y = 0;
+        z = 0;
     }
-
-    //COSTRUTTORE
-    public Vector(float x, float y, float z)
+    public Point(float x, float y, float z)
     {
         this.x = x;
         this.y = y;
         this.z = z;
     }
 
-    //METODI
-    public string ConvertToString()
+    public string toString()
     {
-        string s = "({this.x}, {this.y}, {this.z})";
+        string s = $"(x = {x.ToString()}, y = {y.ToString()}, z = {z.ToString()})";
         return s;
     }
 
-    public Vector Sum(Vector v1, Vector v2)
+    public bool isClose(Point p)
     {
-        var sum = new Vector();
-        sum.x = v1.x + v2.x;
-        sum.y = v1.y + v2.y;
-        sum.z = v1.z + v2.z;
-
-        return sum;
+        return (IsClose(x,p.x) && IsClose(y,p.y) && IsClose(z,p.z));
+        Point a = new Point(1, 2, 3);
+        Point b = new Point(2, 3, 4);
+        Debug.Assert(a.isClose(b));
+    }
+    
+    public static Point operator *(Point p,float a)
+    {
+        Point temp = p;
+        temp.x *= a;
+        temp.y *= a;
+        temp.z *= a;
+        return temp;
     }
 
-    public Vector Diff(Vector v1, Vector v2)
+    public static Point operator *(float a, Point p)
     {
-        var diff = new Vector();
-        diff.x = v1.x + v2.x;
-        diff.y = v1.y + v2.y;
-        diff.z = v1.z + v2.z;
+        return p * a;
+    }
+/*
+    public Point Sum(Vector v)
+    {
+        x += v.x;
+        y += v.y;
+        z += v.z;
+        return this;
+    }
 
-        return diff;
+    public Vector Diff(Point p)
+    {
+        Vector v = new Vector();
+        v.x = x - p.x;
+        v.y = y - p.y;
+        v.z = z - p.z;
+        
+        return v;
+    }
+
+    public Vector toVector()
+    {
+        Vector v = new Vector();
+        v.x = x;
+        v.y = y;
+        v.z = z;
+
+        return v;
+    }*/
+}
+
+public struct Transformation
+{
+    public Matrix4x4 m, invm;
+    public Transformation()
+    {
+        m=Matrix4x4.Identity;
+        invm=Matrix4x4.Identity;
+    }
+
+    public Transformation(Matrix4x4 m, Matrix4x4 invm)
+    {
+        this.m = m;
+        this.invm = invm;
+        try
+        {
+            Debug.Assert(m.);
+        }
+    }
+
+    public static Matrix4x4 operator *(Transformation A, Transformation B)
+    {
+        return A.m.Multiply(B.m);
     }
 }
