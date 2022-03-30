@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using System.Numerics;
 using System.Transactions;
 using static mialibreria.check;
@@ -81,8 +81,7 @@ public struct Point
 
 public struct Transformation
 {
-    public Matrix4x4 m;
-    public Matrix4x4 invm;
+    public Matrix4x4 m, invm;
     public Transformation()
     {
         m=Matrix4x4.Identity;
@@ -93,7 +92,10 @@ public struct Transformation
     {
         this.m = m;
         this.invm = invm;
-        Debug.Assert(Matrix4x4.Multiply(m,invm) == Matrix4x4.Identity);
+        try
+        {
+            Debug.Assert(m.);
+        }
     }
 
     public static Matrix4x4 operator *(Transformation A, Transformation B)
