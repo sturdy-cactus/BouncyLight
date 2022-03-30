@@ -1,11 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "NekPf46SI7hGrachkks8b396ZKFl8fBTSYZNTy+Q1KlYJeQWOeLd08KqlcSNxQQCmC5lSnpoG73cGDXwL0/oEQ==",
+  "dgSpecHash": "qwWMgm1MIgRWAuUfLrSSWyuOcUKRLwFhRXzvKM9YHbEHDIEjdi/Zg5F4KIcoeX0FOSf+ve6zerXVdtGPhuNnTQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Administrator\\RiderProjects\\BouncyLight\\raytracer\\raytracer\\raytracer.csproj",
+  "projectFilePath": "C:\\Users\\giuli\\Documents\\magistrale\\raytracing\\raytracer\\raytracer\\raytracer.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\Administrator\\.nuget\\packages\\microsoft.win32.systemevents\\6.0.0\\microsoft.win32.systemevents.6.0.0.nupkg.sha512",
-    "C:\\Users\\Administrator\\.nuget\\packages\\system.drawing.common\\6.0.0\\system.drawing.common.6.0.0.nupkg.sha512"
+    "C:\\Users\\giuli\\.nuget\\packages\\microsoft.win32.systemevents\\6.0.0\\microsoft.win32.systemevents.6.0.0.nupkg.sha512",
+    "C:\\Users\\giuli\\.nuget\\packages\\system.drawing.common\\6.0.0\\system.drawing.common.6.0.0.nupkg.sha512"
   ],
   "logs": []
 }
