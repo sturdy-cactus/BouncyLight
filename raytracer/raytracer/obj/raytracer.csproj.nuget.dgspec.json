@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\giuli\\Documents\\magistrale\\raytracing\\raytracer\\raytracer\\raytracer.csproj": {}
+    "C:\\Users\\Administrator\\RiderProjects\\BouncyLight\\raytracer\\raytracer\\raytracer.csproj": {}
   },
   "projects": {
-    "C:\\Users\\giuli\\Documents\\magistrale\\raytracing\\raytracer\\raytracer\\raytracer.csproj": {
+    "C:\\Users\\Administrator\\RiderProjects\\BouncyLight\\raytracer\\raytracer\\raytracer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\giuli\\Documents\\magistrale\\raytracing\\raytracer\\raytracer\\raytracer.csproj",
+        "projectUniqueName": "C:\\Users\\Administrator\\RiderProjects\\BouncyLight\\raytracer\\raytracer\\raytracer.csproj",
         "projectName": "raytracer",
-        "projectPath": "C:\\Users\\giuli\\Documents\\magistrale\\raytracing\\raytracer\\raytracer\\raytracer.csproj",
-        "packagesPath": "C:\\Users\\giuli\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\giuli\\Documents\\magistrale\\raytracing\\raytracer\\raytracer\\obj\\",
+        "projectPath": "C:\\Users\\Administrator\\RiderProjects\\BouncyLight\\raytracer\\raytracer\\raytracer.csproj",
+        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Administrator\\RiderProjects\\BouncyLight\\raytracer\\raytracer\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\giuli\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -60,7 +60,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.201\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.200\\RuntimeIdentifierGraph.json"
         }
       }
     }
