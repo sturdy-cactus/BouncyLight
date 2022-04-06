@@ -1,4 +1,5 @@
 using System.Globalization;
+using System.Numerics;
 using PFMlib;
 using test;
 
@@ -14,6 +15,10 @@ internal static partial class Program
         
         HdrImage converted = myImage.TosRGB(factor: myParams.factor, gamma: myParams.gamma);
         converted.SaveLdrImg(myParams.output_file_name);
+
+        var a = Matrix4x4.Identity;
+        var b = Matrix4x4.Identity;
+        Test.IsClose(a, b);
     }
     
     public class Parameters

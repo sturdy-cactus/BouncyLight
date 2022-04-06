@@ -1,7 +1,9 @@
 using System.Diagnostics;
 using System.Numerics;
+using System.Reflection;
 using System.Transactions;
-using static mialibreria.check;
+using mialibreria;
+using static test.Test;
 
 namespace geometry;
 
