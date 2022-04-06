@@ -3,7 +3,7 @@ using System.Numerics;
 using System.Reflection;
 using System.Transactions;
 using mialibreria;
-using static test.Test;
+using static test.TestGeometry;
 using geometry;
 using Vector = geometry.Vector;
 
@@ -74,6 +74,7 @@ public struct Point
         return v;
     }
 }
+
 
 public struct Transformation
 {

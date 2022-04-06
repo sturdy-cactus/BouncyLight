@@ -33,9 +33,9 @@ public struct Vector
         return s;
     }
 
-    public static bool AreVectorsClose(Vector a, Vector b)
+    public bool isClose(Vector a)
     {
-        return (IsClose(a.x, b.x) && IsClose(a.y, b.y) && IsClose(a.z, b.z));
+        return (IsClose(a.x, this.x) && IsClose(a.y, this.y) && IsClose(a.z, this.z));
     }
 
     public Vector Neg()
@@ -147,9 +147,9 @@ public struct Normal
         return s;
     }
 
-    public static bool AreNormalsClose(Normal a, Normal b)
+    public bool isClose(Normal a)
     {
-        return (IsClose(a.x, b.x) && IsClose(a.y, b.y) && IsClose(a.z, b.z));
+        return (IsClose(a.x, this.x) && IsClose(a.y, this.y) && IsClose(a.z, this.z));
     }
 
     public Normal Neg()

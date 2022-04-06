@@ -4,12 +4,35 @@ using geometry;
 using geometry2;
 using PFMlib;
 using Vector = geometry.Vector;
-//hello
 
 namespace test;
 
-public class Test
+public class TestGeometry
 {
+    public static void TestVec()
+    {
+        var a = new Vector(1.0f, 2.0f, 3.0f);
+        var b = new Vector(4.0f, 6.0f, 8.0f);
+        
+        Debug.Assert(a.isClose(a));
+        Debug.Assert(!a.isClose(b));
+    }
+
+    public static void TestVecOps()
+    {
+        var a = new Vector(1.0f, 2.0f, 3.0f);
+        var b = new Vector(4.0f, 6.0f, 8.0f);
+
+        Debug.Assert((a + b).isClose(new Vector(5.0f, 8.0f, 11.0f)));
+        Debug.Assert((b-a).isClose(new Vector(3.0f, 4.0f, 5.0f)));
+        Debug.Assert((2*a).isClose(new Vector(2.0f, 4.0f, 6.0f)));
+        Debug.Assert(IsClose(40.0f, a*b));
+        Debug.Assert(IsClose(14.0f, a.SqNorm()));
+        Debug.Assert(IsClose(14.0f, (float)Math.Pow((double)a.Norm(), 2.0)));
+        Debug.Assert((Vector.CrossProd(a,b)).isClose(new Vector(-2.0f, 4.0f, -2.0f)));
+        Debug.Assert((Vector.CrossProd(a,b)).isClose(new Vector(2.0f, -4.0f, 2.0f)));
+    }
+    
     public static void Point()
     {
         Point a = new Point(1, 2, 3);

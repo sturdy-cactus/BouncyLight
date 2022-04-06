@@ -1,25 +1,24 @@
 using System.Globalization;
 using System.Numerics;
-using geometry2;
 using PFMlib;
 using test;
-using Vector = geometry.Vector;
 
 internal static partial class Program
 {
     private static void Main(string[] args)
     {
 
-        Test.Point();
-        Test.Point_ops();
-        Test.Tranformation_ops();
-        Console.WriteLine("ok");
-        /*Parameters myParams = new Parameters(args);
+        TestGeometry.Point();
+        Parameters myParams = new Parameters(args);
 
         HdrImage myImage = new HdrImage(path:myParams.input_file_name);
         
         HdrImage converted = myImage.TosRGB(factor: myParams.factor, gamma: myParams.gamma);
-        converted.SaveLdrImg(myParams.output_file_name);*/
+        converted.SaveLdrImg(myParams.output_file_name);
+
+        var a = Matrix4x4.Identity;
+        var b = Matrix4x4.Identity;
+        TestGeometry.IsClose(a, b);
     }
     
     public class Parameters
