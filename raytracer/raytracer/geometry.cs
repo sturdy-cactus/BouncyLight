@@ -31,45 +31,11 @@ public struct Vector
     //METODI
     public string ConvertVecToString()
     {
-        string s = $"({this.x}, {this.y}, {this.z})";
+        string s = "({this.x}, {this.y}, {this.z})";
         return s;
     }
-   
-    public Vector Neg()
-    {
-        return -1.0f*this;
-    }
-    
-    public float SqNorm()
-    { 
-        return this*this;
-    }
 
-    public float Norm()
-    {
-        return (float)Math.Sqrt(this.SqNorm());
-    }
-
-    public void Normalize()  
-    {
-        float norm = this.Norm();
-        this.x = this.x / norm;
-        this.y = this.y / norm;
-        this.z = this.z / norm;
-    }
-    
-    public static Vector CrossProd(Vector v1, Vector v2)
-    {
-        var prod = new Vector();
-        prod.x = v1.y * v2.z - v1.z * v2.y;
-        prod.y = v1.z * v2.x - v1.x * v2.z;
-        prod.z = v1.x * v2.y - v1.y * v2.x;
-
-        return prod;
-    } //esatto con numeri vicini a 1
-    
-    //OPERATORI
-    public static Vector operator +(Vector v1, Vector v2)
+    public Vector Sum(Vector v1, Vector v2)
     {
         var sum = new Vector();
         sum.x = v1.x + v2.x;
@@ -79,32 +45,64 @@ public struct Vector
         return sum;
     }
 
-    public static Vector operator -(Vector v1, Vector v2)
+    public Vector Diff(Vector v1, Vector v2)
     {
         var diff = new Vector();
-        diff.x = v1.x - v2.x;
-        diff.y = v1.y - v2.y;
-        diff.z = v1.z - v2.z;
+        diff.x = v1.x + v2.x;
+        diff.y = v1.y + v2.y;
+        diff.z = v1.z + v2.z;
 
         return diff;
     }
 
-    public static Vector operator *(float a, Vector v)
+    public Vector ScalProd(float a)
     {
-        var p = new Vector();
-        p.x = v.x * a;
-        p.y = v.y * a;
-        p.z = v.z * a;
+        this.x = this.x * a;
+        this.y = this.y * a;
+        this.z = this.z * a;
 
-        return p;
+        return this;
     }
 
-    public static float operator *(Vector v1, Vector v2)
+    public Vector Neg()
+    {
+        return this.ScalProd(-1.0f);
+    }
+
+    public float DotProd(Vector v1, Vector v2)
     {
         float dotprod = v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
         return dotprod;
     }
-    
+
+    public Vector CrossProd(Vector v1, Vector v2)
+    {
+        var prod = new Vector();
+        prod.x = v1.y * v2.z - v1.z * v2.y;
+        prod.y = v1.z * v2.x - v1.x * v2.z;
+        prod.z = v1.x * v2.y - v1.y * v2.x;
+
+        return prod;
+    }
+
+    public float SqNorm()
+    { 
+        return DotProd(this,this);
+    }
+
+    public float Norm()
+    {
+        return (float)Math.Sqrt(DotProd(this, this));
+    }
+
+    public void Normalize()  
+    {
+        float norm = this.Norm();
+        this.x = this.x / norm;
+        this.y = this.y / norm;
+        this.z = this.z / norm;
+    }
+
 }
 
 public struct Normal
@@ -125,34 +123,45 @@ public struct Normal
     //METODI
     public string ConvertNormToString()
     {
-        string s = $"({this.x}, {this.y}, {this.z})";
+        string s = "({this.x}, {this.y}, {this.z})";
         return s;
     }
     
+    public Normal ScalProd(float a)
+    {
+        this.x = this.x * a;
+        this.y = this.y * a;
+        this.z = this.z * a;
+
+        return this;
+    }
+
     public Normal Neg()
     {
-        return -1.0f*this;
-    }
-    
-    public float SqNorm()
-    { 
-        return this*this;
+        return this.ScalProd(-1.0f);
     }
 
-    public float Norm()
+    public float DotProd(Normal n1, Normal n2)
     {
-        return (float)Math.Sqrt(this.SqNorm());
+        float dotprod = n1.x * n2.x + n1.y * n2.y + n1.z * n2.z;
+        return dotprod;
+    }
+    public float VNDotProd(Vector v, Normal n)
+    {
+        float dotprod = v.x * n.x + v.y * n.y + v.z * n.z;
+        return dotprod;
     }
 
-    public void Normalize()  
+    public Vector VNCrossProd(Vector v, Normal n)
     {
-        float norm = this.Norm();
-        this.x = this.x / norm;
-        this.y = this.y / norm;
-        this.z = this.z / norm;
+        var prod = new Vector();
+        prod.x = v.y * n.z - v.z * n.y;
+        prod.y = v.z * n.x - v.x * n.z;
+        prod.z = v.x * n.y - v.y * n.x;
+
+        return prod;
     }
-    
-    public static Normal CrossProd(Normal n1, Normal n2)
+    public Normal NCrossProd(Normal n1, Normal n2)
     {
         var prod = new Normal();
         prod.x = n1.y * n2.z - n1.z * n2.y;
@@ -162,40 +171,21 @@ public struct Normal
         return prod;
     }
     
-    //OPERATORI
-    public static Normal operator +(Normal n1, Normal n2)
-    {
-        var sum = new Normal();
-        sum.x = n1.x + n2.x;
-        sum.y = n1.y + n2.y;
-        sum.z = n1.z + n2.z;
-
-        return sum;
+    public float SqNorm()
+    { 
+        return DotProd(this,this);
     }
 
-    public static Normal operator -(Normal n1, Normal n2)
+    public float Norm()
     {
-        var diff = new Normal();
-        diff.x = n1.x - n2.x;
-        diff.y = n1.y - n2.y;
-        diff.z = n1.z - n2.z;
-
-        return diff;
+        return (float)Math.Sqrt(DotProd(this, this));
     }
-
-    public static Normal operator *(float a, Normal v)
+    
+    public void Normalize()  
     {
-        var p = new Normal();
-        p.x = v.x * a;
-        p.y = v.y * a;
-        p.z = v.z * a;
-
-        return p;
-    }
-
-    public static float operator *(Normal n1, Normal n2)
-    {
-        float dotprod = n1.x * n2.x + n1.y * n2.y + n1.z * n2.z;
-        return dotprod;
+        float norm = this.Norm();
+        this.x = this.x / norm;
+        this.y = this.y / norm;
+        this.z = this.z / norm;
     }
 }
