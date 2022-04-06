@@ -1,8 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Numerics;
 using geometry;
-using geometry2;
-using PFMlib;
 using Vector = geometry.Vector;
 
 namespace test;
@@ -33,7 +31,7 @@ public class TestGeometry
         Debug.Assert((Vector.CrossProd(a,b)).isClose(new Vector(2.0f, -4.0f, 2.0f)));
     }
     
-    public static void Point()
+    public static void TestPoint()
     {
         Point a = new Point(1, 2, 3);
         Point b = new Point(0.5f * 2, 1.0f * 2.0f,3.0f/1.0f);
@@ -43,7 +41,7 @@ public class TestGeometry
         Debug.Assert(!a.isClose(c));
     }
 
-    public static void Point_ops()
+    public static void TestPointOps()
     {
         Point p1 = new Point(1, 2, 3);
         Vector v2 = new Vector(4.0f, 6.0f, 8.0f);
@@ -54,7 +52,7 @@ public class TestGeometry
         Debug.Assert((p1 + (p1 - p2)).isClose(new Point(0, 0, 0)));
     }
 
-    public static void Tranformation_ops()
+    public static void TestTransfOps()
     {
         var a = Matrix4x4.Identity;
         var b = new Matrix4x4(1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1);
@@ -82,6 +80,4 @@ public class TestGeometry
         }
         return mybool;
     }
-    
-    
 }
