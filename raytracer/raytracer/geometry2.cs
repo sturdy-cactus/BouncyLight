@@ -94,12 +94,17 @@ public struct Transformation
         this.invm = invm;
         try
         {
-            Debug.Assert(m.);
+            Debug.Assert(m*invm == Matrix4x4.Identity);
+        }
+        catch (Exception)
+        {
+            Console.WriteLine("Exception: matrix was not given with inverse");
+            Environment.Exit(10);
         }
     }
 
     public static Matrix4x4 operator *(Transformation A, Transformation B)
     {
-        return A.m.Multiply(B.m);
+        return Matrix4x4.Multiply(A.m,B.m);
     }
 }
