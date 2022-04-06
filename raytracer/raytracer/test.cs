@@ -21,4 +21,6 @@ public class Test
         Point p2 = new Point(4.0f, 6.0f, 8.0f);
         
     }
+    
+    
 }
