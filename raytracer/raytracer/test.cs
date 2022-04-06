@@ -1,7 +1,10 @@
 ﻿using System.Diagnostics;
 using System.Numerics;
 using geometry;
+using geometry2;
 using PFMlib;
+using Vector = geometry.Vector;
+
 namespace test;
 
 public class Test
@@ -19,9 +22,21 @@ public class Test
     public static void Point_ops()
     {
         Point p1 = new Point(1, 2, 3);
-        Point p2 = new Point(4.0f, 6.0f, 8.0f);
-        
+        Vector v2 = new Vector(4.0f, 6.0f, 8.0f);
+        Point p2 = new Point(12, -3, 0);
+        Debug.Assert((p1 * 2).isClose(new Point(2, 4, 6)));
+        Debug.Assert((p1 + v2).isClose(new Point(5, 8, 11)));
+        Debug.Assert((p1 - p2).isClose(new Vector(-11, 5, 3)));
+        Debug.Assert((p1 + (p1 - p2)).isClose(new Point(0, 0, 0)));
     }
+
+    public static void Tranformation_ops()
+    {
+        var a = Matrix4x4.Identity;
+        var b = new Matrix4x4(1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1);
+        Debug.Assert(IsClose(a, b));
+    }
+
     
     public static bool IsClose(float a, float b)
     {
