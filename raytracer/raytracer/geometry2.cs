@@ -59,9 +59,9 @@ public struct Point
         return new Point(p.x + v.x, p.y + v.y, p.z + v.z);
     }
 
-    public static Vector operator -(Point p,Vector v)
+    public static Vector operator -(Point p,Point p2)
     {
-        return new Vector(p.x - v.x, p.y - v.y, p.z - v.z);
+        return new Vector(p.x - p2.x, p.y - p2.y, p.z - p2.z);
     }
 
     public Vector toVector()
