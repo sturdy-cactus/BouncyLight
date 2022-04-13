@@ -120,6 +120,25 @@ public class testCamera
         
         Debug.Assert(Ray.At(1).isClose(new Point(0, -2, 0)));
     }
+
+    public static void testPerspectiveCamera()
+    {
+        var cam = new PerspectiveCamera(distance: 1, aspectRatio: 2);
+        
+        var Ray1 = cam.fireRay(0, 0);
+        var Ray2 = cam.fireRay(1, 0);
+        var Ray3 = cam.fireRay(0, 1);
+        var Ray4 = cam.fireRay(1, 1);
+        
+        Debug.Assert(Ray1.origin.isClose(Ray2.origin));
+        Debug.Assert(Ray1.origin.isClose(Ray3.origin));
+        Debug.Assert(Ray1.origin.isClose(Ray4.origin));
+        
+        Debug.Assert(Ray1.At(1).isClose(new Point(0, 2, -1)));
+        Debug.Assert(Ray2.At(1).isClose(new Point(0, -2, -1)));
+        Debug.Assert(Ray3.At(1).isClose(new Point(0, 2, 1)));
+        Debug.Assert(Ray4.At(1).isClose(new Point(0, -2, 1)));
+    }
     
 }
 

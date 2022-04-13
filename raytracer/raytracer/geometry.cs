@@ -363,4 +363,9 @@ public struct Transformation
             y: n.x*mat.M21*n.y*mat.M22*n.z*mat.M23+mat.M24,
             z: n.x*mat.M31*n.y*mat.M32*n.z*mat.M33+mat.M34);
     }
+
+    public static Vector operator *(Transformation A, Vector v)
+    {
+        throw new NotImplementedException();
+    }
 }

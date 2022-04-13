@@ -9,19 +9,21 @@ interface Camera
 
 struct PerspectiveCamera: Camera
 {
-    private float aspectRatio;
+    private float distance, aspectRatio;
     private Transformation transformation;
 
-    public PerspectiveCamera()
+    public PerspectiveCamera(float? distance=null, float? aspectRatio=null, Transformation? transformation=null)
     {
-        aspectRatio = 1;
-        transformation = new Transformation();
+        this.distance = distance ?? 1.0f;
+        this.aspectRatio = aspectRatio ?? 1.0f;
+        this.transformation = transformation ?? new Transformation();
     }
     
     public Ray fireRay(float u, float v)
     {
-        throw new NotImplementedException();
-    }
+        var origin = new Point(-distance, 0, 0);
+        var direction = new Vector(distance, (1.0f - 2 * u) * aspectRatio, 2 * v - 1);
+        return transformation * new Ray(origin: origin, direction: direction, tMin: 1);    }
 }
 
 struct OrthogonalCamera : Camera

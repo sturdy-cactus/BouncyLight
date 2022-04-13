@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Drawing;
 using System.Runtime.InteropServices;
 using geometry;
 using static test.TestGeometry;
+using Point = geometry.Point;
 
 namespace ray;
 struct Ray
@@ -32,6 +34,14 @@ struct Ray
     public bool isClose(Ray r)
     {
         return (this.direction.isClose(r.direction) && this.origin.isClose(r.origin));
+    }
+    
+    public static Ray operator*(Transformation t, Ray r)
+    {
+        Ray temp = r;
+        temp.direction = t*r.direction;
+        temp.origin = t * r.origin;
+        return temp;
     }
 
 }
