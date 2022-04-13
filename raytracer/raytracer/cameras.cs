@@ -13,24 +13,14 @@ struct Ray
     public float tMax;
     public int depth;
     
-    //COSTRUTTORE DEFAULT
-    public Ray(Point origin, Vector direction)
-    {
-        this.origin = origin;
-        this.direction = direction;
-        this.tMin = 1e-5f;
-        this.tMax = Single.PositiveInfinity;
-        this.depth = 0;
-    }
-    
     //COSTRUTTORE
-    public Ray(Point origin, Vector direction, float tMin, float tMax, int depth)
+    public Ray(Point origin, Vector direction, float? tMin=null, float? tMax=null, int? depth=null)
     {
         this.origin = origin;
         this.direction = direction;
-        this.tMin = tMin;
-        this.tMax = tMax;
-        this.depth = depth;
+        this.tMin = tMin ?? 1e-5f;
+        this.tMax = tMax ?? float.PositiveInfinity;
+        this.depth = depth ?? 0;
     }
     
     //METODI
@@ -43,5 +33,5 @@ struct Ray
     {
         return (this.direction.isClose(r.direction) && this.origin.isClose(r.origin));
     }
-    
+
 }
