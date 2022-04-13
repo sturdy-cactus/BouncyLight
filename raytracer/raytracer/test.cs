@@ -1,9 +1,19 @@
 ﻿using System.Diagnostics;
 using System.Numerics;
 using geometry;
+using static test.isClose;
 using Vector = geometry.Vector;
 
 namespace test;
+
+public class isClose
+{
+    public static bool IsClose(float a, float b)
+    {
+        const float epsilon = 1e-4f; //fallisce a e-5!
+        return Math.Abs(a - b) < epsilon;
+    }
+}
 
 public class TestGeometry
 {
@@ -80,4 +90,34 @@ public class TestGeometry
         }
         return mybool;
     }
+}
+
+public class testCamera
+{
+    public static void testOrthogonalCamera()
+    {
+        var cam = new OrthogonalCamera(2);
+        var Ray1 = cam.fireRay(0, 0);
+        var Ray2 = cam.fireRay(1, 0);
+        var Ray3 = cam.fireRay(0, 1);
+        var Ray4 = cam.fireRay(1, 1);
+        
+        Debug.Assert(IsClose(0,Vector.CrossProd(Ray1.direction,Ray2.direction).SqNorm()));
+        Debug.Assert(IsClose(0,Vector.CrossProd(Ray1.direction,Ray3.direction).SqNorm()));
+        Debug.Assert(IsClose(0,Vector.CrossProd(Ray1.direction,Ray4.direction).SqNorm()));
+
+        Debug.Assert(Ray1.At(1).isClose(new Point(0, 2, -1)));
+        Debug.Assert(Ray2.At(1).isClose(new Point(0, -2, -1)));
+        Debug.Assert(Ray3.At(1).isClose(new Point(0, 2, 1)));
+        Debug.Assert(Ray4.At(1).isClose(new Point(0, -2, 1)));
+    }
+
+    public static void testOrthogonalCameraTransformation()
+    {
+        var cam = new OrthogonalCamera(transformation:Transformation.Traslation(2*new Vector(0,-1,0)));
+        var Ray = cam.fireRay(.5f, .5f);
+        
+        Debug.Assert(Ray.At(1).isClose(new Point(0, -2, 0)));
+    }
+    
 }
