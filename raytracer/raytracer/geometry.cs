@@ -322,11 +322,10 @@ public struct Transformation
         return new Transformation(m,invm);
     }
 
-    public static Transformation? Rotation(float angle)
+    public static Transformation Rotation(float angle)
     {
-        return null;
+        throw new NotImplementedException();
     }
-
 
     public Transformation Inverse()
     {

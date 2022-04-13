@@ -39,7 +39,7 @@ struct Ray
     public static Ray operator*(Transformation t, Ray r)
     {
         Ray temp = r;
-        temp.direction = t*r.direction;
+        temp.direction = t * r.direction;
         temp.origin = t * r.origin;
         return temp;
     }
