@@ -75,31 +75,22 @@ public struct Vector
     //OPERATORI
     public static Vector operator +(Vector v1, Vector v2)
     {
-        var sum = new Vector();
-        sum.x = v1.x + v2.x;
-        sum.y = v1.y + v2.y;
-        sum.z = v1.z + v2.z;
-
+        var sum = new Vector(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z);
+        
         return sum;
     }
 
     public static Vector operator -(Vector v1, Vector v2)
     {
-        var diff = new Vector();
-        diff.x = v1.x - v2.x;
-        diff.y = v1.y - v2.y;
-        diff.z = v1.z - v2.z;
+        var diff = new Vector(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z);
 
         return diff;
     }
 
     public static Vector operator *(float a, Vector v)
     {
-        var p = new Vector();
-        p.x = v.x * a;
-        p.y = v.y * a;
-        p.z = v.z * a;
-
+        var p = new Vector(v.x * a, v.y * a, v.z * a);
+        
         return p;
     }
 
@@ -266,31 +257,22 @@ public struct Normal
     //OPERATORI
     public static Normal operator +(Normal n1, Normal n2)
     {
-        var sum = new Normal();
-        sum.x = n1.x + n2.x;
-        sum.y = n1.y + n2.y;
-        sum.z = n1.z + n2.z;
-
+        var sum = new Normal(n1.x + n2.x, n1.y + n2.y, n1.z + n2.z);
+        
         return sum;
     }
 
     public static Normal operator -(Normal n1, Normal n2)
     {
-        var diff = new Normal();
-        diff.x = n1.x - n2.x;
-        diff.y = n1.y - n2.y;
-        diff.z = n1.z - n2.z;
+        var diff = new Normal(n1.x - n2.x, n1.y - n2.y, n1.z - n2.z);
 
         return diff;
     }
 
     public static Normal operator *(float a, Normal n)
     {
-        var p = new Normal();
-        p.x = n.x * a;
-        p.y = n.y * a;
-        p.z = n.z * a;
-
+        var p = new Normal(n.x * a, n.y * a, n.z * a);
+        
         return p;
     }
 
