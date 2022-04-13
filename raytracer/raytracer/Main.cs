@@ -19,6 +19,9 @@ internal static partial class Program
         var a = Matrix4x4.Identity;
         var b = Matrix4x4.Identity;
         TestGeometry.IsClose(a, b);
+        
+        TestRay.TestRayClose();
+        TestRay.TestAt();
     }
     
     public class Parameters
