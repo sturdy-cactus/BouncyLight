@@ -36,9 +36,9 @@ public struct Vector
 
     public bool isClose(Vector a)
     {
-        return (IsClose(a.x, this.x) && IsClose(a.y, this.y) && IsClose(a.z, this.z));
+        return (IsClose(a.x, x) && IsClose(a.y, y) && IsClose(a.z, z));
     }
-
+    
     public Vector Neg()
     {
         return -1.0f * this;
@@ -207,7 +207,7 @@ public struct Normal
         this.y = y;
         this.z = z;
     }
-    
+
     //METODI
     public string ConvertNormToString()
     {
@@ -339,6 +339,12 @@ public struct Transformation
         Matrix4x4.Invert(m, out invm);
         return new Transformation(m,invm);
     }
+
+    public static Transformation? Rotation(float angle)
+    {
+        return null;
+    }
+
 
     public Transformation Inverse()
     {
