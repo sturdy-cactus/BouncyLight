@@ -34,6 +34,15 @@ public struct Vector
         return s;
     }
 
+    public Point ToPoint()
+    {
+        var p = new Point();
+        p.x = this.x;
+        p.y = this.y;
+        p.z = this.z;
+
+        return p;
+    }
     public bool isClose(Vector a)
     {
         return (IsClose(a.x, x) && IsClose(a.y, y) && IsClose(a.z, z));
@@ -133,7 +142,7 @@ public struct Point
         return (IsClose(x,p.x) && IsClose(y,p.y) && IsClose(z,p.z));
     }
     
-    public Vector toVector()
+    public Vector ToVector()
     {
         Vector v = new Vector();
         v.x = x;
@@ -292,13 +301,34 @@ public struct Normal
 
 public struct Transformation
 {
-    public Matrix4x4 m, invm;
+    //MEMBRI
+    public Matrix4x4 m;
+    public Matrix4x4 invm;
+    
+    //COSTRUTTORE
     public Transformation()
     {
-        m=Matrix4x4.Identity;
-        invm=Matrix4x4.Identity;
+        m = Matrix4x4.Identity;
+        invm = Matrix4x4.Identity;
     }
-
+    
+    //alternative ctor
+    public Transformation(Matrix4x4 m)
+    {
+        this.m = m;
+        Matrix4x4.Invert(m, out this.invm);
+        
+        try
+        { 
+            Matrix4x4.Invert(m, out this.invm);
+        }
+        catch (Exception)
+        {
+            Console.WriteLine("Exception: matrix is singular");
+            Environment.Exit(10);
+        }
+    }
+    
     public Transformation(Matrix4x4 m, Matrix4x4 invm)
     {
         this.m = m;
@@ -314,7 +344,8 @@ public struct Transformation
         }
     }
 
-    public static Transformation Traslation(Vector v)
+    //METODI
+    public static Transformation Translation(Vector v)
     {
         var m = Matrix4x4.Identity + new Matrix4x4(0, 0, 0, v.x, 0, 0, 0, v.y, 0, 0, 0, v.z, 0, 0, 0, 0);
         Matrix4x4 invm;
@@ -322,16 +353,38 @@ public struct Transformation
         return new Transformation(m,invm);
     }
 
-    public static Transformation Rotation(float angle)
+    public static Transformation Rotation(float angle, char direction)
     {
-        throw new NotImplementedException();
+        var t = new Transformation();
+        switch (direction)
+        {
+            case 'x':
+                t.m = Matrix4x4.CreateRotationX(angle);
+                //t.invm = Matrix4x4.CreateRotationX(-angle);
+                break;
+            case 'y' :
+                t.m = Matrix4x4.CreateRotationY(angle);
+                //t.invm = Matrix4x4.CreateRotationY(-angle);
+                break;
+            case 'z':
+                t.m = Matrix4x4.CreateRotationZ(angle);
+                //t.invm = Matrix4x4.CreateRotationZ(-angle);
+                break;
+            default:
+                Console.WriteLine("Invalid direction"); //sistemare eccezione
+                break;
+        }
+
+        Matrix4x4.Invert(t.m, out t.invm);
+        return t;
     }
 
-    public Transformation Inverse()
+    public Matrix4x4 Inverse()
     {
-        return new Transformation(m:invm, invm:m);
+        return this.invm;;
     }
 
+    //OPERATORI
     public static Transformation operator *(Transformation A, Transformation B)
     {
         var m = A.m * B.m;
@@ -345,10 +398,10 @@ public struct Transformation
     {
         var mat = A.m;
         var myPoint = new Point(
-            x: p.x*mat.M11*p.y*mat.M12*p.z*mat.M13+mat.M14,
-            y: p.x*mat.M21*p.y*mat.M22*p.z*mat.M23+mat.M24,
-            z: p.x*mat.M31*p.y*mat.M32*p.z*mat.M33+mat.M34);
-        var w = p.x * A.m.M41 * p.y * A.m.M42 * p.z * A.m.M43 + A.m.M44;
+            x: p.x * mat.M11 + p.y*mat.M12 + p.z*mat.M13 + mat.M14,
+            y: p.x * mat.M21 + p.y*mat.M22 + p.z * mat.M23 + mat.M24,
+            z: p.x * mat.M31 + p.y*mat.M32 + p.z*mat.M33 + mat.M34);
+        var w = p.x * mat.M41 + p.y * mat.M42 + p.z * mat.M43 + mat.M44;
         if (IsClose(w, 1.0f))
             return myPoint;
         return new Point(myPoint.x / w, myPoint.y / w, myPoint.z / w);
@@ -357,6 +410,8 @@ public struct Transformation
     public static Normal operator *(Transformation A, Normal n)
     {
         var mat = A.invm;
+        mat = Matrix4x4.Transpose(mat);
+        
         return new Normal(
             x: n.x*mat.M11*n.y*mat.M12*n.z*mat.M13+mat.M14,
             y: n.x*mat.M21*n.y*mat.M22*n.z*mat.M23+mat.M24,
@@ -365,6 +420,12 @@ public struct Transformation
 
     public static Vector operator *(Transformation A, Vector v)
     {
-        throw new NotImplementedException();
+        var mat = A.m;
+        var vec = new Vector(
+            x: v.x * mat.M11 + v.y*mat.M12 + v.z*mat.M13 + mat.M14,
+            y: v.x * mat.M21 + v.y*mat.M22 + v.z * mat.M23 + mat.M24,
+            z: v.x * mat.M31 + v.y*mat.M32 + v.z*mat.M33 + mat.M34);
+        
+        return new Vector(vec.x, vec.y, vec.z);
     }
 }
