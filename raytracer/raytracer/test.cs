@@ -1,6 +1,8 @@
 ﻿using System.Diagnostics;
+using System.Net.Mime;
 using System.Numerics;
 using geometry;
+using PFMlib;
 using static test.isClose;
 using ray;
 using Vector = geometry.Vector;
@@ -148,7 +150,7 @@ public class TestRay
     {
         var a = new Ray(new Point(1.0f, 2.0f, 3.0f), new Vector(5.0f, 4.0f, -1.0f));
         var b = new Ray(new Point(5.0f, 1.0f, 4.0f), new Vector(3.0f, 9.0f, 4.0f));
-        
+
         Debug.Assert(a.isClose(a));
         Debug.Assert(!a.isClose(b));
     }
@@ -162,3 +164,45 @@ public class TestRay
         Debug.Assert(a.At(2.0f).isClose(new Point(9.0f, 6.0f, 6.0f)));
     }
 }
+
+public class TestImgTracer
+{
+    private static HdrImage image = new HdrImage(4, 2);
+    private static ICamera camera = new PerspCamera(aspectRatio: 2);
+    private static ImgTracer tracer = new ImgTracer(image, camera);
+
+    public static void TestOrientation()
+    {
+        var top_leftRay = tracer.FireRay(0, 0, 0, 0);
+        Debug.Assert(top_leftRay.At(1).isClose(new Point(0, 2, 1)));
+
+        var bottom_rightRay = tracer.FireRay(3, 1, 1, 1);
+        Debug.Assert(bottom_rightRay.At(1).isClose(new Point(0, -2, -1)));
+    }
+
+    public static void Test_uvSubmapping()
+    {
+        var ray1 = tracer.FireRay(0, 0, 2.5f, 1.5f);
+        var ray2 = tracer.FireRay(2, 1, 0.5f, 0.5f);
+        Debug.Assert(ray1.isClose(ray2));
+    }
+
+    public static void TestImageCoverage()
+    {
+        tracer.FireAllRays(new Color(1,2,3));
+        for (int i = 0; i < image.h; i++)
+        {
+            for (int j = 0; j < image.w; j++)
+            {
+                Debug.Assert(IsClose(image.GetPixel(i,j).r,1));
+                Debug.Assert(IsClose(image.GetPixel(i,j).g,2));
+                Debug.Assert(IsClose(image.GetPixel(i,j).b,3));
+            }
+        }
+    }
+
+}
+
+
+
+
