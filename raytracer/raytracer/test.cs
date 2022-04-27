@@ -177,3 +177,8 @@ public class TestRay
         Debug.Assert(a.At(2.0f).isClose(new Point(9.0f, 6.0f, 6.0f)));
     }
 }
+
+public class TestSphere
+{
+    
+}

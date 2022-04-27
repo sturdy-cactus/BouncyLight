@@ -474,6 +474,16 @@ public struct Vector2D
     {
         return this.y;
     }
+    
+    public void SetU(float u)
+    {
+        this.x = u;
+    }
+    
+    public void SetV(float v)
+    {
+        this.x = v;
+    }
 
     //OPERATORI
     public static Vector2D operator +(Vector2D v1, Vector2D v2)
