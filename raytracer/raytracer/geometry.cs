@@ -379,6 +379,13 @@ public struct Transformation
         return t;
     }
 
+    public static Transformation Scaling(Vector v)
+    {
+        var m = new Matrix4x4(v.x, 0, 0, 0, 0, v.y, 0, 0, 0, 0, v.z, 0, 0, 0, 0, 1);
+        var invm = new Matrix4x4(1 / v.x, 0, 0, 0, 0, 1 / v.y, 0, 0, 0, 0, 1 / v.z, 0, 0, 0, 0, 1);
+        return new Transformation(m, invm);
+    }
+
     public Matrix4x4 Inverse()
     {
         return this.invm;;

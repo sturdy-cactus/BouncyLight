@@ -115,7 +115,7 @@ public class testCamera
 
     public static void testOrthogonalCameraTransformation()
     {
-        var cam = new OrthogonalCamera(transformation:Transformation.Traslation(2*new Vector(0,-1,0)));
+        var cam = new OrthogonalCamera(transformation:Transformation.Translation(2*new Vector(0,-1,0)));
         var Ray = cam.fireRay(.5f, .5f);
         
         Debug.Assert(Ray.At(1).isClose(new Point(0, -2, 0)));
