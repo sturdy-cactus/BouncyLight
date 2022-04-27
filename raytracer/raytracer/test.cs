@@ -158,6 +158,7 @@ public class TestRay
         var a = new Ray(new Point(1.0f, 2.0f, 4.0f), new Vector(4.0f, 2.0f, 1.0f));
         Debug.Assert(a.At(.0f).isClose(a.origin));
         Debug.Assert(a.At(1.0f).isClose(new Point(5.0f, 4.0f, 5.0f)));
-        Debug.Assert(a.At(2.0f).isClose(new Point(9.0f, 6.0f, 9.0f)));
+        //corretto
+        Debug.Assert(a.At(2.0f).isClose(new Point(9.0f, 6.0f, 6.0f)));
     }
 }
