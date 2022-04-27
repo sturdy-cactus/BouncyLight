@@ -1,10 +1,30 @@
 using System.Globalization;
+using System.Numerics;
 using PFMlib;
+using test;
 
 internal static partial class Program
 {
     private static void Main(string[] args)
     {
+        {//test
+            var a = Matrix4x4.Identity;
+            var b = Matrix4x4.Identity;
+            TestGeometry.IsClose(a, b);
+
+            TestGeometry.TestPoint();
+            TestGeometry.TestVec();
+            TestGeometry.TestPointOps();
+            TestGeometry.TestTransfOps();
+            
+            testCamera.testOrthogonalCamera();
+            testCamera.testPerspectiveCamera();
+            testCamera.testOrthogonalCameraTransformation();
+            
+            TestRay.TestRayClose();
+            TestRay.TestAt();
+        }
+
         Parameters myParams = new Parameters(args);
 
         HdrImage myImage = new HdrImage(path:myParams.input_file_name);
