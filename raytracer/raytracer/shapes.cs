@@ -72,3 +72,29 @@ struct HitRecord
         this.ray = ray ?? new Ray();
     }
 }
+
+struct World
+{
+    private List<IShape> Shapes;
+
+    public void Add(IShape myshape)
+    {
+        Shapes.Add(myshape);
+    }
+
+    public HitRecord? RayIntersection(Ray ray)
+    {
+        HitRecord? closest = null;
+
+        foreach (var shape in Shapes)
+        {
+            HitRecord? intersection = shape.RayIntersection(ray);
+            if (intersection != null)
+                continue;
+            else if (closest == null || intersection.t < closest.t)
+                closest = intersection;
+        }
+        
+        return closest;
+    }
+}
