@@ -387,9 +387,9 @@ public struct Transformation
         return new Transformation(m, invm);
     }
 
-    public Matrix4x4 Inverse()
+    public Transformation Inverse()
     {
-        return this.invm;;
+        return new Transformation(this.invm, this.m);
     }
 
     //OPERATORI
