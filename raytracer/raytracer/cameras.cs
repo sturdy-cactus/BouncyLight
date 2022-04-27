@@ -44,9 +44,9 @@ class PerspCamera : ICamera
     private Transformation t;
 
     //COSTRUTTORE
-    public PerspCamera(float? a = null, float? d = null, Transformation? t = null)
+    public PerspCamera(float? aspectRatio = null, float? d = null, Transformation? t = null)
     {
-        this.a= a ?? 1.0f;
+        this.a= aspectRatio ?? 1.0f;
         this.d = d ?? 1.0f;
         this.t = t ?? new Transformation();
     }
@@ -76,22 +76,22 @@ class ImgTracer
     //METODI
     public Ray FireRay(int a, int b, float uPix = .5f, float vPix = .5f)
     {
-        float u = (a + uPix) / (this.img.w - 1); //forse l'errore e' il -1
-        float v = (b + uPix) / (this.img.h - 1); 
+        float u = (a + uPix) / (this.img.w); //forse l'errore e' il -1
+        float v = 1-(b + vPix) / (this.img.h); 
 
         return cam.FireRay(u, v);
     }
 
-    public void FireAllRays()
+    public void FireAllRays(Color? color=null)
     {
         var ray = new Ray();
-        var color = new Color();
+        var mycolor = color ?? new Color();
         for (int i = 0; i < this.img.h; i++)
             for(int j = 0; j < this.img.w; j++)
             {
                 ray = this.FireRay(i, j);
                 //qui colore come funzione del raggio
-                this.img.SetPixel(color, i, j);
+                this.img.SetPixel(mycolor, i, j);
             }
     }
 }

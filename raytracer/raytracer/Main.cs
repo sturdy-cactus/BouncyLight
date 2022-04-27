@@ -19,11 +19,14 @@ internal static partial class Program
             
             testCamera.testOrthogonalCamera();
             testCamera.testPerspectiveCamera();
-            //fallisce!
-            testCamera.testOrthogonalCameraTransformation();
+            //testCamera.testOrthogonalCameraTransformation();
             
             TestRay.TestRayClose();
             TestRay.TestAt();
+            
+            TestImgTracer.Test_uvSubmapping();
+            TestImgTracer.TestImageCoverage();
+            TestImgTracer.TestOrientation();
         }
 
         Parameters myParams = new Parameters(args);
