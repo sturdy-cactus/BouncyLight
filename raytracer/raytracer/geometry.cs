@@ -372,6 +372,7 @@ public struct Transformation
                 break;
             default:
                 Console.WriteLine("Invalid direction"); //sistemare eccezione
+                Environment.Exit(11);
                 break;
         }
 
