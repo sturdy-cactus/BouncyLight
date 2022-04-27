@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Numerics;
 using geometry;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static test.isClose;
 using ray;
 using Vector = geometry.Vector;
@@ -16,8 +17,10 @@ public class isClose
     }
 }
 
+[TestClass]
 public class TestGeometry
 {
+    [TestMethod]
     public static void TestVec()
     {
         var a = new Vector(1.0f, 2.0f, 3.0f);
@@ -26,7 +29,8 @@ public class TestGeometry
         Debug.Assert(a.isClose(a));
         Debug.Assert(!a.isClose(b));
     }
-
+    
+    [TestMethod]
     public static void TestVecOps()
     {
         var a = new Vector(1.0f, 2.0f, 3.0f);
@@ -42,6 +46,7 @@ public class TestGeometry
         Debug.Assert((Vector.CrossProd(a,b)).isClose(new Vector(2.0f, -4.0f, 2.0f)));
     }
     
+    [TestMethod]
     public static void TestPoint()
     {
         Point a = new Point(1, 2, 3);
@@ -52,6 +57,7 @@ public class TestGeometry
         Debug.Assert(!a.isClose(c));
     }
 
+    [TestMethod]
     public static void TestPointOps()
     {
         Point p1 = new Point(1, 2, 3);
@@ -63,13 +69,13 @@ public class TestGeometry
         Debug.Assert((p1 + (p1 - p2)).isClose(new Point(-10, 7, 6)));
     }
 
+    [TestMethod]
     public static void TestTransfOps()
     {
         var a = Matrix4x4.Identity;
         var b = new Matrix4x4(1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1);
         Debug.Assert(IsClose(a, b));
     }
-
     
     public static bool IsClose(float a, float b)
     {
@@ -77,6 +83,7 @@ public class TestGeometry
         return Math.Abs(a - b) < epsilon;
     }
     
+    [TestMethod]
     public static bool IsClose(Matrix4x4 A, Matrix4x4 B)
     {
         bool mybool = true;
@@ -93,8 +100,11 @@ public class TestGeometry
     }
 }
 
+[TestClass]
 public class testCamera
 {
+    
+    [TestMethod]
     public static void testOrthogonalCamera()
     {
         var cam = new OrthogonalCamera(2);
@@ -113,6 +123,7 @@ public class testCamera
         Debug.Assert(Ray4.At(1).isClose(new Point(0, -2, 1)));
     }
 
+    [TestMethod]
     public static void testOrthogonalCameraTransformation()
     {
         var cam = new OrthogonalCamera(transformation:Transformation.Translation(2*new Vector(0,-1,0)));
@@ -121,6 +132,7 @@ public class testCamera
         Debug.Assert(Ray.At(1).isClose(new Point(0, -2, 0)));
     }
 
+    [TestMethod]
     public static void testPerspectiveCamera()
     {
         var cam = new PerspectiveCamera(distance: 1, aspectRatio: 2);
@@ -142,8 +154,10 @@ public class testCamera
     
 }
 
+[TestClass]
 public class TestRay
 {
+    [TestMethod]
     public static void TestRayClose()
     {
         var a = new Ray(new Point(1.0f, 2.0f, 3.0f), new Vector(5.0f, 4.0f, -1.0f));
@@ -153,6 +167,7 @@ public class TestRay
         Debug.Assert(!a.isClose(b));
     }
 
+    [TestMethod]
     public static void TestAt()
     {
         var a = new Ray(new Point(1.0f, 2.0f, 4.0f), new Vector(4.0f, 2.0f, 1.0f));
