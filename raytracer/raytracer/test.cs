@@ -60,7 +60,7 @@ public class TestGeometry
         Debug.Assert((p1 * 2).isClose(new Point(2, 4, 6)));
         Debug.Assert((p1 + v2).isClose(new Point(5, 8, 11)));
         Debug.Assert((p1 - p2).isClose(new Vector(-11, 5, 3)));
-        Debug.Assert((p1 + (p1 - p2)).isClose(new Point(0, 0, 0)));
+        Debug.Assert((p1 + (p1 - p2)).isClose(new Point(-10, 7, 6)));
     }
 
     public static void TestTransfOps()
