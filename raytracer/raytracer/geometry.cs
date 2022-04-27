@@ -437,3 +437,70 @@ public struct Transformation
         return new Vector(vec.x, vec.y, vec.z);
     }
 }
+
+public struct Vector2D
+{
+    //MEMBRI
+    private float x;
+    private float y;
+
+    //COSTRUTTORE DEFAULT
+    public Vector2D()
+    {
+        x = .0f;
+        y = .0f;
+    }
+
+    //COSTRUTTORE
+    public Vector2D(float x, float y)
+    {
+        this.x = x;
+        this.y = y;
+    }
+
+    //METODI
+    public string ConvertVecToString()
+    {
+        string s = $"({this.x}, {this.y})";
+        return s;
+    }
+
+    public float GetU()
+    {
+        return this.x;
+    }
+    
+    public float GetV()
+    {
+        return this.y;
+    }
+
+    //OPERATORI
+    public static Vector2D operator +(Vector2D v1, Vector2D v2)
+    {
+        var sum = new Vector2D(v1.x + v2.x, v1.y + v2.y);
+        
+        return sum;
+    }
+
+    public static Vector2D operator -(Vector2D v1, Vector2D v2)
+    {
+        var diff = new Vector2D(v1.x - v2.x, v1.y - v2.y);
+
+        return diff;
+    }
+
+    public static Vector2D operator *(float a, Vector2D v)
+    {
+        var p = new Vector2D(v.x * a, v.y * a);
+        
+        return p;
+    }
+
+    public static float operator *(Vector2D v1, Vector2D v2)
+    {
+        float dotprod = v1.x * v2.x + v1.y * v2.y;
+        return dotprod;
+    }
+
+}
