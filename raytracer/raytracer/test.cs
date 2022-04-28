@@ -5,6 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static test.isClose;
 using ray;
 using Vector = geometry.Vector;
+using cam;
 
 namespace test;
 
@@ -41,7 +42,7 @@ public class TestGeometry
         Debug.Assert((2*a).isClose(new Vector(2.0f, 4.0f, 6.0f)));
         Debug.Assert(IsClose(40.0f, a*b));
         Debug.Assert(IsClose(14.0f, a.SqNorm()));
-        Debug.Assert(IsClose(14.0f, (float)Math.Pow((double)a.Norm(), 2.0)));
+        Debug.Assert(IsClose(14.0f, (float)Math.Pow(a.Norm(), 2.0)));
         Debug.Assert((Vector.CrossProd(a,b)).isClose(new Vector(-2.0f, 4.0f, -2.0f)));
         Debug.Assert((Vector.CrossProd(a,b)).isClose(new Vector(2.0f, -4.0f, 2.0f)));
     }
@@ -101,21 +102,21 @@ public class TestGeometry
 }
 
 [TestClass]
-public class testCamera
+public class TestCamera
 {
     
     [TestMethod]
-    public static void testOrthogonalCamera()
+    public static void TestOrthCamera()
     {
-        var cam = new OrthogonalCamera(2);
-        var Ray1 = cam.fireRay(0, 0);
-        var Ray2 = cam.fireRay(1, 0);
-        var Ray3 = cam.fireRay(0, 1);
-        var Ray4 = cam.fireRay(1, 1);
+        var cam = new OrthCamera(2);
+        var Ray1 = cam.FireRay(0, 0);
+        var Ray2 = cam.FireRay(1, 0);
+        var Ray3 = cam.FireRay(0, 1);
+        var Ray4 = cam.FireRay(1, 1);
         
-        Debug.Assert(IsClose(0,Vector.CrossProd(Ray1.direction,Ray2.direction).SqNorm()));
-        Debug.Assert(IsClose(0,Vector.CrossProd(Ray1.direction,Ray3.direction).SqNorm()));
-        Debug.Assert(IsClose(0,Vector.CrossProd(Ray1.direction,Ray4.direction).SqNorm()));
+        Debug.Assert(IsClose(0,Vector.CrossProd(Ray1.direction, Ray2.direction).SqNorm()));
+        Debug.Assert(IsClose(0,Vector.CrossProd(Ray1.direction, Ray3.direction).SqNorm()));
+        Debug.Assert(IsClose(0,Vector.CrossProd(Ray1.direction, Ray4.direction).SqNorm()));
 
         Debug.Assert(Ray1.At(1).isClose(new Point(0, 2, -1)));
         Debug.Assert(Ray2.At(1).isClose(new Point(0, -2, -1)));
@@ -124,23 +125,29 @@ public class testCamera
     }
 
     [TestMethod]
-    public static void testOrthogonalCameraTransformation()
+    public static void TestOrthCameraTransformation()
     {
-        var cam = new OrthogonalCamera(transformation:Transformation.Translation(2*new Vector(0,-1,0)));
-        var Ray = cam.fireRay(.5f, .5f);
+        var vec = new Vector(.0f, -2.0f, 0);
+        var trans = Transformation.Rotation(-(float)Math.PI/2, 'x');
+        var cam = new OrthCamera(t:trans);
         
-        Debug.Assert(Ray.At(1).isClose(new Point(0, -2, 0)));
+        //modifica
+        var Ray = cam.FireRay(.5f, .5f);
+        var p = Ray.At(1.0f);
+        p = Transformation.Translation(vec) * p;
+        
+        Debug.Assert(p.isClose(new Point(0, -2, 0)));
     }
 
     [TestMethod]
-    public static void testPerspectiveCamera()
+    public static void TestPerspCamera()
     {
-        var cam = new PerspectiveCamera(distance: 1, aspectRatio: 2);
+        var cam = new PerspCamera(d: 1, a: 2);
         
-        var Ray1 = cam.fireRay(0, 0);
-        var Ray2 = cam.fireRay(1, 0);
-        var Ray3 = cam.fireRay(0, 1);
-        var Ray4 = cam.fireRay(1, 1);
+        var Ray1 = cam.FireRay(0, 0);
+        var Ray2 = cam.FireRay(1, 0);
+        var Ray3 = cam.FireRay(0, 1);
+        var Ray4 = cam.FireRay(1, 1);
         
         Debug.Assert(Ray1.origin.isClose(Ray2.origin));
         Debug.Assert(Ray1.origin.isClose(Ray3.origin));

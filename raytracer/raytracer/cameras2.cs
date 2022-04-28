@@ -1,6 +1,9 @@
 using geometry;
 using Transformation = geometry.Transformation;
 using ray;
+using test;
+
+namespace cam;
 
 interface Camera
 {
@@ -41,6 +44,8 @@ struct OrthogonalCamera : Camera
     {
         var origin = new Point(-1, (1.0f - 2 * u) * aspectRatio, 2 * v - 1);
         var direction = new Vector(1, 0, 0);
-        return transformation * new Ray(origin: origin, direction: direction, tMin: 1);
+        var ray = new Ray(origin, direction);
+        return transformation * ray;
+        // new Ray(origin: origin, direction: direction, tMin: 1);
     }
 }

@@ -18,10 +18,10 @@ internal static partial class Program
             TestGeometry.TestPointOps();
             TestGeometry.TestTransfOps();
 
-            testCamera.testOrthogonalCamera();
-            testCamera.testPerspectiveCamera();
+            TestCamera.TestOrthCamera();
+            TestCamera.TestPerspCamera();
             //fallisce!
-            //testCamera.testOrthogonalCameraTransformation();
+            TestCamera.TestOrthCameraTransformation();
 
             TestRay.TestRayClose();
             TestRay.TestAt();

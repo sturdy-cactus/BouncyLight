@@ -353,10 +353,10 @@ public struct Transformation
         return new Transformation(m,invm);
     }
 
-    public static Transformation Rotation(float angle, char direction)
+    public static Transformation Rotation(float angle, char axis)
     {
         var t = new Transformation();
-        switch (direction)
+        switch (axis)
         {
             case 'x':
                 t.m = Matrix4x4.CreateRotationX(angle);

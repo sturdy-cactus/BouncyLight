@@ -21,7 +21,7 @@ class OrthCamera : ICamera
     //COSTRUTTORE
     public OrthCamera(float? a = null, Transformation? t = null)
     {
-        this.a= a ?? 1.0f;
+        this.a = a ?? 1.0f;
         this.t = t ?? new Transformation();
     }
     
@@ -95,6 +95,7 @@ class ImgTracer
             }
     }
 }
+
 struct Ray
 {
     //MEMBRI
@@ -105,7 +106,7 @@ struct Ray
     public int depth;
     
     //COSTRUTTORE
-    public Ray(Point origin, Vector direction, float? tMin=null, float? tMax=null, int? depth=null)
+    public Ray(Point origin, Vector direction, float? tMin = null, float? tMax = null, int? depth = null)
     {
         this.origin = origin;
         this.direction = direction;
