@@ -127,16 +127,11 @@ public class TestCamera
     [TestMethod]
     public static void TestOrthCameraTransformation()
     {
-        var vec = new Vector(.0f, -2.0f, 0);
-        var trans = Transformation.Rotation(-(float)Math.PI/2, 'x');
-        var cam = new OrthCamera(t:trans);
+        var vec = new Vector(.0f, -2.0f, .0f);
+        var cam = new OrthCamera(t: Transformation.Translation(vec) * Transformation.Rotation(-(float)Math.PI/2, 'z'));
+        var ray = cam.FireRay(.5f, .5f);
         
-        //modifica
-        var Ray = cam.FireRay(.5f, .5f);
-        var p = Ray.At(1.0f);
-        p = Transformation.Translation(vec) * p;
-        
-        Debug.Assert(p.isClose(new Point(0, -2, 0)));
+        Debug.Assert(ray.At(1.0f).isClose(new Point(0, -2, 0)));
     }
 
     [TestMethod]
