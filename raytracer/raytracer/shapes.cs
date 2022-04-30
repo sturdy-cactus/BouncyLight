@@ -55,6 +55,11 @@ class Sphere : IShape
         
         hit.t = firstHit;
         hit.ray = ray;
+
+        for (int i = 0; i < 4; i++)
+        {
+            Console.WriteLine("ok");
+        }
         
         return hit;
     }
