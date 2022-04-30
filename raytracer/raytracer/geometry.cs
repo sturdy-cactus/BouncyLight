@@ -430,9 +430,9 @@ public struct Transformation
     {
         var mat = A.m;
         var vec = new Vector(
-            x: v.x * mat.M11 + v.y*mat.M12 + v.z*mat.M13 + mat.M14,
-            y: v.x * mat.M21 + v.y*mat.M22 + v.z * mat.M23 + mat.M24,
-            z: v.x * mat.M31 + v.y*mat.M32 + v.z*mat.M33 + mat.M34);
+            x: v.x * mat.M11 + v.y*mat.M12 + v.z*mat.M13,
+            y: v.x * mat.M21 + v.y*mat.M22 + v.z * mat.M23,
+            z: v.x * mat.M31 + v.y*mat.M32 + v.z*mat.M33);
         
         return new Vector(vec.x, vec.y, vec.z);
     }
