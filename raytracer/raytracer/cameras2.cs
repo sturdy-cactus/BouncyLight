@@ -1,3 +1,4 @@
+/*
 using geometry;
 using Transformation = geometry.Transformation;
 using ray;
@@ -49,3 +50,4 @@ struct OrthogonalCamera : Camera
         // new Ray(origin: origin, direction: direction, tMin: 1);
     }
 }
+*/

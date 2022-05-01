@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using geometry;
+using Geometry;
 using static test.TestGeometry;
 using PFMlib;
-using Point = geometry.Point;
+using Point = Geometry.Point;
 
-namespace ray;
+namespace Cameras;
 
 interface ICamera
 {

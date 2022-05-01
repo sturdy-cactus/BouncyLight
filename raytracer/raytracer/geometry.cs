@@ -2,7 +2,7 @@ using System.Diagnostics;
 using System.Numerics;
 using static test.TestGeometry;
 
-namespace geometry;
+namespace Geometry;
 
 public struct Vector
 {

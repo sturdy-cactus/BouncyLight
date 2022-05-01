@@ -1,11 +1,12 @@
 ﻿using System.Diagnostics;
 using System.Numerics;
-using geometry;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static test.isClose;
-using ray;
-using Vector = geometry.Vector;
-using cam;
+
+using Geometry;
+using Cameras;
+using Shapes;
+using Vector = Geometry.Vector;
 
 namespace test;
 

@@ -1,8 +1,8 @@
 ﻿using System;
-using geometry;
-using ray;
+using Geometry;
+using Cameras;
 
-namespace shapes;
+namespace Shapes;
 
 interface IShape
 {

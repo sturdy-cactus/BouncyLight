@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿/*
+using System.Diagnostics;
 using System.Numerics;
 using geometry;
 using PFMlib;
@@ -60,3 +61,4 @@ public class Test
     
     
 }
+*/
