@@ -4,6 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static test.isClose;
 
 using Geometry;
+using static Geometry.Transformation;
 using Cameras;
 using Shapes;
 using Vector = Geometry.Vector;
@@ -181,7 +182,67 @@ public class TestRay
     }
 }
 
+[TestClass]
 public class TestSphere
 {
-    
+    [TestMethod]
+    public static void TestIntersect()
+    {
+        //#1
+        var vec = new Vector(.0f, .0f, 1);
+        var tr = Translation(vec) * Rotation(-.5f * (float) Math.PI, 'y');
+        var cam = new OrthCamera(t: tr);
+        var r = cam.FireRay(.5f, .5f);
+
+        var s = new Sphere();
+        var hr = s.RayIntersection(r);
+        var p = hr.Value;
+
+        Debug.Assert(p.WPoint.isClose(new Point(.0f, .0f, 1.0f)));
+        Debug.Assert(IsClose(p.N * new Normal(.0f, .0f, 1.0f), p.N.Norm()));
+        
+        //#2
+        tr = Translation(new Vector(2, 0, 0)) * Rotation((float)Math.PI, 'y');
+        cam.SetCamera(tr);
+        r = cam.FireRay(.5f, .5f);
+
+        hr = s.RayIntersection(r);
+        p = hr.Value;
+        
+        Debug.Assert(p.WPoint.isClose(new Point(1.0f, .0f, .0f)));
+        Debug.Assert(IsClose(p.N * new Normal(1.0f, .0f, .0f), p.N.Norm()));
+        
+        //#3
+        tr = Translation(new Vector(1.0f, .0f, .0f));
+        cam.SetCamera(tr);
+        r = cam.FireRay(.5f, .5f);
+        
+        hr = s.RayIntersection(r);
+        p = hr.Value;
+        
+        Debug.Assert(p.WPoint.isClose(new Point(1.0f, .0f, .0f)));
+        Debug.Assert(IsClose(p.N * new Normal(-1.0f, .0f, .0f), p.N.Norm()));
+    }
+
+    [TestMethod]
+    public static void TestTransf()
+    {
+        var tr1 = Translation(new Vector(10.0f, .0f, 1.0f)) * Rotation(-.5f * (float) Math.PI, 'y');
+        var cam = new OrthCamera(t: tr1);
+        var r1 = cam.FireRay(.5f, .5f);
+        Console.WriteLine(r1.direction.ConvertVecToString());
+        Console.WriteLine(r1.origin.ConvertPointToString());
+        
+        var tr2 = Translation(new Vector(12.0f, .0f, 2.0f)) * Rotation((float) Math.PI, 'z');
+        cam.SetCamera(tr2);
+        var r2 = cam.FireRay(.5f, .5f);
+        Console.WriteLine(r2.direction.ConvertVecToString());
+        Console.WriteLine(r2.origin.ConvertPointToString());
+        
+        var tr3 = Translation(new Vector(10.0f, .0f, .0f));
+        var s = new Sphere(tr3);
+        var hr1 = s.RayIntersection(r1);
+        var hr2 = s.RayIntersection(r2);
+        
+    }
 }

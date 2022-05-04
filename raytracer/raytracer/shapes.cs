@@ -15,9 +15,9 @@ class Sphere : IShape
     public Transformation tr;
     
     //CONSTRUCTOR
-    public Sphere(Transformation tr)
+    public Sphere(Transformation? tr = null)
     {
-        this.tr = tr;
+        this.tr = tr ?? new Transformation();
     }
 
     //METHODS
@@ -26,11 +26,10 @@ class Sphere : IShape
         //prep
         float firstHit;
         var hit = new HitRecord();
-        this.tr = this.tr.Inverse();
-        ray = this.tr * ray;
-        var o = new Vector();
-        o = ray.origin.ToVector();
-        
+        var trsf = this.tr.Inverse();
+        ray = trsf * ray;
+        var o = ray.origin.ToVector();
+
         //body
         float dotprod = (float) Math.Pow(o * ray.direction, 2);
         float delta = dotprod - ray.direction.SqNorm() * (o.SqNorm() - 1.0f);
@@ -48,13 +47,13 @@ class Sphere : IShape
             return null;
         
         //end 
-        hit.wPoint = ray.At(firstHit); 
-        //rivedere
-        hit.n = Sphere.SphereNormal(hit.wPoint, ray);
-        hit.sPoint = SpherePointToUv(hit.wPoint);
+        hit.WPoint = ray.At(firstHit); 
+        //review
+        hit.N = Sphere.SphereNormal(hit.WPoint, ray);
+        hit.SPoint = SpherePointToUv(hit.WPoint);
         
-        hit.t = firstHit;
-        hit.ray = ray;
+        hit.T = firstHit;
+        hit.Ray = ray;
         
         return hit;
     }
@@ -64,7 +63,7 @@ class Sphere : IShape
     {
         var n = new Normal(p.x, p.y, p.z);
         var vec = new Vector(p.x, p.y, p.z);
-        if (ray.direction * vec < 0)
+        if (ray.direction * vec < .0f)
             return n;
         else
             return new Normal(-p.x, -p.y, -p.z);
@@ -84,20 +83,20 @@ class Sphere : IShape
 struct HitRecord
 {
     //MEMBERS
-    public Point wPoint;
-    public Normal n;
-    public Vector2D sPoint;
-    public float t;
-    public Ray ray;
+    public Point WPoint;
+    public Normal N;
+    public Vector2D SPoint;
+    public float T;
+    public Ray Ray;
     
     //CONSTRUCTOR
     public HitRecord(Point? wPoint = null, Normal? n = null, Vector2D? sPoint = null, float? t = null, Ray? ray = null)
     {
-        this.wPoint = wPoint ?? new Point();
-        this.n = n ?? new Normal();
-        this.sPoint = sPoint ?? new Vector2D();
-        this.t = t ?? .0f;
-        this.ray = ray ?? new Ray();
+        this.WPoint = wPoint ?? new Point();
+        this.N = n ?? new Normal();
+        this.SPoint = sPoint ?? new Vector2D();
+        this.T = t ?? .0f;
+        this.Ray = ray ?? new Ray();
     }
 }
 /*

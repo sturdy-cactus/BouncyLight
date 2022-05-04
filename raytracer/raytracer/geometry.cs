@@ -2,6 +2,7 @@ using System.Diagnostics;
 using System.Numerics;
 using static test.TestGeometry;
 
+
 namespace Geometry;
 
 public struct Vector
@@ -30,7 +31,23 @@ public struct Vector
     //METODI
     public string ConvertVecToString()
     {
-        string s = $"({this.x}, {this.y}, {this.z})";
+        float a, b, c;
+        if (IsClose(x, .0f))
+            a = .0f;
+        else
+            a = x;
+        
+        if (IsClose(y, .0f))
+            b = .0f;
+        else
+            b = y;
+        
+        if (IsClose(z, .0f))
+            c = .0f;
+        else
+            c = z;
+        
+        string s = $"({a}, {b}, {c})";
         return s;
     }
 
@@ -131,9 +148,25 @@ public struct Point
     }
 
     //METODI
-    public string toString()
+    public string ConvertPointToString()
     {
-        string s = $"(x = {x.ToString()}, y = {y.ToString()}, z = {z.ToString()})";
+        float a, b, c;
+        if (IsClose(x, .0f))
+            a = .0f;
+        else
+            a = x;
+        
+        if (IsClose(y, .0f))
+            b = .0f;
+        else
+            b = y;
+        
+        if (IsClose(z, .0f))
+            c = .0f;
+        else
+            c = z;
+        
+        string s = $"(x = {a}, y = {b}, z = {c})";
         return s;
     }
 
@@ -211,7 +244,23 @@ public struct Normal
     //METODI
     public string ConvertNormToString()
     {
-        string s = $"({this.x}, {this.y}, {this.z})";
+        float a, b, c;
+        if (IsClose(x, .0f))
+            a = .0f;
+        else
+            a = x;
+        
+        if (IsClose(y, .0f))
+            b = .0f;
+        else
+            b = y;
+        
+        if (IsClose(z, .0f))
+            c = .0f;
+        else
+            c = z;
+        
+        string s = $"({a}, {b}, {c})";
         return s;
     }
 

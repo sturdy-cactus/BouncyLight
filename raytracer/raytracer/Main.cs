@@ -20,11 +20,13 @@ internal static partial class Program
 
             TestCamera.TestOrthCamera();
             TestCamera.TestPerspCamera();
-            //fallisce!
             TestCamera.TestOrthCameraTransformation();
 
             TestRay.TestRayClose();
             TestRay.TestAt();
+            
+            TestSphere.TestIntersect();
+            TestSphere.TestTransf();
         }
 
         Parameters myParams = new Parameters(args);

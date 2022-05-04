@@ -10,6 +10,7 @@ namespace Cameras;
 interface ICamera
 {
     public Ray FireRay(float u, float v);
+    public ICamera SetCamera(Transformation t);
 }
 
 class OrthCamera : ICamera
@@ -30,9 +31,15 @@ class OrthCamera : ICamera
     {
         var o = new Point(-1.0f, -(2.0f * u - 1.0f) * this.a, 2.0f * v - 1.0f);
         var dir = new Vector(1.0f, .0f, .0f);
-        var ray = new Ray(o, dir, tMin: 1.0f);
+        var ray = new Ray(o, dir, tMin: .0f); //cambiato tmin
 
         return this.t * ray;
+    }
+
+    public ICamera SetCamera(Transformation t)
+    {
+        this.t = t;
+        return this;
     }
 }
 
@@ -54,9 +61,15 @@ class PerspCamera : ICamera
     {
         var o = new Point(-this.d, .0f, .0f);
         var dir = new Vector(this.d, -(2.0f * u - 1.0f) * this.a, 2.0f * v - 1.0f);
-        var ray = new Ray(o, dir, tMin: dir.SqNorm());
+        var ray = new Ray(o, dir, tMin: .0f);
 
         return this.t * ray;
+    }
+    
+    public ICamera SetCamera(Transformation t)
+    {
+        this.t = t;
+        return this;
     }
 }
 
