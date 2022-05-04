@@ -41,6 +41,7 @@ internal static partial class Program
                 break;
             
             case "demo":
+                demo.demo.test();
                 break;
         }
     }
