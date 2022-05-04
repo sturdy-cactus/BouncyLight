@@ -233,23 +233,32 @@ public class TestSphere
         Console.WriteLine(r1.direction.ConvertVecToString());
         Console.WriteLine(r1.origin.ConvertPointToString());
         
-        var tr2 = Translation(new Vector(12.0f, .0f, 2.0f)) * Rotation((float) Math.PI, 'z');
+        var tr2 = Translation(new Vector(12.0f, .0f, .0f)) * Rotation((float) Math.PI, 'z');
         cam.SetCamera(tr2);
         var r2 = cam.FireRay(.5f, .5f);
         Console.WriteLine(r2.direction.ConvertVecToString());
         Console.WriteLine(r2.origin.ConvertPointToString());
         
-        var tr3 = Scaling(new Vector(5, 5, 5)) * Translation(new Vector(10.0f, .0f, .0f));
+        var tr3 = Scaling(new Vector(3,3,3))*Translation(new Vector(10.0f, .0f, .0f));
         var s = new Sphere(tr3);
         var hr1 = s.RayIntersection(r1);
         var hr2 = s.RayIntersection(r2);
-
-        //var p1 = hr1.Value;
-        //Console.WriteLine(p1.WPoint.ConvertPointToString());
-        //Console.WriteLine(p1.N.ConvertNormToString());
         
-        if(hr2 == null)
-            Console.WriteLine("no");
+        if (hr1 != null)
+        {
+            var p1 = hr1.Value;
+            Console.WriteLine("\nintersection 1:");
+            Console.WriteLine(p1.WPoint.ConvertPointToString());
+            Console.WriteLine(p1.N.ConvertNormToString());
+        }
+
+        if(hr2 != null)
+        {
+            var p2 = hr2.Value;
+            Console.WriteLine("\nintersection 2:");
+            Console.WriteLine(p2.WPoint.ConvertPointToString());
+            Console.WriteLine(p2.N.ConvertNormToString());
+        }
         
 
 

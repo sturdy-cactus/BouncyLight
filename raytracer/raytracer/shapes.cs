@@ -48,7 +48,7 @@ class Sphere : IShape
             return null;
         
         //end 
-        hit.WPoint = rayt.At(firstHit);
+        hit.WPoint = tr * ray.At(firstHit);
         hit.N = this.tr * Sphere.SphereNormal(ray.At(firstHit), ray); //bug sotto rotazioni?
         hit.SPoint = SpherePointToUv(ray.At(firstHit));
         
@@ -99,7 +99,7 @@ struct HitRecord
         this.Ray = ray ?? new Ray();
     }
 }
-/*
+
 struct World
 {
     private List<IShape> Shapes;
@@ -119,11 +119,15 @@ struct World
 
             if (intersection != null)
                 continue;
-            else if (closest == null || intersection.t < closest.t)
-                closest = intersection;
+            else
+            {
+                var p = intersection.Value;
+                var q = closest.Value;
+                if (closest == null || p.T < q.T)
+                    closest = intersection;
+            }
         }
         
         return closest;
     }
 }
-*/
