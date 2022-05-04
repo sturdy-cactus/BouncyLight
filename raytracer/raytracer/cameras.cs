@@ -3,6 +3,7 @@ using System.Runtime.InteropServices;
 using Geometry;
 using static test.TestGeometry;
 using PFMlib;
+using Shapes;
 using Point = Geometry.Point;
 
 namespace Cameras;
@@ -89,13 +90,13 @@ class ImgTracer
     //METODI
     public Ray FireRay(int a, int b, float uPix = .5f, float vPix = .5f)
     {
-        float u = (a + uPix) / (this.img.w - 1); //forse l'errore e' il -1
-        float v = (b + uPix) / (this.img.h - 1); 
+        float u = (a + uPix) / (this.img.w); //forse l'errore e' il -1
+        float v = 1 - (b + uPix) / (this.img.h); 
 
         return cam.FireRay(u, v);
     }
 
-    public void FireAllRays()
+    public void FireAllRays(World world)
     {
         var ray = new Ray();
         var color = new Color();
@@ -103,7 +104,12 @@ class ImgTracer
             for(int j = 0; j < this.img.w; j++)
             {
                 ray = this.FireRay(i, j);
-                //qui colore come funzione del raggio
+                var hr = world.RayIntersection(ray);
+                if (hr == null)
+                    color = new Color();
+                else
+                    color = new Color(1, 1, 1);
+                
                 this.img.SetPixel(color, i, j);
             }
     }

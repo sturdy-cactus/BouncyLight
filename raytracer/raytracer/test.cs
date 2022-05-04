@@ -233,13 +233,13 @@ public class TestSphere
         Console.WriteLine(r1.direction.ConvertVecToString());
         Console.WriteLine(r1.origin.ConvertPointToString());
         
-        var tr2 = Translation(new Vector(12.0f, .0f, .0f)) * Rotation((float) Math.PI, 'z');
+        var tr2 = Translation(new Vector(12.0f, .0f, 2.0f)) * Rotation((float) Math.PI, 'z');
         cam.SetCamera(tr2);
         var r2 = cam.FireRay(.5f, .5f);
         Console.WriteLine(r2.direction.ConvertVecToString());
         Console.WriteLine(r2.origin.ConvertPointToString());
         
-        var tr3 = Scaling(new Vector(3,3,3))*Translation(new Vector(10.0f, .0f, .0f));
+        var tr3 = Translation(new Vector(10.0f, .0f, .0f));
         var s = new Sphere(tr3);
         var hr1 = s.RayIntersection(r1);
         var hr2 = s.RayIntersection(r2);
@@ -261,6 +261,8 @@ public class TestSphere
         }
         
 
+        //var p2 = hr2.Value;
+        //Debug.Assert(p2.WPoint.isClose(new Point(11, 0 , 0)));
 
     }
 }
