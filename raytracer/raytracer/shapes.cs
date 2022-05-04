@@ -27,6 +27,7 @@ class Sphere : IShape
         float firstHit;
         var hit = new HitRecord();
         var trsf = this.tr.Inverse();
+        var rayt = ray;
         ray = trsf * ray;
         var o = ray.origin.ToVector();
 
@@ -47,10 +48,9 @@ class Sphere : IShape
             return null;
         
         //end 
-        hit.WPoint = ray.At(firstHit); 
-        //review
-        hit.N = Sphere.SphereNormal(hit.WPoint, ray);
-        hit.SPoint = SpherePointToUv(hit.WPoint);
+        hit.WPoint = rayt.At(firstHit);
+        hit.N = this.tr * Sphere.SphereNormal(ray.At(firstHit), ray); //bug sotto rotazioni?
+        hit.SPoint = SpherePointToUv(ray.At(firstHit));
         
         hit.T = firstHit;
         hit.Ray = ray;

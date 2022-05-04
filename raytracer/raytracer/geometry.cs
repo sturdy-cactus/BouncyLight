@@ -470,9 +470,9 @@ public struct Transformation
         mat = Matrix4x4.Transpose(mat);
         
         return new Normal(
-            x: n.x*mat.M11*n.y*mat.M12*n.z*mat.M13+mat.M14,
-            y: n.x*mat.M21*n.y*mat.M22*n.z*mat.M23+mat.M24,
-            z: n.x*mat.M31*n.y*mat.M32*n.z*mat.M33+mat.M34);
+            x: n.x * mat.M11 + n.y * mat.M12 + n.z * mat.M13,
+            y: n.x * mat.M21 + n.y * mat.M22 + n.z * mat.M23,
+            z: n.x * mat.M31 + n.y * mat.M32 + n.z * mat.M33);
     }
 
     public static Vector operator *(Transformation A, Vector v)

@@ -193,7 +193,7 @@ public class TestSphere
         var tr = Translation(vec) * Rotation(-.5f * (float) Math.PI, 'y');
         var cam = new OrthCamera(t: tr);
         var r = cam.FireRay(.5f, .5f);
-
+        
         var s = new Sphere();
         var hr = s.RayIntersection(r);
         var p = hr.Value;
@@ -239,10 +239,19 @@ public class TestSphere
         Console.WriteLine(r2.direction.ConvertVecToString());
         Console.WriteLine(r2.origin.ConvertPointToString());
         
-        var tr3 = Translation(new Vector(10.0f, .0f, .0f));
+        var tr3 = Scaling(new Vector(5, 5, 5)) * Translation(new Vector(10.0f, .0f, .0f));
         var s = new Sphere(tr3);
         var hr1 = s.RayIntersection(r1);
         var hr2 = s.RayIntersection(r2);
+
+        //var p1 = hr1.Value;
+        //Console.WriteLine(p1.WPoint.ConvertPointToString());
+        //Console.WriteLine(p1.N.ConvertNormToString());
         
+        if(hr2 == null)
+            Console.WriteLine("no");
+        
+
+
     }
 }
