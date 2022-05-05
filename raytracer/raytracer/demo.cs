@@ -14,7 +14,7 @@ public struct demo
         World mioMondo = new World();
         
         var ctrasf = Translation(new Vector(-1, 0, 0));
-        var cam = new PerspCamera(a: 16f / 9f, t: ctrasf);
+        var cam = new PerspCamera(a: 3f / 2f, t: ctrasf);
 
         for (var i = -.5f; i < 1; i++)
         {
@@ -35,7 +35,7 @@ public struct demo
         q = Translation(new Vector(0, .5f, 0));
         mioMondo.Add(new Sphere(q * scala));
         
-        var myimg = new HdrImage(960, 540);
+        var myimg = new HdrImage(300, 200);
         var myTracer = new ImgTracer(myimg, cam);
 
         myTracer.FireAllRays(mioMondo);

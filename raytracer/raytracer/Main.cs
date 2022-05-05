@@ -30,9 +30,9 @@ internal static partial class Program
             TestSphere.TestTransf();
         }
 
-        var app = new CommandLineApplication();
+        /*var app = new CommandLineApplication();
         var myArgs = app.Arguments;
-        Console.WriteLine(myArgs+"\n");
+        Console.WriteLine(myArgs+"\n");*/
         
         Parameters myParams = new Parameters(args);
 
@@ -46,9 +46,9 @@ internal static partial class Program
                 break;
             
             case "demo":
-                var res = myParams.resolution.Split("x");
+                /*var res = myParams.resolution.Split("x");
                 var hres = int.Parse(res[0]);
-                var vres = int.Parse(res[1]);
+                var vres = int.Parse(res[1]);*/
                 demo.demo.test();
                 break;
         }
@@ -61,7 +61,7 @@ internal static partial class Program
         public float factor = 0.2f;
         public float gamma = 1;
         public string output_file_name = "";
-        public string resolution = "";
+        //public string resolution = "";
         
 
         public Parameters(string[] args)
@@ -95,8 +95,7 @@ internal static partial class Program
                     case "demo":
                     {
                         mode = args[0];
-                        resolution = args[1];
-                        
+                        //resolution = args[1];
                         break;
                     }
 
@@ -109,7 +108,7 @@ internal static partial class Program
             }
             catch
             {
-                Console.WriteLine("Commands: PFMtoimg or --demo");
+                Console.WriteLine("Commands: PFMtoimg or demo");
                 Environment.Exit(3);
             }
         }
