@@ -1,5 +1,4 @@
-﻿using System;
-using Geometry;
+﻿using Geometry;
 using Cameras;
 
 namespace Shapes;
@@ -12,48 +11,46 @@ interface IShape
 class Sphere : IShape
 {
     //MEMBERS
-    public Transformation tr;
+    private Transformation _tr;
     
     //CONSTRUCTOR
     public Sphere(Transformation? tr = null)
     {
-        this.tr = tr ?? new Transformation();
+        this._tr = tr ?? new Transformation();
     }
 
     //METHODS
-    public HitRecord? RayIntersection(Ray ray)
+    public HitRecord? RayIntersection(Ray rayId)
     {
         //prep
         float firstHit;
         var hit = new HitRecord();
-        var trsf = this.tr.Inverse();
-        var rayt = ray;
-        ray = trsf * ray;
-        var o = ray.origin.ToVector();
+        rayId = this._tr.Inverse() * rayId;
+        var o = rayId.Origin.ToVector();
 
         //body
-        float dotprod = (float) Math.Pow(o * ray.direction, 2);
-        float delta = dotprod - ray.direction.SqNorm() * (o.SqNorm() - 1.0f);
+        float prod = (float) Math.Pow(o * rayId.Direction, 2);
+        float delta = prod - rayId.Direction.SqNorm() * (o.SqNorm() - 1.0f);
         if (delta <= .0f)
             return null;
         
-        float t1 = -(o * ray.direction + (float)Math.Sqrt(delta)) / ray.direction.SqNorm();
-        float t2 = (-(o * ray.direction) + (float)Math.Sqrt(delta)) / ray.direction.SqNorm();
+        float t1 = -(o * rayId.Direction + (float)Math.Sqrt(delta)) / rayId.Direction.SqNorm();
+        float t2 = (-(o * rayId.Direction) + (float)Math.Sqrt(delta)) / rayId.Direction.SqNorm();
 
-        if (t1 > ray.tMin && t1 < ray.tMax)
+        if (t1 > rayId.TMin && t1 < rayId.TMax)
             firstHit = t1;
-        else if (t2 > ray.tMin && t2 < ray.tMax)
+        else if (t2 > rayId.TMin && t2 < rayId.TMax)
             firstHit = t2;
         else
             return null;
         
         //end 
-        hit.WPoint = rayt.At(firstHit);
-        hit.N = this.tr * Sphere.SphereNormal(ray.At(firstHit), ray); //bug sotto rotazioni?
-        hit.SPoint = SpherePointToUv(ray.At(firstHit));
+        hit.WPoint = this._tr * rayId.At(firstHit);
+        hit.N = this._tr * Sphere.SphereNormal( rayId.At(firstHit), rayId); //bug sotto rot?
+        hit.SPoint = SpherePointToUv(rayId.At(firstHit));
         
         hit.T = firstHit;
-        hit.Ray = ray;
+        hit.Ray = rayId;
         
         return hit;
     }
@@ -63,7 +60,7 @@ class Sphere : IShape
     {
         var n = new Normal(p.x, p.y, p.z);
         var vec = new Vector(p.x, p.y, p.z);
-        if (ray.direction * vec < .0f)
+        if (ray.Direction * vec < .0f)
             return n;
         else
             return new Normal(-p.x, -p.y, -p.z);
@@ -109,9 +106,9 @@ struct World
         Shapes = new List<IShape>();
     }
     
-    public void Add(IShape myshape)
+    public void Add(IShape shape)
     {
-        Shapes.Add(myshape);
+        Shapes.Add(shape);
     }
 
     public HitRecord? RayIntersection(Ray ray)

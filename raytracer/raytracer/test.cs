@@ -116,9 +116,9 @@ public class TestCamera
         var Ray3 = cam.FireRay(0, 1);
         var Ray4 = cam.FireRay(1, 1);
         
-        Debug.Assert(IsClose(0,Vector.CrossProd(Ray1.direction, Ray2.direction).SqNorm()));
-        Debug.Assert(IsClose(0,Vector.CrossProd(Ray1.direction, Ray3.direction).SqNorm()));
-        Debug.Assert(IsClose(0,Vector.CrossProd(Ray1.direction, Ray4.direction).SqNorm()));
+        Debug.Assert(IsClose(0,Vector.CrossProd(Ray1.Direction, Ray2.Direction).SqNorm()));
+        Debug.Assert(IsClose(0,Vector.CrossProd(Ray1.Direction, Ray3.Direction).SqNorm()));
+        Debug.Assert(IsClose(0,Vector.CrossProd(Ray1.Direction, Ray4.Direction).SqNorm()));
 
         Debug.Assert(Ray1.At(1).isClose(new Point(0, 2, -1)));
         Debug.Assert(Ray2.At(1).isClose(new Point(0, -2, -1)));
@@ -146,9 +146,9 @@ public class TestCamera
         var Ray3 = cam.FireRay(0, 1);
         var Ray4 = cam.FireRay(1, 1);
         
-        Debug.Assert(Ray1.origin.isClose(Ray2.origin));
-        Debug.Assert(Ray1.origin.isClose(Ray3.origin));
-        Debug.Assert(Ray1.origin.isClose(Ray4.origin));
+        Debug.Assert(Ray1.Origin.isClose(Ray2.Origin));
+        Debug.Assert(Ray1.Origin.isClose(Ray3.Origin));
+        Debug.Assert(Ray1.Origin.isClose(Ray4.Origin));
         
         Debug.Assert(Ray1.At(1).isClose(new Point(0, 2, -1)));
         Debug.Assert(Ray2.At(1).isClose(new Point(0, -2, -1)));
@@ -175,7 +175,7 @@ public class TestRay
     public static void TestAt()
     {
         var a = new Ray(new Point(1.0f, 2.0f, 4.0f), new Vector(4.0f, 2.0f, 1.0f));
-        Debug.Assert(a.At(.0f).isClose(a.origin));
+        Debug.Assert(a.At(.0f).isClose(a.Origin));
         Debug.Assert(a.At(1.0f).isClose(new Point(5.0f, 4.0f, 5.0f)));
         //corretto
         Debug.Assert(a.At(2.0f).isClose(new Point(9.0f, 6.0f, 6.0f)));
@@ -230,14 +230,14 @@ public class TestSphere
         var tr1 = Translation(new Vector(10.0f, .0f, 1.0f)) * Rotation(-.5f * (float) Math.PI, 'y');
         var cam = new OrthCamera(t: tr1);
         var r1 = cam.FireRay(.5f, .5f);
-        Console.WriteLine("\nraggio 1\n"+r1.direction.ConvertVecToString());
-        Console.WriteLine(r1.origin.ConvertPointToString());
+        Console.WriteLine("\nraggio 1\n"+r1.Direction.ConvertVecToString());
+        Console.WriteLine(r1.Origin.ConvertPointToString());
         
         var tr2 = Translation(new Vector(12.0f, .0f, .0f)) * Rotation((float) Math.PI, 'z');
         cam = new OrthCamera(t:tr2);
         var r2 = cam.FireRay(.5f, .5f);
-        Console.WriteLine("\nraggio 2\n"+r2.direction.ConvertVecToString());
-        Console.WriteLine(r2.origin.ConvertPointToString());
+        Console.WriteLine("\nraggio 2\n"+r2.Direction.ConvertVecToString());
+        Console.WriteLine(r2.Origin.ConvertPointToString());
 
         var tr3 = Translation(new Vector(1, 0, 2)) * Rotation((float) (.5f*Math.PI), 'y');
         
@@ -270,6 +270,41 @@ public class TestSphere
         var p_2 = hr2.Value;
         Debug.Assert(p_2.WPoint.isClose(new Point(11, 0 , 0)));
         Debug.Assert(p_2.N.isClose(new Normal(1, 0, 0)));
+        
+        //test scale
+        var ray = new Ray(origin: new Point(10, 0, 3), direction: new Vector(-1, 0, 0));
+        var t = Translation(new Vector(0,0,3)) * Scaling(new Vector(5, 5, 5));
+        var sph = new Sphere(t);
+        var hit = sph.RayIntersection(ray);
+
+        if (hit != null)
+        {
+            var v = hit.Value;
+            Console.WriteLine("scala");
+            Console.WriteLine(v.N.ConvertNormToString());
+            Console.WriteLine(v.WPoint.ConvertPointToString());
+        }
+        
+        //test rotation
+        ray.Origin = new Point(3, 0, 0);
+        ray.Direction = new Vector(-1, 0, 0);
+        t = Rotation(.5f * (float) Math.PI, 'z');
+        var sphere = new Sphere(t);
+        hit = sphere.RayIntersection(ray);
+        
+        if (hit != null)
+        {
+            var v = hit.Value;
+            Console.WriteLine("scala");
+            Console.WriteLine(v.N.ConvertNormToString());
+            Console.WriteLine(v.WPoint.ConvertPointToString());
+        }
+
+
+
+
+
+
 
     }
 }

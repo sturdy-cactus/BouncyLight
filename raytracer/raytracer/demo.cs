@@ -40,7 +40,7 @@ struct demo
         p = Translation(new Vector(-.5f, .5f, .5f));
         mioMondo.Add(new Sphere(scala * p));
 
-//sfere di controllo
+        //sfere di controllo
         p = Translation(new Vector(0, 0, -.5f));
         mioMondo.Add(new Sphere(scala * p));
 

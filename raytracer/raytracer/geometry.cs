@@ -420,7 +420,7 @@ public struct Transformation
                 //t.invm = Matrix4x4.CreateRotationZ(-angle);
                 break;
             default:
-                Console.WriteLine("Invalid direction"); //sistemare eccezione
+                Console.WriteLine("Invalid direction"); //fix exception
                 Environment.Exit(11);
                 break;
         }

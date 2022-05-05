@@ -1,7 +1,4 @@
-using System.Diagnostics;
-using System.IO;
 using System.Text;
-using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 
@@ -151,7 +148,7 @@ public class HdrImage
 	//METODI
 	public Color GetPixel(int row, int col)
     {
-		return pixels[w*row + col];
+		return pixels[w * row + col];
     }
 	
 	public void SetPixel(Color val, int row, int col)
@@ -222,7 +219,6 @@ public class HdrImage
 		var a = factor ?? 0.2f;
 		var lum = luminosity ?? Avg_Lum();
 		var gam = gamma ?? 1f;
-		Color c=new Color();
 		for (int i = 0; i < pixels.Length; i++)
 		{
 			pixels[i].r = (int) (255 * Math.Pow(Clamp(pixels[i].r * (a / lum)), 1 / gam));
@@ -319,21 +315,21 @@ public class HdrImage
 	}
 	private static void FlipImg(int width, int height, ref Color[] pix)
     {
-		var pix_copy = new Color[pix.Length];
+		var pixCopy = new Color[pix.Length];
 		for (int i = 0; i < pix.Length; i++)
         {
-			pix_copy[i].r = pix[i].r;
-			pix_copy[i].g = pix[i].g;
-			pix_copy[i].b = pix[i].b;
+			pixCopy[i].r = pix[i].r;
+			pixCopy[i].g = pix[i].g;
+			pixCopy[i].b = pix[i].b;
         }
 		
 		for (int j = 0; j < height; j++)
 		{
 			for (int i = 0; i < width; i++)
 			{
-				pix[i + j * width].r = pix_copy[width*(j+1) - i - 1].r;
-				pix[i + j * width].g = pix_copy[width*(j+1) - i - 1].g;
-				pix[i + j * width].b = pix_copy[width*(j+1) - i - 1].b;
+				pix[i + j * width].r = pixCopy[width*(j+1) - i - 1].r;
+				pix[i + j * width].g = pixCopy[width*(j+1) - i - 1].g;
+				pix[i + j * width].b = pixCopy[width*(j+1) - i - 1].b;
 			}
 		}
 	}

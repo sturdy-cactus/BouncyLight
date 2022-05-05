@@ -1,7 +1,4 @@
-﻿using System;
-using System.Runtime.InteropServices;
-using Geometry;
-using static test.TestGeometry;
+﻿using Geometry;
 using PFMlib;
 using Shapes;
 using Point = Geometry.Point;
@@ -16,71 +13,73 @@ interface ICamera
 
 class OrthCamera : ICamera
 {
-    //MEMBRI
-    private float a;
-    private Transformation t;
+    //MEMBERS
+    private float _a;
+    private Transformation _t;
     
-    //COSTRUTTORE
+    //CONSTRUCTOR
     public OrthCamera(float? a = null, Transformation? t = null)
     {
-        this.a = a ?? 1.0f;
-        this.t = t ?? new Transformation();
+        this._a = a ?? 1.0f;
+        this._t = t ?? new Transformation();
     }
     
     //METODI
     public Ray FireRay(float u, float v)
     {
-        var o = new Point(-1.0f, -(2.0f * u - 1.0f) * this.a, 2.0f * v - 1.0f);
+        var o = new Point(-1.0f, -(2.0f * u - 1.0f) * this._a, 2.0f * v - 1.0f);
         var dir = new Vector(1.0f, .0f, .0f);
-        var ray = new Ray(o, dir, tMin: .0f); //cambiato tmin
+        var ray = new Ray(o, dir, tMin: .0f); //    tMin changed
 
-        return this.t * ray;
+        return this._t * ray;
     }
 
     public ICamera SetCamera(Transformation t)
     {
-        this.t = t;
+        this._t = t;
         return this;
     }
 }
 
 class PerspCamera : ICamera
 {
-    //MEMBRI
-    private float a;
-    private float d;
-    private Transformation t;
+    //MEMBERS
+    private float _a;
+    private float _d;
+    private Transformation _t;
 
-    //COSTRUTTORE
+    //CTOR
     public PerspCamera(float? a = null, float? d = null, Transformation? t = null)
     {
-        this.a= a ?? 1.0f;
-        this.d = d ?? 1.0f;
-        this.t = t ?? new Transformation();
+        this._a= a ?? 1.0f;
+        this._d = d ?? 1.0f;
+        this._t = t ?? new Transformation();
     }
+    
+    //METODI
     public Ray FireRay(float u, float v)
     {
-        var o = new Point(-this.d, .0f, .0f);
-        var dir = new Vector(this.d, -(2.0f * u - 1.0f) * this.a, 2.0f * v - 1.0f);
+        var o = new Point(-this._d, .0f, .0f);
+        var dir = new Vector(this._d, -(2.0f * u - 1.0f) * this._a, 2.0f * v - 1.0f);
         var ray = new Ray(o, dir, tMin: .0f);
 
-        return this.t * ray;
+        return this._t * ray;
     }
     
     public ICamera SetCamera(Transformation t)
     {
-        this.t = t;
+        this._t = t;
         return this;
     }
 }
 
 class ImgTracer
 {
-    //MEMBRI
-    public HdrImage img;
-    public ICamera cam;
+    //MEMBERS
+    private HdrImage img;
+    private ICamera cam;
     
-    //COSTRUTTORE
+    //CTOR
     public ImgTracer(HdrImage img, ICamera cam)
     {
         this.img = img;
@@ -88,14 +87,6 @@ class ImgTracer
     }
     
     //METODI
-    public Ray FireRay(int a, int b, float uPix = .5f, float vPix = .5f)
-    {
-        float u = (a + uPix) / (this.img.w); //forse l'errore e' il -1
-        float v = 1 - (b + vPix) / (this.img.h); 
-
-        return cam.FireRay(u, v);
-    }
-
     public void FireAllRays(World world)
     {
         var ray = new Ray();
@@ -113,43 +104,52 @@ class ImgTracer
                 this.img.SetPixel(color, i, j);
             }
     }
+    
+    //PRIVATE METHODS
+    private Ray FireRay(int a, int b, float uPix = .5f, float vPix = .5f)
+    {
+        float u = (a + uPix) / (this.img.w); 
+        float v = 1 - (b + vPix) / (this.img.h); 
+
+        return cam.FireRay(u, v);
+    }
 }
 
 struct Ray
 {
-    //MEMBRI
-    public Point origin;
-    public Vector direction;
-    public float tMin;
-    public float tMax;
-    public int depth;
+    //MEMBERS
+    public Point Origin;
+    public Vector Direction;
+    public float TMin;
+    public float TMax;
+    public int Depth;
     
-    //COSTRUTTORE
+    //CTOR
     public Ray(Point origin, Vector direction, float? tMin = null, float? tMax = null, int? depth = null)
     {
-        this.origin = origin;
-        this.direction = direction;
-        this.tMin = tMin ?? 1e-5f;
-        this.tMax = tMax ?? float.PositiveInfinity;
-        this.depth = depth ?? 0;
+        this.Origin = origin;
+        this.Direction = direction;
+        this.TMin = tMin ?? 1e-5f;
+        this.TMax = tMax ?? float.PositiveInfinity;
+        this.Depth = depth ?? 0;
     }
     
     //METODI
     public Point At(float t)
     {
-        return this.origin + t * this.direction;
+        return this.Origin + t * this.Direction;
     }
 
     public bool isClose(Ray r)
     {
-        return (this.direction.isClose(r.direction) && this.origin.isClose(r.origin));
+        return (this.Direction.isClose(r.Direction) && this.Origin.isClose(r.Origin));
     }
     
     public static Ray operator *(Transformation t, Ray r)
     {
         Ray temp = r;
-        temp.direction = t * r.direction;
-        temp.origin = t * r.origin;
+        temp.Direction = t * r.Direction;
+        temp.Origin = t * r.Origin;
         return temp;
     }
 }
