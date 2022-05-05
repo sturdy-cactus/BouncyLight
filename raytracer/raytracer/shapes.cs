@@ -3,12 +3,12 @@ using Cameras;
 
 namespace Shapes;
 
-interface IShape
+public interface IShape
 {
     public HitRecord? RayIntersection(Ray ray);
 }
 
-class Sphere : IShape
+public class Sphere : IShape
 {
     //MEMBERS
     private Transformation _tr;
@@ -77,7 +77,7 @@ class Sphere : IShape
 
 }
 
-struct HitRecord
+public struct HitRecord
 {
     //MEMBERS
     public Point WPoint;
@@ -97,7 +97,7 @@ struct HitRecord
     }
 }
 
-struct World
+public struct World
 {
     private List<IShape> Shapes;
 

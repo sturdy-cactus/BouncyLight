@@ -6,7 +6,7 @@ using static Geometry.Transformation;
 
 namespace demo;
 
-struct demo
+public struct demo
 {
     public static void test()
     {
@@ -14,40 +14,28 @@ struct demo
         World mioMondo = new World();
         
         var ctrasf = Translation(new Vector(-1, 0, 0));
-        var cam = new PerspCamera(t: ctrasf);
+        var cam = new PerspCamera(a: 16f / 9f, t: ctrasf);
 
-        var p = Translation(new Vector(-.5f, -.5f, -.5f));
-        mioMondo.Add(new Shapes.Sphere(p * scala));
-        
-        p = Translation(new Vector(.5f, -.5f, -.5f));
-        mioMondo.Add(new Sphere( p * scala));
-       
-        p = Translation(new Vector(-.5f, .5f, -.5f));
-        mioMondo.Add(new Sphere(p * scala));
-
-        p = Translation(new Vector(-.5f, -.5f, .5f));
-        mioMondo.Add(new Sphere(p * scala));
-
-        p = Translation(new Vector(.5f, .5f, .5f));
-        mioMondo.Add(new Sphere(p * scala));
-
-        p = Translation(new Vector(.5f, .5f, -.5f));
-        mioMondo.Add(new Sphere(p * scala));
-
-        p = Translation(new Vector(.5f, -.5f, .5f));
-        mioMondo.Add(new Sphere(p * scala));
-
-        p = Translation(new Vector(-.5f, .5f, .5f));
-        mioMondo.Add(new Sphere(p * scala));
+        for (var i = -.5f; i < 1; i++)
+        {
+            for (var j = -.5f; j < 1; j++)
+            {
+                for (var k = -.5f; k < 1; k++)
+                {
+                    var p = Translation(new Vector(i, j, k));
+                    mioMondo.Add(new Sphere(p * scala));
+                }
+            }
+        }
 
         //sfere di controllo
-        p = Translation(new Vector(0, 0, -.5f));
-        mioMondo.Add(new Sphere(p * scala));
+        var q = Translation(new Vector(0, 0, -.5f));
+        mioMondo.Add(new Sphere(q * scala));
 
-        p = Translation(new Vector(0, .5f, 0));
-        mioMondo.Add(new Sphere(p * scala));
+        q = Translation(new Vector(0, .5f, 0));
+        mioMondo.Add(new Sphere(q * scala));
         
-        var myimg = new HdrImage(200, 200);
+        var myimg = new HdrImage(960, 540);
         var myTracer = new ImgTracer(myimg, cam);
 
         myTracer.FireAllRays(mioMondo);

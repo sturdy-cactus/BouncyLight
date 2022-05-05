@@ -270,41 +270,6 @@ public class TestSphere
         var p_2 = hr2.Value;
         Debug.Assert(p_2.WPoint.isClose(new Point(11, 0 , 0)));
         Debug.Assert(p_2.N.isClose(new Normal(1, 0, 0)));
-        
-        //test scale
-        var ray = new Ray(origin: new Point(10, 0, 3), direction: new Vector(-1, 0, 0));
-        var t = Translation(new Vector(0,0,3)) * Scaling(new Vector(5, 5, 5));
-        var sph = new Sphere(t);
-        var hit = sph.RayIntersection(ray);
-
-        if (hit != null)
-        {
-            var v = hit.Value;
-            Console.WriteLine("scala");
-            Console.WriteLine(v.N.ConvertNormToString());
-            Console.WriteLine(v.WPoint.ConvertPointToString());
-        }
-        
-        //test rotation
-        ray.Origin = new Point(3, 0, 0);
-        ray.Direction = new Vector(-1, 0, 0);
-        t = Rotation(.5f * (float) Math.PI, 'z');
-        var sphere = new Sphere(t);
-        hit = sphere.RayIntersection(ray);
-        
-        if (hit != null)
-        {
-            var v = hit.Value;
-            Console.WriteLine("scala");
-            Console.WriteLine(v.N.ConvertNormToString());
-            Console.WriteLine(v.WPoint.ConvertPointToString());
-        }
-
-
-
-
-
-
 
     }
 }

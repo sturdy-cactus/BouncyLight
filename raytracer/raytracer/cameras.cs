@@ -5,13 +5,13 @@ using Point = Geometry.Point;
 
 namespace Cameras;
 
-interface ICamera
+public interface ICamera
 {
     public Ray FireRay(float u, float v);
     public ICamera SetCamera(Transformation t);
 }
 
-class OrthCamera : ICamera
+public class OrthCamera : ICamera
 {
     //MEMBERS
     private float _a;
@@ -41,7 +41,7 @@ class OrthCamera : ICamera
     }
 }
 
-class PerspCamera : ICamera
+public class PerspCamera : ICamera
 {
     //MEMBERS
     private float _a;
@@ -73,7 +73,7 @@ class PerspCamera : ICamera
     }
 }
 
-class ImgTracer
+public class ImgTracer
 {
     //MEMBERS
     private HdrImage img;
@@ -89,33 +89,40 @@ class ImgTracer
     //METODI
     public void FireAllRays(World world)
     {
+        var color= new Color();
         var ray = new Ray();
-        var color = new Color();
-        for (int i = 0; i < this.img.h; i++)
-            for(int j = 0; j < this.img.w; j++)
+        var progress = img.w / 40;
+        Console.WriteLine("\ngenerazione dell'immagine in corso...\n________________________________________");
+        for (int col = 0; col < img.w; col++)
+        {
+            if (col % progress == 0)
+                Console.Write("*");
+            
+            for (int row = 0; row < img.h; row++)
             {
-                ray = this.FireRay(i, j);
+                ray = this.FireRay(col, row);
                 var hr = world.RayIntersection(ray);
                 if (hr == null)
                     color = new Color();
                 else
                     color = new Color(1, 1, 1);
-                
-                this.img.SetPixel(color, i, j);
+
+                this.img.SetPixel(color, row, col);
             }
+        }
     }
     
     //PRIVATE METHODS
-    private Ray FireRay(int a, int b, float uPix = .5f, float vPix = .5f)
+    private Ray FireRay(int col, int row, float uPix = .5f, float vPix = .5f)
     {
-        float u = (a + uPix) / (this.img.w); 
-        float v = 1 - (b + vPix) / (this.img.h); 
+        float u = (col + uPix) / (this.img.w); 
+        float v = 1 - (row + vPix) / (this.img.h); 
 
         return cam.FireRay(u, v);
     }
 }
 
-struct Ray
+public struct Ray
 {
     //MEMBERS
     public Point Origin;
