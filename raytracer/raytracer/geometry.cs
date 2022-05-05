@@ -445,7 +445,7 @@ public struct Transformation
     public static Transformation operator *(Transformation A, Transformation B)
     {
         var m = A.m * B.m;
-        Matrix4x4 invm;
+        var invm = new Matrix4x4();
         Matrix4x4.Invert(m, out invm);
         
         return new Transformation(m, invm);

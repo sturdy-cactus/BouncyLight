@@ -230,17 +230,20 @@ public class TestSphere
         var tr1 = Translation(new Vector(10.0f, .0f, 1.0f)) * Rotation(-.5f * (float) Math.PI, 'y');
         var cam = new OrthCamera(t: tr1);
         var r1 = cam.FireRay(.5f, .5f);
-        Console.WriteLine(r1.direction.ConvertVecToString());
-        Console.WriteLine(r1.origin.ConvertPointToString());
+        Console.WriteLine("\nraggio 1\n"+r1.direction.ConvertVecToString());
+        Console.WriteLine("normale 1\n"+r1.origin.ConvertPointToString());
         
-        var tr2 = Translation(new Vector(12.0f, .0f, 2.0f)) * Rotation((float) Math.PI, 'z');
-        cam.SetCamera(tr2);
+        var tr2 = Translation(new Vector(12.0f, .0f, .0f)) * Rotation((float) Math.PI, 'z');
+        cam = new OrthCamera(t:tr2);
         var r2 = cam.FireRay(.5f, .5f);
-        Console.WriteLine(r2.direction.ConvertVecToString());
-        Console.WriteLine(r2.origin.ConvertPointToString());
+        Console.WriteLine("\nraggio 2\n"+r2.direction.ConvertVecToString());
+        Console.WriteLine("normale 2\n"+r2.origin.ConvertPointToString());
+
+        var tr3 = Translation(new Vector(1, 0, 2)) * Rotation((float) (.5f*Math.PI), 'y');
         
-        var tr3 = Translation(new Vector(10.0f, .0f, .0f));
-        var s = new Sphere(tr3);
+        var tr_sph = Translation(new Vector(10.0f, .0f, .0f));
+        var s = new Sphere(tr_sph);
+        
         var hr1 = s.RayIntersection(r1);
         var hr2 = s.RayIntersection(r2);
         
@@ -252,17 +255,21 @@ public class TestSphere
             Console.WriteLine(p1.N.ConvertNormToString());
         }
 
-        if(hr2 != null)
+        if (hr2 != null)
         {
             var p2 = hr2.Value;
             Console.WriteLine("\nintersection 2:");
             Console.WriteLine(p2.WPoint.ConvertPointToString());
             Console.WriteLine(p2.N.ConvertNormToString());
         }
-        
 
-        //var p2 = hr2.Value;
-        //Debug.Assert(p2.WPoint.isClose(new Point(11, 0 , 0)));
+        var p_1 = hr1.Value;
+        Debug.Assert(p_1.WPoint.isClose(new Point(10, 0 , 1)));
+        Debug.Assert(p_1.N.isClose(new Normal(0, 0, 1)));
+        
+        var p_2 = hr2.Value;
+        Debug.Assert(p_2.WPoint.isClose(new Point(11, 0 , 0)));
+        Debug.Assert(p_2.N.isClose(new Normal(1, 0, 0)));
 
     }
 }

@@ -104,6 +104,11 @@ struct World
 {
     private List<IShape> Shapes;
 
+    public World()
+    {
+        Shapes = new List<IShape>();
+    }
+    
     public void Add(IShape myshape)
     {
         Shapes.Add(myshape);
@@ -117,13 +122,15 @@ struct World
         {
             HitRecord? intersection = shape.RayIntersection(ray);
 
-            if (intersection != null)
+            if (intersection == null)
                 continue;
             else
             {
                 var p = intersection.Value;
-                var q = closest.Value;
-                if (closest == null || p.T < q.T)
+                
+                if (closest == null)
+                    closest = intersection;
+                else if (p.T < closest.Value.T)
                     closest = intersection;
             }
         }
