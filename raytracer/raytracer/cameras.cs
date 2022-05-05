@@ -91,7 +91,7 @@ class ImgTracer
     public Ray FireRay(int a, int b, float uPix = .5f, float vPix = .5f)
     {
         float u = (a + uPix) / (this.img.w); //forse l'errore e' il -1
-        float v = 1 - (b + uPix) / (this.img.h); 
+        float v = 1 - (b + vPix) / (this.img.h); 
 
         return cam.FireRay(u, v);
     }

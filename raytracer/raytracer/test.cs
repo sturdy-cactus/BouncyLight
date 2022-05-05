@@ -231,13 +231,13 @@ public class TestSphere
         var cam = new OrthCamera(t: tr1);
         var r1 = cam.FireRay(.5f, .5f);
         Console.WriteLine("\nraggio 1\n"+r1.direction.ConvertVecToString());
-        Console.WriteLine("normale 1\n"+r1.origin.ConvertPointToString());
+        Console.WriteLine(r1.origin.ConvertPointToString());
         
         var tr2 = Translation(new Vector(12.0f, .0f, .0f)) * Rotation((float) Math.PI, 'z');
         cam = new OrthCamera(t:tr2);
         var r2 = cam.FireRay(.5f, .5f);
         Console.WriteLine("\nraggio 2\n"+r2.direction.ConvertVecToString());
-        Console.WriteLine("normale 2\n"+r2.origin.ConvertPointToString());
+        Console.WriteLine(r2.origin.ConvertPointToString());
 
         var tr3 = Translation(new Vector(1, 0, 2)) * Rotation((float) (.5f*Math.PI), 'y');
         
@@ -252,7 +252,7 @@ public class TestSphere
             var p1 = hr1.Value;
             Console.WriteLine("\nintersection 1:");
             Console.WriteLine(p1.WPoint.ConvertPointToString());
-            Console.WriteLine(p1.N.ConvertNormToString());
+            Console.WriteLine("normale 1\n"+p1.N.ConvertNormToString());
         }
 
         if (hr2 != null)
@@ -260,7 +260,7 @@ public class TestSphere
             var p2 = hr2.Value;
             Console.WriteLine("\nintersection 2:");
             Console.WriteLine(p2.WPoint.ConvertPointToString());
-            Console.WriteLine(p2.N.ConvertNormToString());
+            Console.WriteLine("normale 2\n"+p2.N.ConvertNormToString());
         }
 
         var p_1 = hr1.Value;
