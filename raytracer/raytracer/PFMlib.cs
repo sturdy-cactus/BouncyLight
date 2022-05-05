@@ -235,7 +235,7 @@ public class HdrImage
 
 	public void SaveLdrImg(string path)
 	{
-		HdrImage converted = this;//.TosRGB();
+		HdrImage converted = this.TosRGB();
 		//creazione di Bitmap
 		Bitmap bmp = new Bitmap(this.w, this.h);
 		for (int i = 0; i < this.w; i++)
