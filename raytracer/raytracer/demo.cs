@@ -17,36 +17,36 @@ struct demo
         var cam = new PerspCamera(t: ctrasf);
 
         var p = Translation(new Vector(-.5f, -.5f, -.5f));
-        mioMondo.Add(new Shapes.Sphere(scala * p));
-
+        mioMondo.Add(new Shapes.Sphere(p * scala));
+        
         p = Translation(new Vector(.5f, -.5f, -.5f));
-        mioMondo.Add(new Sphere(scala * p));
-
+        mioMondo.Add(new Sphere( p * scala));
+       
         p = Translation(new Vector(-.5f, .5f, -.5f));
-        mioMondo.Add(new Sphere(scala * p));
+        mioMondo.Add(new Sphere(p * scala));
 
         p = Translation(new Vector(-.5f, -.5f, .5f));
-        mioMondo.Add(new Sphere(scala * p));
+        mioMondo.Add(new Sphere(p * scala));
 
         p = Translation(new Vector(.5f, .5f, .5f));
-        mioMondo.Add(new Sphere(scala * p));
+        mioMondo.Add(new Sphere(p * scala));
 
         p = Translation(new Vector(.5f, .5f, -.5f));
-        mioMondo.Add(new Sphere(scala * p));
+        mioMondo.Add(new Sphere(p * scala));
 
         p = Translation(new Vector(.5f, -.5f, .5f));
-        mioMondo.Add(new Sphere(scala * p));
+        mioMondo.Add(new Sphere(p * scala));
 
         p = Translation(new Vector(-.5f, .5f, .5f));
-        mioMondo.Add(new Sphere(scala * p));
+        mioMondo.Add(new Sphere(p * scala));
 
         //sfere di controllo
         p = Translation(new Vector(0, 0, -.5f));
-        mioMondo.Add(new Sphere(scala * p));
+        mioMondo.Add(new Sphere(p * scala));
 
         p = Translation(new Vector(0, .5f, 0));
-        mioMondo.Add(new Sphere(scala * p));
-
+        mioMondo.Add(new Sphere(p * scala));
+        
         var myimg = new HdrImage(200, 200);
         var myTracer = new ImgTracer(myimg, cam);
 

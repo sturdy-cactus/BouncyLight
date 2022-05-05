@@ -46,7 +46,7 @@ class Sphere : IShape
         
         //end 
         hit.WPoint = this._tr * rayId.At(firstHit);
-        hit.N = this._tr * Sphere.SphereNormal( rayId.At(firstHit), rayId); //bug sotto rot?
+        hit.N = this._tr * Sphere.SphereNormal( rayId.At(firstHit), rayId); 
         hit.SPoint = SpherePointToUv(rayId.At(firstHit));
         
         hit.T = firstHit;
