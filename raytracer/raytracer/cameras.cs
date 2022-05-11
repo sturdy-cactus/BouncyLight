@@ -54,6 +54,7 @@ public class PerspCamera : ICamera
         this._a= a ?? 1.0f;
         this._d = d ?? 1.0f;
         this._t = t ?? new Transformation();
+
     }
     
     //METODI
@@ -88,6 +89,7 @@ public class ImgTracer
     
     //METODI
     public void FireAllRays(World world)
+
     {
         var color= new Color();
         var ray = new Ray();

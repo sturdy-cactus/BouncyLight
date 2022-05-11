@@ -28,6 +28,11 @@ internal static partial class Program
             
             TestSphere.TestIntersect();
             TestSphere.TestTransf();
+
+            
+            TestImgTracer.Test_uvSubmapping();
+            TestImgTracer.TestImageCoverage();
+            TestImgTracer.TestOrientation();
         }
 
         /*var app = new CommandLineApplication();
