@@ -115,7 +115,7 @@ public class ImgTracer
     }
     
     //PRIVATE METHODS
-    private Ray FireRay(int col, int row, float uPix = .5f, float vPix = .5f)
+    public Ray FireRay(int col, int row, float uPix = .5f, float vPix = .5f)
     {
         float u = (col + uPix) / (this.img.w); 
         float v = 1 - (row + vPix) / (this.img.h); 

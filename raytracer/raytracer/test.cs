@@ -3,7 +3,6 @@ using System.Net.Mime;
 using System.Numerics;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using geometry;
 using PFMlib;
 using static test.isClose;
 
@@ -281,7 +280,7 @@ public class TestSphere
 public class TestImgTracer
 {
     private static HdrImage image = new HdrImage(4, 2);
-    private static ICamera camera = new PerspCamera(aspectRatio: 2);
+    private static ICamera camera = new PerspCamera(a: 2);
     private static ImgTracer tracer = new ImgTracer(image, camera);
 
     public static void TestOrientation()
@@ -300,7 +299,7 @@ public class TestImgTracer
         Debug.Assert(ray1.isClose(ray2));
     }
 
-    public static void TestImageCoverage()
+    /*public static void TestImageCoverage()
     {
         tracer.FireAllRays(new Color(1,2,3));
         for (int i = 0; i < image.h; i++)
@@ -312,7 +311,7 @@ public class TestImgTracer
                 Debug.Assert(IsClose(image.GetPixel(i,j).b,3));
             }
         }
-    }
+    }*/
 
 }
 
