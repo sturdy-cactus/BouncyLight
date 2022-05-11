@@ -1,0 +1,6 @@
+﻿namespace PCG;
+
+struct PCG
+{
+    
+}
