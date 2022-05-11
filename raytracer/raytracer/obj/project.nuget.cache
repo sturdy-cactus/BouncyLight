@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "vUOOAgiRg1rym4WgpfRZCPZ7r9DSJ202rWQ6VPXP7U/nUqmnpwbW5YYhFSp1smLBUp+WGUbpMSdomAew3swtsw==",
+  "dgSpecHash": "0IwI/TwxCDsqCr8rmRFf31PBPMqDz7hpLwTr3Znwz+61OMZB1s73A7+1EtjgsXJX8TqFg2QvbXesxGDKu26kpg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\giuli\\Documents\\magistrale\\raytracing\\raytracer\\raytracer\\raytracer.csproj",
+  "projectFilePath": "C:\\Users\\Administrator\\RiderProjects\\BouncyLight\\raytracer\\raytracer\\raytracer.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\giuli\\.nuget\\packages\\microsoft.win32.systemevents\\6.0.0\\microsoft.win32.systemevents.6.0.0.nupkg.sha512",
-    "C:\\Users\\giuli\\.nuget\\packages\\system.drawing.common\\6.0.0\\system.drawing.common.6.0.0.nupkg.sha512"
+    "C:\\Users\\Administrator\\.nuget\\packages\\microsoft.visualstudio.testplatform\\14.0.0\\microsoft.visualstudio.testplatform.14.0.0.nupkg.sha512",
+    "C:\\Users\\Administrator\\.nuget\\packages\\microsoft.win32.systemevents\\6.0.0\\microsoft.win32.systemevents.6.0.0.nupkg.sha512",
+    "C:\\Users\\Administrator\\.nuget\\packages\\system.drawing.common\\6.0.0\\system.drawing.common.6.0.0.nupkg.sha512"
   ],
   "logs": []
 }

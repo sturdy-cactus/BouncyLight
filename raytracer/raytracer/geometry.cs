@@ -2,7 +2,8 @@ using System.Diagnostics;
 using System.Numerics;
 using static test.TestGeometry;
 
-namespace geometry;
+
+namespace Geometry;
 
 public struct Vector
 {
@@ -30,7 +31,23 @@ public struct Vector
     //METODI
     public string ConvertVecToString()
     {
-        string s = $"({this.x}, {this.y}, {this.z})";
+        float a, b, c;
+        if (IsClose(x, .0f))
+            a = .0f;
+        else
+            a = x;
+        
+        if (IsClose(y, .0f))
+            b = .0f;
+        else
+            b = y;
+        
+        if (IsClose(z, .0f))
+            c = .0f;
+        else
+            c = z;
+        
+        string s = $"({a}, {b}, {c})";
         return s;
     }
 
@@ -131,9 +148,25 @@ public struct Point
     }
 
     //METODI
-    public string toString()
+    public string ConvertPointToString()
     {
-        string s = $"(x = {x.ToString()}, y = {y.ToString()}, z = {z.ToString()})";
+        float a, b, c;
+        if (IsClose(x, .0f))
+            a = .0f;
+        else
+            a = x;
+        
+        if (IsClose(y, .0f))
+            b = .0f;
+        else
+            b = y;
+        
+        if (IsClose(z, .0f))
+            c = .0f;
+        else
+            c = z;
+        
+        string s = $"(x = {a}, y = {b}, z = {c})";
         return s;
     }
 
@@ -211,7 +244,23 @@ public struct Normal
     //METODI
     public string ConvertNormToString()
     {
-        string s = $"({this.x}, {this.y}, {this.z})";
+        float a, b, c;
+        if (IsClose(x, .0f))
+            a = .0f;
+        else
+            a = x;
+        
+        if (IsClose(y, .0f))
+            b = .0f;
+        else
+            b = y;
+        
+        if (IsClose(z, .0f))
+            c = .0f;
+        else
+            c = z;
+        
+        string s = $"({a}, {b}, {c})";
         return s;
     }
 
@@ -353,10 +402,10 @@ public struct Transformation
         return new Transformation(m,invm);
     }
 
-    public static Transformation Rotation(float angle, char direction)
+    public static Transformation Rotation(float angle, char axis)
     {
         var t = new Transformation();
-        switch (direction)
+        switch (axis)
         {
             case 'x':
                 t.m = Matrix4x4.CreateRotationX(angle);
@@ -371,7 +420,7 @@ public struct Transformation
                 //t.invm = Matrix4x4.CreateRotationZ(-angle);
                 break;
             default:
-                Console.WriteLine("Invalid direction"); //sistemare eccezione
+                Console.WriteLine("Invalid direction"); //fix exception
                 Environment.Exit(11);
                 break;
         }
@@ -387,16 +436,16 @@ public struct Transformation
         return new Transformation(m, invm);
     }
 
-    public Matrix4x4 Inverse()
+    public Transformation Inverse()
     {
-        return this.invm;;
+        return new Transformation(this.invm, this.m);
     }
 
     //OPERATORI
     public static Transformation operator *(Transformation A, Transformation B)
     {
         var m = A.m * B.m;
-        Matrix4x4 invm;
+        var invm = new Matrix4x4();
         Matrix4x4.Invert(m, out invm);
         
         return new Transformation(m, invm);
@@ -421,19 +470,97 @@ public struct Transformation
         mat = Matrix4x4.Transpose(mat);
         
         return new Normal(
-            x: n.x*mat.M11*n.y*mat.M12*n.z*mat.M13+mat.M14,
-            y: n.x*mat.M21*n.y*mat.M22*n.z*mat.M23+mat.M24,
-            z: n.x*mat.M31*n.y*mat.M32*n.z*mat.M33+mat.M34);
+            x: n.x * mat.M11 + n.y * mat.M12 + n.z * mat.M13,
+            y: n.x * mat.M21 + n.y * mat.M22 + n.z * mat.M23,
+            z: n.x * mat.M31 + n.y * mat.M32 + n.z * mat.M33);
     }
 
     public static Vector operator *(Transformation A, Vector v)
     {
         var mat = A.m;
         var vec = new Vector(
-            x: v.x * mat.M11 + v.y*mat.M12 + v.z*mat.M13,
+            x: v.x * mat.M11 + v.y*mat.M12 + v.z * mat.M13,
             y: v.x * mat.M21 + v.y*mat.M22 + v.z * mat.M23,
-            z: v.x * mat.M31 + v.y*mat.M32 + v.z*mat.M33);
+            z: v.x * mat.M31 + v.y*mat.M32 + v.z * mat.M33);
+
         
         return new Vector(vec.x, vec.y, vec.z);
     }
+}
+
+public struct Vector2D
+{
+    //MEMBRI
+    private float x;
+    private float y;
+
+    //COSTRUTTORE DEFAULT
+    public Vector2D()
+    {
+        x = .0f;
+        y = .0f;
+    }
+
+    //COSTRUTTORE
+    public Vector2D(float x, float y)
+    {
+        this.x = x;
+        this.y = y;
+    }
+
+    //METODI
+    public string ConvertVecToString()
+    {
+        string s = $"({this.x}, {this.y})";
+        return s;
+    }
+
+    public float GetU()
+    {
+        return this.x;
+    }
+    
+    public float GetV()
+    {
+        return this.y;
+    }
+    
+    public void SetU(float u)
+    {
+        this.x = u;
+    }
+    
+    public void SetV(float v)
+    {
+        this.x = v;
+    }
+
+    //OPERATORI
+    public static Vector2D operator +(Vector2D v1, Vector2D v2)
+    {
+        var sum = new Vector2D(v1.x + v2.x, v1.y + v2.y);
+        
+        return sum;
+    }
+
+    public static Vector2D operator -(Vector2D v1, Vector2D v2)
+    {
+        var diff = new Vector2D(v1.x - v2.x, v1.y - v2.y);
+
+        return diff;
+    }
+
+    public static Vector2D operator *(float a, Vector2D v)
+    {
+        var p = new Vector2D(v.x * a, v.y * a);
+        
+        return p;
+    }
+
+    public static float operator *(Vector2D v1, Vector2D v2)
+    {
+        float dotprod = v1.x * v2.x + v1.y * v2.y;
+        return dotprod;
+    }
+
 }

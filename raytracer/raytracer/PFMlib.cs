@@ -20,11 +20,11 @@ public struct Color
 	}
 
 	//COSTRUTTORE 
-	public Color(float x, float y, float z)
+	public Color(float r, float g, float b)
     {
-		r = x;
-		g = y;
-		b = z;
+		this.r = r;
+		this.g = g;
+		this.b = b;
     }
 
 	//METODI
@@ -61,11 +61,11 @@ public class HdrImage
 	public Color[] pixels;
 
 	//COSTRUTTORE BASE
-	public HdrImage(int a, int b)
+	public HdrImage(int w, int h)
     {
-		w = a;
-		h = b;
-		pixels = new Color[a*b];
+		this.w = w;
+		this.h = h;
+		pixels = new Color[w*h];
     }
 
 	//COSTRUTTORE DA PATH
@@ -235,7 +235,7 @@ public class HdrImage
 
 	public void SaveLdrImg(string path)
 	{
-		HdrImage converted = this;//.TosRGB();
+		HdrImage converted = this.TosRGB();
 		//creazione di Bitmap
 		Bitmap bmp = new Bitmap(this.w, this.h);
 		for (int i = 0; i < this.w; i++)

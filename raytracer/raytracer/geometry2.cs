@@ -1,3 +1,4 @@
+/*
 using System.Diagnostics;
 using System.Numerics;
 using System.Reflection;
@@ -144,3 +145,4 @@ public struct Transformation
             z: n.x*mat.M31*n.y*mat.M32*n.z*mat.M33+mat.M34);
     }
 }
+*/
