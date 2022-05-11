@@ -1,6 +1,5 @@
 using Cameras;
 using Geometry;
->>>>>>> origin/pathtracing
 using PFMlib;
 
 namespace BRDF;
@@ -9,6 +8,12 @@ public interface IBRDF
 {
  public Color Eval(Normal n, Vector inw, Vector outw, Vector2D uv);
 }
+
+public interface IPigment
+{
+    public Color GetColor(Vector2D vec);
+}
+
 
 public class DiffusedBRDF : IBRDF
 {
@@ -19,13 +24,8 @@ public class DiffusedBRDF : IBRDF
  //METHODS
  public Color Eval(Normal n, Vector inw, Vector outw, Vector2D uv)
  {
-  return this.Reflectance * this.P.GetColor(uv) / (float)Math.PI;
+  return (this.Reflectance/ (float)Math.PI) * this.P.GetColor(uv) ;
  }
-}
-
-public interface IPigment
-{
-    public Color GetColor(Vector2D vec);
 }
 
 public class UniformPigment : IPigment

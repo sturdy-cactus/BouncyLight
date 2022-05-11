@@ -50,6 +50,13 @@ public struct Color
     {	//correzione_bug: c'era un segno +!
 		return (Math.Max(this.r, Math.Max(this.g, this.b)) - Math.Min(this.r, Math.Min(this.g, this.b))) / 2f;
     }
+	
+	//OPERATORS
+	public static Color operator *(float a, Color c)
+	{
+		var color = new Color(a*c.r, a*c.g, a*c.b);
+		return color;
+	}
 }
 
 public class HdrImage 	
