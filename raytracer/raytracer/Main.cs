@@ -60,7 +60,7 @@ internal static partial class Program
                 break;
         }
     }
-
+    
     public class Parameters
     {
         public string mode = "";
