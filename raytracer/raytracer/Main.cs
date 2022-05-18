@@ -37,6 +37,8 @@ internal static partial class Program
             //RandomNumber.test.testRand();
         }
 
+        
+        
         /*var app = new CommandLineApplication();
         var myArgs = app.Arguments;
         Console.WriteLine(myArgs+"\n");*/
@@ -53,10 +55,10 @@ internal static partial class Program
                 break;
             
             case "demo":
-                /*var res = myParams.resolution.Split("x");
+                var res = myParams.resolution.Split("x");
                 var hres = int.Parse(res[0]);
-                var vres = int.Parse(res[1]);*/
-                demo.demo.test();
+                var wres = int.Parse(res[1]);
+                demo.demo.test(hres, wres, myParams.angle, myParams.output_file_name);
                 break;
         }
     }
@@ -68,7 +70,8 @@ internal static partial class Program
         public float factor = 0.2f;
         public float gamma = 1;
         public string output_file_name = "";
-        //public string resolution = "";
+        public string resolution = "";
+        public float angle = .0f;
         
         public Parameters(string[] args)
         {
@@ -100,7 +103,22 @@ internal static partial class Program
 
                     case "demo":
                     {
-                        mode = args[0];
+                        try
+                        {
+                            mode = args[0];
+                            resolution = args[1];
+                            angle = float.Parse(args[2],
+                                CultureInfo.InvariantCulture);
+                            output_file_name = args[3];
+
+                        }
+                        catch (Exception)
+                        {
+                            Console.WriteLine(
+                                "usage: ha ha");
+                            throw;
+                        }
+                        //mode = args[0];
                         //resolution = args[1];
                         break;
                     }

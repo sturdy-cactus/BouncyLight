@@ -8,12 +8,13 @@ namespace demo;
 
 public struct demo
 {
-    public static void test()
+    //da aggiustare aspect ratio e scambio h w
+    public static void test(int height, int width, float angle, string outfile)
     {
         var scala = Scaling(new Vector(.1f, .1f, .1f));
         World mioMondo = new World();
         
-        var ctrasf = Translation(new Vector(-1, 0, 0));
+        var ctrasf = Rotation(angle * (float) Math.PI/180.0f, 'z') * Translation(new Vector(-1, 0, 0));
         var cam = new PerspCamera(a: 16f / 9f, t: ctrasf);
 
         for (var i = -.5f; i < 1; i++)
@@ -35,12 +36,12 @@ public struct demo
         q = Translation(new Vector(0, .5f, 0));
         mioMondo.Add(new Sphere(q * scala));
         
-        var myimg = new HdrImage(960, 540);
+        var myimg = new HdrImage(width, height);
         var myTracer = new ImgTracer(myimg, cam);
 
         myTracer.FireAllRays(mioMondo);
 
-        myimg.SaveLdrImg("sfere.jpg");
+        myimg.SaveLdrImg(outfile);
         
     }
 }
