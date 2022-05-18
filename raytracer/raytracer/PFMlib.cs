@@ -243,18 +243,18 @@ public class HdrImage
 	public void SaveLdrImg(string path)
 	{
 		HdrImage converted = this.TosRGB();
-		//creazione di Bitmap
+		//creation di Bitmap
 		Bitmap bmp = new Bitmap(this.w, this.h);
 		for (int i = 0; i < this.w; i++)
 		{
 			for (int j = 0; j < this.h; j++)
 			{
-				System.Drawing.Color colore = System.Drawing.Color.FromArgb((int) converted.GetPixel(j, i).r,
+				System.Drawing.Color color = System.Drawing.Color.FromArgb((int) converted.GetPixel(j, i).r,
 					(int) converted.GetPixel(j, i).g, (int) converted.GetPixel(j, i).b);
-				bmp.SetPixel(i, j, colore);
+				bmp.SetPixel(i, j, color);
 			}
 		}
-		//ottenere vero nome file e tipo
+		//obtain vero nome file e type
 		string nome = path.Split('\\').Last();
 		string type = path.Split('.').Last();
 

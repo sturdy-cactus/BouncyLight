@@ -25,7 +25,9 @@ public class Sphere : IShape
         //prep
         float firstHit;
         var hit = new HitRecord();
-        rayId = this._tr.Inverse() * rayId;
+        this._tr.Inverse();
+        rayId = this._tr * rayId;
+        this._tr.Inverse();
         var o = rayId.Origin.ToVector();
 
         //body
@@ -111,14 +113,14 @@ public struct World
         Shapes.Add(shape);
     }
 
-    public HitRecord? RayIntersection(Ray ray)
+    public HitRecord? RIntersection(Ray ray)
     {
         HitRecord? closest = null;
         
         foreach (var shape in Shapes)
         {
             HitRecord? intersection = shape.RayIntersection(ray);
-
+            
             if (intersection == null)
                 continue;
             else

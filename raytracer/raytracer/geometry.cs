@@ -31,23 +31,7 @@ public struct Vector
     //METODI
     public string ConvertVecToString()
     {
-        float a, b, c;
-        if (IsClose(x, .0f))
-            a = .0f;
-        else
-            a = x;
-        
-        if (IsClose(y, .0f))
-            b = .0f;
-        else
-            b = y;
-        
-        if (IsClose(z, .0f))
-            c = .0f;
-        else
-            c = z;
-        
-        string s = $"({a}, {b}, {c})";
+        string s = $"({this.x}, {this.y}, {this.z})";
         return s;
     }
 
@@ -360,7 +344,7 @@ public struct Transformation
         m = Matrix4x4.Identity;
         invm = Matrix4x4.Identity;
     }
-    
+
     //alternative ctor
     public Transformation(Matrix4x4 m)
     {
@@ -436,10 +420,18 @@ public struct Transformation
         return new Transformation(m, invm);
     }
 
-    public Transformation Inverse()
+    public void Inverse()
+    {
+        Matrix4x4 temp = m;
+        this.m = this.invm;
+        this.invm = temp;
+    }
+
+    public Transformation InvTransformation()
     {
         return new Transformation(this.invm, this.m);
     }
+    
 
     //OPERATORI
     public static Transformation operator *(Transformation A, Transformation B)

@@ -41,5 +41,6 @@ public struct demo
         myTracer.FireAllRays(mioMondo);
 
         myimg.SaveLdrImg("sfere.jpg");
+        
     }
 }

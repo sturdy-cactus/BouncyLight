@@ -89,7 +89,6 @@ public class ImgTracer
     
     //METODI
     public void FireAllRays(World world)
-
     {
         var color= new Color();
         var ray = new Ray();
@@ -102,8 +101,8 @@ public class ImgTracer
             
             for (int row = 0; row < img.h; row++)
             {
-                ray = this.FireRay(col, row);
-                var hr = world.RayIntersection(ray);
+                ray = this.FRay(col, row);
+                var hr = world.RIntersection(ray);
                 if (hr == null)
                     color = new Color();
                 else
@@ -114,8 +113,8 @@ public class ImgTracer
         }
     }
     
-    //PRIVATE METHODS
-    public Ray FireRay(int col, int row, float uPix = .5f, float vPix = .5f)
+    //INTERNAL METHODS
+    public Ray FRay(int col, int row, float uPix = .5f, float vPix = .5f)
     {
         float u = (col + uPix) / (this.img.w); 
         float v = 1 - (row + vPix) / (this.img.h); 
