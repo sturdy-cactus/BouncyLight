@@ -43,35 +43,35 @@ internal static partial class Program
         var myArgs = app.Arguments;
         Console.WriteLine(myArgs+"\n");*/
         
-        Parameters myParams = new Parameters(args);
+        var myParams = new Parameters(args);
 
-        switch (myParams.mode)
+        switch (myParams.Mode)
         {
             case "PFMtoimg":
-                HdrImage myImage = new HdrImage(path: myParams.input_file_name);
+                HdrImage myImage = new HdrImage(path: myParams.InputFileName);
 
-                HdrImage converted = myImage.TosRGB(factor: myParams.factor, gamma: myParams.gamma);
-                converted.SaveLdrImg(myParams.output_file_name);
+                HdrImage converted = myImage.TosRGB(factor: myParams.Factor, gamma: myParams.Gamma);
+                converted.SaveLdrImg(myParams.OutputFileName);
                 break;
             
             case "demo":
-                var res = myParams.resolution.Split("x");
-                var hres = int.Parse(res[0]);
-                var wres = int.Parse(res[1]);
-                demo.demo.test(hres, wres, myParams.angle, myParams.output_file_name);
+                var res = myParams.Resolution.Split("x");
+                var width = int.Parse(res[0]);
+                var height = int.Parse(res[1]);
+                demo.demo.test(width, height, myParams.Angle, myParams.OutputFileName);
                 break;
         }
     }
     
     public class Parameters
     {
-        public string mode = "";
-        public string input_file_name = "";
-        public float factor = 0.2f;
-        public float gamma = 1;
-        public string output_file_name = "";
-        public string resolution = "";
-        public float angle = .0f;
+        public readonly string Mode = "";
+        public readonly string InputFileName = "";
+        public readonly float Factor = 0.2f;
+        public readonly float Gamma = 1;
+        public readonly string OutputFileName = "";
+        public readonly string Resolution = "";
+        public readonly float Angle = .0f;
         
         public Parameters(string[] args)
         {
@@ -83,12 +83,12 @@ internal static partial class Program
                     {
                         try
                         {
-                            mode = args[0];
-                            input_file_name = args[1];
-                            factor = float.Parse(args[2],
+                            Mode = args[0];
+                            InputFileName = args[1];
+                            Factor = float.Parse(args[2],
                                 CultureInfo.InvariantCulture); //altrimenti pensa che debba usare la virgola!
-                            gamma = float.Parse(args[3], CultureInfo.InvariantCulture);
-                            output_file_name = args[4];
+                            Gamma = float.Parse(args[3], CultureInfo.InvariantCulture);
+                            OutputFileName = args[4];
                         }
                         catch (Exception)
                         {
@@ -105,21 +105,16 @@ internal static partial class Program
                     {
                         try
                         {
-                            mode = args[0];
-                            resolution = args[1];
-                            angle = float.Parse(args[2],
-                                CultureInfo.InvariantCulture);
-                            output_file_name = args[3];
-
+                            Mode = args[0];
+                            Resolution = args[1];
+                            Angle = float.Parse(args[2], CultureInfo.InvariantCulture);
+                            OutputFileName = args[3];
                         }
                         catch (Exception)
                         {
-                            Console.WriteLine(
-                                "usage: ha ha");
+                            Console.WriteLine("usage: raytracer.exe demo \"widthxheight\" angle \"output_file_name\"");
                             throw;
                         }
-                        //mode = args[0];
-                        //resolution = args[1];
                         break;
                     }
 
