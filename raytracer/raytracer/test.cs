@@ -280,40 +280,40 @@ public class TestSphere
 
 public class TestImgTracer
 {
-    private static HdrImage image = new HdrImage(4, 2);
-    private static ICamera camera = new PerspCamera(a: 2);
-    private static ImgTracer tracer = new ImgTracer(image, camera);
+    private static HdrImage _image = new HdrImage(4, 2);
+    private static ICamera _camera = new PerspCamera(a: 2);
+    private static ImgTracer _tracer = new ImgTracer(_image, _camera);
 
     public static void TestOrientation()
     {
-        var top_leftRay = tracer.FRay(0, 0, 0, 0);
+        var top_leftRay = _tracer.FRay(0, 0, 0, 0);
         Debug.Assert(top_leftRay.At(1).isClose(new Point(0, 2, 1)));
 
-        var bottom_rightRay = tracer.FRay(3, 1, 1, 1);
+        var bottom_rightRay = _tracer.FRay(3, 1, 1, 1);
         Debug.Assert(bottom_rightRay.At(1).isClose(new Point(0, -2, -1)));
     }
 
     public static void Test_uvSubmapping()
     {
-        var ray1 = tracer.FRay(0, 0, 2.5f, 1.5f);
-        var ray2 = tracer.FRay(2, 1, 0.5f, 0.5f);
+        var ray1 = _tracer.FRay(0, 0, 2.5f, 1.5f);
+        var ray2 = _tracer.FRay(2, 1, 0.5f, 0.5f);
         Debug.Assert(ray1.isClose(ray2));
     }
-/*
+
     public static void TestImageCoverage()
     {
-        tracer.FireAllRays(new Color(1,2,3));
-        for (int i = 0; i < image.h; i++)
+        var world = new World();
+        _tracer.FireAllRays(world, new Color(1,2,3));
+        for (int i = 0; i < _image.h; i++)
         {
-            for (int j = 0; j < image.w; j++)
+            for (int j = 0; j < _image.w; j++)
             {
-                Debug.Assert(IsClose(image.GetPixel(i,j).r,1));
-                Debug.Assert(IsClose(image.GetPixel(i,j).g,2));
-                Debug.Assert(IsClose(image.GetPixel(i,j).b,3));
+                Debug.Assert(IsClose(_image.GetPixel(i,j).r,1));
+                Debug.Assert(IsClose(_image.GetPixel(i,j).g,2));
+                Debug.Assert(IsClose(_image.GetPixel(i,j).b,3));
             }
         }
     }
-*/
 }
 
 

@@ -31,7 +31,7 @@ internal static partial class Program
 
             
             TestImgTracer.Test_uvSubmapping();
-           // TestImgTracer.TestImageCoverage();
+            //TestImgTracer.TestImageCoverage();
             TestImgTracer.TestOrientation();
             
             //RandomNumber.test.testRand();

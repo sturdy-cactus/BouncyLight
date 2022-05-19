@@ -88,9 +88,11 @@ public class ImgTracer
     }
     
     //METODI
-    public void FireAllRays(World world)
+    public void FireAllRays(World world, Color? background = null)
     {
-        var color= new Color();
+        var color = background ?? new Color();
+        var colorOff = color;
+        var colorOn = new Color(1, 1, 1);
         var ray = new Ray();
         var progress = img.w / 40;
         Console.WriteLine("\ngenerazione dell'immagine in corso...\n________________________________________");
@@ -104,9 +106,13 @@ public class ImgTracer
                 ray = this.FRay(col, row);
                 var hr = world.RIntersection(ray);
                 if (hr == null)
-                    color = new Color();
+                    color = colorOff;
                 else
-                    color = new Color(1, 1, 1);
+                    color = colorOn;
+                    //if (hr == null)
+                  //  color = new Color();
+                //else
+                  //  color = new Color(1, 1, 1);
 
                 this.img.SetPixel(color, row, col);
             }
