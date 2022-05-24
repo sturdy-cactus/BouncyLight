@@ -41,7 +41,7 @@ public struct demo
         mioMondo.Add(new Sphere(q * scala, new Material(scacchi2)));
 
 
-        mioMondo.Add(new Plane(tr: Rotation(1,'x'),mat: new Material(new UniformPigment(new Color(255,255,255)))));
+        mioMondo.Add(new Plane(tr: Rotation((float)(Math.PI),'x')*Translation(new Vector(0,0,1)),mat: new Material(scacchi1)));
         
         var myimg = new HdrImage(width, height);
         var myTracer = new ImgTracer(myimg, cam);
@@ -49,6 +49,10 @@ public struct demo
         myTracer.FlatRenderer(mioMondo);
         
         myimg.SaveLdrImg(outfile,lum:20);
-        
+
+        mioMondo = new World();
+        myTracer.OnAndOffRenderer(mioMondo,background:new Color(1,2,3));
+        myimg.SaveLdrImg("testvuoto.png");
+
     }
 }
