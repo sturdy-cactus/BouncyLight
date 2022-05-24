@@ -88,7 +88,7 @@ public class ImgTracer
     }
     
     //METODI
-    public void FireAllRays(World world, Color? background = null)
+    public void OnAndOffRenderer(World world, Color? background = null)
     {
         var color = background ?? new Color();
         var colorOff = color;
@@ -113,6 +113,37 @@ public class ImgTracer
                   //  color = new Color();
                 //else
                   //  color = new Color(1, 1, 1);
+
+                this.img.SetPixel(color, row, col);
+            }
+        }
+    }
+
+    public void FlatRenderer(World world, Color? background = null)
+    {
+        var color = background ?? new Color();
+        var colorOff = color;
+        var colorOn = new Color(1, 1, 1);
+        var ray = new Ray();
+        var progress = img.w / 40;
+        Console.WriteLine("\ngenerazione dell'immagine in corso...\n________________________________________");
+        for (int col = 0; col < img.w; col++)
+        {
+            if (col % progress == 0)
+                Console.Write("*");
+
+            for (int row = 0; row < img.h; row++)
+            {
+                ray = this.FRay(col, row);
+                HitRecord? hr = world.RIntersection(ray);
+                if (!hr.HasValue)
+                    color = colorOff;
+                else
+                {
+                    var mat = hr.Value.Mat;
+                    color = mat.emitted_radiance.GetColor(hr.Value.SPoint);
+                }
+                
 
                 this.img.SetPixel(color, row, col);
             }

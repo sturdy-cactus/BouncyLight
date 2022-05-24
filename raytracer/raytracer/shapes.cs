@@ -1,25 +1,34 @@
-﻿using Geometry;
+﻿using BRDF;
+using Geometry;
 using Cameras;
 
 namespace Shapes;
 
 public interface IShape
 {
+    public Material GetMaterial();
     public HitRecord? RayIntersection(Ray ray);
 }
 
 public class Sphere : IShape
 {
     //MEMBERS
+    public Material material;
     private Transformation _tr;
     
     //CONSTRUCTOR
-    public Sphere(Transformation? tr = null)
+    public Sphere(Transformation? tr = null, Material? mat = null)
     {
         this._tr = tr ?? new Transformation();
+        this.material = mat ?? new Material();
     }
 
     //METHODS
+    public Material GetMaterial()
+    {
+        return material;
+    }
+    
     public HitRecord? RayIntersection(Ray rayId)
     {
         //prep
@@ -87,15 +96,17 @@ public struct HitRecord
     public Vector2D SPoint;
     public float T;
     public Ray Ray;
+    public Material Mat;
     
     //CONSTRUCTOR
-    public HitRecord(Point? wPoint = null, Normal? n = null, Vector2D? sPoint = null, float? t = null, Ray? ray = null)
+    public HitRecord(Point? wPoint = null, Normal? n = null, Vector2D? sPoint = null, float? t = null, Ray? ray = null, Material? mat=null)
     {
         this.WPoint = wPoint ?? new Point();
         this.N = n ?? new Normal();
         this.SPoint = sPoint ?? new Vector2D();
         this.T = t ?? .0f;
         this.Ray = ray ?? new Ray();
+        this.Mat = mat ?? new Material();
     }
 }
 
@@ -120,17 +131,18 @@ public struct World
         foreach (var shape in Shapes)
         {
             HitRecord? intersection = shape.RayIntersection(ray);
-            
+
             if (intersection == null)
                 continue;
             else
             {
                 var p = intersection.Value;
+                p.Mat = shape.GetMaterial();
                 
                 if (closest == null)
-                    closest = intersection;
+                    closest = p;
                 else if (p.T < closest.Value.T)
-                    closest = intersection;
+                    closest = p;
             }
         }
         

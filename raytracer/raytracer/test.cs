@@ -303,7 +303,7 @@ public class TestImgTracer
     public static void TestImageCoverage()
     {
         var world = new World();
-        _tracer.FireAllRays(world, new Color(1,2,3));
+        _tracer.OnAndOffRenderer(world, new Color(1,2,3));
         for (int i = 0; i < _image.h; i++)
         {
             for (int j = 0; j < _image.w; j++)

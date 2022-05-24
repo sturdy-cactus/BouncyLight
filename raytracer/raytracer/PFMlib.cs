@@ -240,9 +240,10 @@ public class HdrImage
 		return Normalized;
 	}
 
-	public void SaveLdrImg(string path)
+	public void SaveLdrImg(string path, float? lum=null)
 	{
-		HdrImage converted = this.TosRGB();
+		var luminosity = lum ?? Avg_Lum();
+		HdrImage converted = this.TosRGB(luminosity:luminosity);
 		//creation di Bitmap
 		Bitmap bmp = new Bitmap(this.w, this.h);
 		for (int i = 0; i < this.w; i++)

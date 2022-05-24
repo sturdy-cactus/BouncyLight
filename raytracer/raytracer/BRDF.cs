@@ -17,15 +17,15 @@ public interface IPigment
 
 public class DiffusedBRDF : IBRDF
 {
- //MEMBERS
- public IPigment P;
- public float Reflectance;
- 
- //METHODS
- public Color Eval(Normal n, Vector inw, Vector outw, Vector2D uv)
- {
-  return (this.Reflectance/ (float)Math.PI) * this.P.GetColor(uv) ;
- }
+    //MEMBERS
+    public IPigment P;
+    public float Reflectance;
+
+    //METHODS
+    public Color Eval(Normal n, Vector inw, Vector outw, Vector2D uv)
+    {
+        return (this.Reflectance / (float) Math.PI) * this.P.GetColor(uv);
+    }
 }
 
 public class UniformPigment : IPigment
@@ -88,5 +88,17 @@ public class ImagePigment : IPigment
             row = img.h - 1;
 
         return img.GetPixel(row, col);
+    }
+}
+
+public struct Material
+{
+    public IBRDF brdf = new DiffusedBRDF();
+    public IPigment emitted_radiance = new UniformPigment(new Color(0, 0, 0));
+
+    public Material(IPigment emittedRadiance, IBRDF? brdf = null)
+    {
+        this.brdf = brdf ?? new DiffusedBRDF();
+        this.emitted_radiance = emittedRadiance;
     }
 }
