@@ -39,6 +39,9 @@ public struct demo
         q = Translation(new Vector(0, .5f, 0));
         var scacchi2 = new CheckeredPigment(new Color(132, 60, 20), new Color(120, 12, 255),2);
         mioMondo.Add(new Sphere(q * scala, new Material(scacchi2)));
+
+
+        mioMondo.Add(new Plane(tr: Rotation(1,'x'),mat: new Material(new UniformPigment(new Color(255,255,255)))));
         
         var myimg = new HdrImage(width, height);
         var myTracer = new ImgTracer(myimg, cam);

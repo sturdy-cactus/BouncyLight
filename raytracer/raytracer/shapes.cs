@@ -10,6 +10,51 @@ public interface IShape
     public HitRecord? RayIntersection(Ray ray);
 }
 
+public class Plane : IShape
+{
+    //MEMBERS
+    public Material material;
+    private Transformation _tr;
+    
+    //CONSTRUCTOR
+    public Plane (Transformation? tr = null, Material? mat = null)
+    {
+        this._tr = tr ?? new Transformation();
+        this.material = mat ?? new Material();
+    }
+
+    public Material GetMaterial()
+    {
+        return material;
+    }
+    
+    public HitRecord? RayIntersection(Ray rayId)
+    {
+        this._tr.Inverse();
+        var ray = rayId;
+        rayId = this._tr * rayId;
+        this._tr.Inverse();
+
+        if (Math.Abs(rayId.Direction.z) < 1e-5)
+            return null;
+
+        var t = -rayId.Origin.z / rayId.Direction.z;
+        if (t <= rayId.TMin || t >= rayId.TMax)
+            return null;
+
+        var HitPoint = rayId.At(t);
+        
+        var z = 1;
+        if (rayId.Direction.z > 0)
+            z = -1;
+
+        return new HitRecord(wPoint: _tr * HitPoint, n: _tr * new Normal(0, 0, z),
+            sPoint: new Vector2D((float)(HitPoint.x - Math.Floor(HitPoint.x)), (float)(HitPoint.y - Math.Floor(HitPoint.y))), t: t,
+            ray: ray, mat: material);
+
+    }
+}
+
 public class Sphere : IShape
 {
     //MEMBERS
