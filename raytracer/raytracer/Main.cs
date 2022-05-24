@@ -34,14 +34,11 @@ internal static partial class Program
             //TestImgTracer.TestImageCoverage();
             TestImgTracer.TestOrientation();
             
-            //RandomNumber.test.testRand();
+            RandomNumber.test.testRand();
+            ONB.test.TestONB();
         }
 
         
-        
-        /*var app = new CommandLineApplication();
-        var myArgs = app.Arguments;
-        Console.WriteLine(myArgs+"\n");*/
         
         var myParams = new Parameters(args);
 

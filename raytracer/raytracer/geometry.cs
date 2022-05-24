@@ -248,6 +248,11 @@ public struct Normal
         return s;
     }
 
+    public Vector ToVector(Normal normal)
+    {
+        return new Vector(normal.x, normal.y, normal.z);
+    }
+
     public bool isClose(Normal a)
     {
         return (IsClose(a.x, this.x) && IsClose(a.y, this.y) && IsClose(a.z, this.z));
