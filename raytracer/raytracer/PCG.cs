@@ -5,9 +5,11 @@ namespace RandomNumber;
 
     public struct PCG
     {
+        //MEMBERS
         public ulong state;
         public ulong inc;
 
+        //CONSTURCTORS
         //dovrebbe essere ridondante, ma non lo è!
         public PCG()
         {
@@ -32,7 +34,8 @@ namespace RandomNumber;
             state += initState;
             this.Random();
         }
-
+        
+        //METHODS   
         public uint Random()
         {
             ulong oldstate = state;
@@ -47,9 +50,9 @@ namespace RandomNumber;
             return result;
         }
 
-        public float randomFloat()
+        public float RandomFloat()
         {
-            return Random() / 0xffffffff;
+            return (float)Random() / 0xffffffff;
         }
     }
 

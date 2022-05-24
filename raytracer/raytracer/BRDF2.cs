@@ -17,7 +17,6 @@ public interface IPigment
     public Color GetColor(Vector2D vec);
 }
 
-
 public class DiffusedBRDF : IBRDF
 {
     //MEMBERS
