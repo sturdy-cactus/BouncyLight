@@ -109,10 +109,6 @@ public class ImgTracer
                     color = colorOff;
                 else
                     color = colorOn;
-                    //if (hr == null)
-                  //  color = new Color();
-                //else
-                  //  color = new Color(1, 1, 1);
 
                 this.img.SetPixel(color, row, col);
             }
