@@ -32,10 +32,10 @@ public class DiffusedBRDF : IBRDF
     public Ray ScatterRay(PCG pcg, Vector IncDirection, Point IntPoint, Normal normal, int depth)
     {
         var basis = new ONB(normal);
-        var cosThetaSq = pcg.randomFloat();
+        var cosThetaSq = pcg.RandomFloat();
         var cosTheta = (float)Math.Sqrt(cosThetaSq);
         var sinTheta = (float)Math.Sqrt(1 - cosThetaSq);
-        var phi = 2 * Math.PI * pcg.randomFloat();
+        var phi = 2 * Math.PI * pcg.RandomFloat();
 
         var dir = (float)(Math.Cos(phi) * cosTheta)*basis.e1 + (float)(Math.Sin(phi) * cosTheta)*basis.e2 + sinTheta*basis.e3;
 
@@ -61,8 +61,11 @@ public class SpecularBRDF : IBRDF
     {
         var direction = IncDirection;
         direction.Normalize();
-        var norm = normal.ToVector.Normalize();
+        var norm = normal.ToVector();
+        norm.Normalize();
         var scalar = norm * direction;
+
+        return new Ray(origin:IntPoint,direction:direction-2*scalar*norm,tMin:1e-5f,tMax:float.PositiveInfinity,depth:depth);
     }
 }
 

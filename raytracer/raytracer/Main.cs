@@ -35,7 +35,7 @@ internal static partial class Program
             TestImgTracer.TestOrientation();
             
             RandomNumber.test.testRand();
-            ONB.test.TestONB();
+            OrthoNormalBasis.test.TestONB();
         }
 
         
