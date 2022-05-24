@@ -1,6 +1,6 @@
 ﻿using Geometry;
 
-namespace ONB;
+namespace OrthoNormalBasis;
 
 struct ONB
 {

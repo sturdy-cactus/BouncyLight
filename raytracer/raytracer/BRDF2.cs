@@ -1,12 +1,15 @@
 ﻿using Cameras;
 using Geometry;
+using OrthoNormalBasis;
 using PFMlib;
+using RandomNumber;
 
 namespace BRDF;
 
 public interface IBRDF
 {
  public Color Eval(Normal n, Vector inw, Vector outw, Vector2D uv);
+ public Ray ScatterRay(PCG pcg, Vector IncDirection, Point IntPoint, Normal normal, int depth);
 }
 
 public interface IPigment
@@ -25,6 +28,42 @@ public class DiffusedBRDF : IBRDF
     public Color Eval(Normal n, Vector inw, Vector outw, Vector2D uv)
     {
         return (this.Reflectance / (float) Math.PI) * this.P.GetColor(uv);
+    }
+
+    public Ray ScatterRay(PCG pcg, Vector IncDirection, Point IntPoint, Normal normal, int depth)
+    {
+        var basis = new ONB(normal);
+        var cosThetaSq = pcg.randomFloat();
+        var cosTheta = (float)Math.Sqrt(cosThetaSq);
+        var sinTheta = (float)Math.Sqrt(1 - cosThetaSq);
+        var phi = 2 * Math.PI * pcg.randomFloat();
+
+        var dir = (float)(Math.Cos(phi) * cosTheta)*basis.e1 + (float)(Math.Sin(phi) * cosTheta)*basis.e2 + sinTheta*basis.e3;
+
+        return new Ray(origin: IntPoint, direction: dir, tMin: 1e-3f, tMax: float.PositiveInfinity, depth: depth);
+    }
+}
+
+public class SpecularBRDF : IBRDF
+{
+    //MEMBERS
+    public IPigment P;
+    public float ThresholdAngleRad;
+
+    //METHODS
+
+
+    public Color Eval(Normal n, Vector inw, Vector outw, Vector2D uv)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Ray ScatterRay(PCG pcg, Vector IncDirection, Point IntPoint, Normal normal, int depth)
+    {
+        var direction = IncDirection;
+        direction.Normalize();
+        var norm = normal.ToVector.Normalize();
+        var scalar = norm * direction;
     }
 }
 

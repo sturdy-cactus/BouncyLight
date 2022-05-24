@@ -3,7 +3,7 @@
 namespace RandomNumber;
 
 
-    struct PCG
+    public struct PCG
     {
         public ulong state;
         public ulong inc;
@@ -53,7 +53,7 @@ namespace RandomNumber;
         }
     }
 
-struct test
+public struct test
 {
     public static void testRand()
     {
