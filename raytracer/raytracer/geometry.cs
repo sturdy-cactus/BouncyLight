@@ -248,9 +248,9 @@ public struct Normal
         return s;
     }
 
-    public Vector ToVector(Normal normal)
+    public Vector ToVector()
     {
-        return new Vector(normal.x, normal.y, normal.z);
+        return new Vector(this.x, this.y, this.z);
     }
 
     public bool isClose(Normal a)
