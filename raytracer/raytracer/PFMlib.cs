@@ -57,6 +57,11 @@ public struct Color
 		var color = new Color(a*c.r, a*c.g, a*c.b);
 		return color;
 	}
+
+	public static Color operator +(Color a, Color b)
+	{
+		return new Color(a.r + b.r, a.g + b.g, a.b + b.b);
+	}
 }
 
 public class HdrImage 	

@@ -10,6 +10,7 @@ public interface IBRDF
 {
  public Color Eval(Normal n, Vector inw, Vector outw, Vector2D uv);
  public Ray ScatterRay(PCG pcg, Vector IncDirection, Point IntPoint, Normal normal, int depth);
+ public IPigment GetPigment();
 }
 
 public interface IPigment
@@ -41,6 +42,11 @@ public class DiffusedBRDF : IBRDF
 
         return new Ray(origin: IntPoint, direction: dir, tMin: 1e-3f, tMax: float.PositiveInfinity, depth: depth);
     }
+
+    public IPigment GetPigment()
+    {
+        return P;
+    }
 }
 
 public class SpecularBRDF : IBRDF
@@ -50,8 +56,6 @@ public class SpecularBRDF : IBRDF
     public float ThresholdAngleRad;
 
     //METHODS
-
-
     public Color Eval(Normal n, Vector inw, Vector outw, Vector2D uv)
     {
         throw new NotImplementedException();
@@ -67,17 +71,25 @@ public class SpecularBRDF : IBRDF
 
         return new Ray(origin:IntPoint,direction:direction-2*scalar*norm,tMin:1e-5f,tMax:float.PositiveInfinity,depth:depth);
     }
+    
+    public IPigment GetPigment()
+    {
+        return P;
+    }
 }
 
 public class UniformPigment : IPigment
 {
+    //MEMBERS
     public Color color;
     
+    //CTOR
     public UniformPigment(Color color)
     {
         this.color = color;
     }
         
+    //METHODS
     public Color GetColor(Vector2D vec)
     {
         return color;
@@ -134,12 +146,14 @@ public class ImagePigment : IPigment
 
 public struct Material
 {
-    public IBRDF brdf = new DiffusedBRDF();
-    public IPigment emitted_radiance = new UniformPigment(new Color(0, 0, 0));
+    //MEMBERS
+    public IBRDF brdf;
+    public IPigment emitted_radiance;
 
-    public Material(IPigment emittedRadiance, IBRDF? brdf = null)
+    //CTOR
+    public Material(IPigment? emittedRadiance = null, IBRDF? brdf = null)
     {
         this.brdf = brdf ?? new DiffusedBRDF();
-        this.emitted_radiance = emittedRadiance;
+        this.emitted_radiance = emittedRadiance ?? new UniformPigment(new Color(0, 0, 0));
     }
 }

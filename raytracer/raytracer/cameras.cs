@@ -1,6 +1,7 @@
 ﻿using Geometry;
 using PFMlib;
 using Shapes;
+using RandomNumber;
 using Point = Geometry.Point;
 
 namespace Cameras;
@@ -139,8 +140,21 @@ public class ImgTracer
                     var mat = hr.Value.Mat;
                     color = mat.emitted_radiance.GetColor(hr.Value.SPoint);
                 }
-                
 
+                this.img.SetPixel(color, row, col);
+            }
+        }
+    }
+
+    public void PathTracer(World world, PCG pcg, int N, int maxDepth, int iterLimit, Color background)
+    {
+        var tracer = new PTracer(world, pcg, N, maxDepth, iterLimit, background, this);
+        for (int col = 0; col < img.w; col++)
+        {
+            for (int row = 0; row < img.h; row++)
+            {
+                var ray = FRay(col, row);
+                var color = tracer.Roulette(ray);
                 this.img.SetPixel(color, row, col);
             }
         }
@@ -154,6 +168,7 @@ public class ImgTracer
 
         return cam.FireRay(u, v);
     }
+    
 }
 
 public struct Ray
@@ -193,5 +208,75 @@ public struct Ray
         temp.Origin = t * r.Origin;
         return temp;
     }
+}
+
+public class PTracer
+{
+    //MEMBERS
+    private World _world;
+    private PCG _pcg;
+    private int _n;
+    private int _maxDepth;
+    private int _iterLimit;
+    private Color _background;
+    private ImgTracer _imgTr;
+    
+    //CTOR
+    public PTracer(World world, PCG pcg, int N, int maxDepth, int iterLimit, Color background, ImgTracer imgTr)
+    {
+        _world = world;
+        _pcg = pcg;
+        _n = N;
+        _maxDepth = maxDepth;
+        _iterLimit = iterLimit;
+        _background = background;
+        _imgTr = imgTr;
+    }
+    
+
+    //METHODS
+    public Color Roulette(Ray ray)
+    {
+        var color = new Color();
+        if (ray.Depth > _maxDepth)
+            return new Color();
+                
+        HitRecord? hr = _world.RIntersection(ray);
+        if (hr == null)
+            return _background;
+
+        var hR = hr.Value;
+        var hitMaterial = hR.Mat;
+        var hitColor = hitMaterial.brdf.GetPigment().GetColor(hR.SPoint);
+        var emittedRad = hitMaterial.emitted_radiance.GetColor(hR.SPoint);
+        var hitColorLum = Math.Max(Math.Max(hitColor.r, hitColor.g), hitColor.b);
+                
+        //execution
+        if (ray.Depth >= _iterLimit)
+            if (_pcg.RandomFloat() > hitColorLum)
+            {
+                hitColor = (1.0f / (1 - hitColorLum)) * hitColor;
+            }
+            else
+            {
+                color = emittedRad;
+            }
+
+        var cumRad = new Color();
+                
+        if (hitColorLum > 0) //non è sempre maggiore di zero?
+            for (int i = 0; i < _n; i++)
+            {
+                var newRay =
+                    hitMaterial.brdf.ScatterRay(_pcg, hR.Ray.Direction, hR.WPoint, hR.N,
+                        hR.Ray.Depth + 1); //depth?
+                var newRad = Roulette(newRay);
+                cumRad = cumRad + newRad * hitColor;
+            }
+
+        color = emittedRad + (1.0f / _n) * cumRad;
+    }
+    
+    
 }
 

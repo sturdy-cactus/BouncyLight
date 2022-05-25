@@ -13,19 +13,19 @@ public interface IShape
 public class Plane : IShape
 {
     //MEMBERS
-    public Material material;
+    private Material _material;
     private Transformation _tr;
     
     //CONSTRUCTOR
     public Plane (Transformation? tr = null, Material? mat = null)
     {
         this._tr = tr ?? new Transformation();
-        this.material = mat ?? new Material();
+        this._material = mat ?? new Material();
     }
 
     public Material GetMaterial()
     {
-        return material;
+        return _material;
     }
     
     public HitRecord? RayIntersection(Ray rayId)
@@ -50,7 +50,7 @@ public class Plane : IShape
 
         return new HitRecord(wPoint: _tr * HitPoint, n: _tr * new Normal(0, 0, z),
             sPoint: new Vector2D((float)(HitPoint.x - Math.Floor(HitPoint.x)), (float)(HitPoint.y - Math.Floor(HitPoint.y))), t: t,
-            ray: ray, mat: material);
+            ray: ray, mat: _material);
 
     }
 }

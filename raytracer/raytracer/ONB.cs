@@ -6,7 +6,7 @@ using test;
 
 namespace OrthoNormalBasis;
 
-struct ONB
+public struct ONB
 {
     public Vector e1;
     public Vector e2;
@@ -41,6 +41,8 @@ struct ONB
     }
 
 }
+
+
 
 struct test
 {
