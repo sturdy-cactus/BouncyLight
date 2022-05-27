@@ -138,7 +138,7 @@ public class ImgTracer
                 else
                 {
                     var mat = hr.Value.Mat;
-                    color = mat.emitted_radiance.GetColor(hr.Value.SPoint);
+                    color = mat.EmittedRadiance.GetColor(hr.Value.SPoint);
                 }
 
                 this.img.SetPixel(color, row, col);
@@ -148,14 +148,14 @@ public class ImgTracer
 
     public void PathTracer(World world, PCG pcg, int N, int maxDepth, int iterLimit, Color background)
     {
-        var tracer = new PTracer(world, pcg, N, maxDepth, iterLimit, background, this);
+        var tracer = new PTracer(world, pcg, N, maxDepth, iterLimit, background);
         for (int col = 0; col < img.w; col++)
         {
             for (int row = 0; row < img.h; row++)
             {
                 var ray = FRay(col, row);
                 var color = tracer.Roulette(ray);
-                this.img.SetPixel(color, row, col);
+                img.SetPixel(color, row, col);
             }
         }
     }
@@ -219,10 +219,10 @@ public class PTracer
     private int _maxDepth;
     private int _iterLimit;
     private Color _background;
-    private ImgTracer _imgTr;
+    //private ImgTracer _imgTr;
     
     //CTOR
-    public PTracer(World world, PCG pcg, int N, int maxDepth, int iterLimit, Color background, ImgTracer imgTr)
+    public PTracer(World world, PCG pcg, int N, int maxDepth, int iterLimit, Color background)
     {
         _world = world;
         _pcg = pcg;
@@ -230,14 +230,12 @@ public class PTracer
         _maxDepth = maxDepth;
         _iterLimit = iterLimit;
         _background = background;
-        _imgTr = imgTr;
+        //_imgTr = imgTr;
     }
     
-
     //METHODS
     public Color Roulette(Ray ray)
     {
-        var color = new Color();
         if (ray.Depth > _maxDepth)
             return new Color();
                 
@@ -248,35 +246,32 @@ public class PTracer
         var hR = hr.Value;
         var hitMaterial = hR.Mat;
         var hitColor = hitMaterial.brdf.GetPigment().GetColor(hR.SPoint);
-        var emittedRad = hitMaterial.emitted_radiance.GetColor(hR.SPoint);
+        var emittedRad = hitMaterial.EmittedRadiance.GetColor(hR.SPoint);
         var hitColorLum = Math.Max(Math.Max(hitColor.r, hitColor.g), hitColor.b);
-                
+        
+        
         //execution
         if (ray.Depth >= _iterLimit)
-            if (_pcg.RandomFloat() > hitColorLum)
-            {
+        {
+            if (_pcg.RandomFloat() > hitColorLum) //qual è l'intervallo in cui genera RandomFloat?
                 hitColor = (1.0f / (1 - hitColorLum)) * hitColor;
-            }
             else
-            {
-                color = emittedRad;
-            }
-
+                return emittedRad;
+        }
+        
         var cumRad = new Color();
                 
-        if (hitColorLum > 0) //non è sempre maggiore di zero?
+        if (hitColorLum > 0) //potrebe anche essere minore di zero?
             for (int i = 0; i < _n; i++)
             {
                 var newRay =
-                    hitMaterial.brdf.ScatterRay(_pcg, hR.Ray.Direction, hR.WPoint, hR.N,
-                        hR.Ray.Depth + 1); //depth?
+                    hitMaterial.brdf.ScatterRay(_pcg, hR.Ray.Direction, hR.WPoint, hR.N,hR.Ray.Depth + 1); //depth? giusto
                 var newRad = Roulette(newRay);
                 cumRad = cumRad + newRad * hitColor;
             }
 
-        color = emittedRad + (1.0f / _n) * cumRad;
+        return emittedRad + (1.0f / _n) * cumRad;
     }
-    
     
 }
 

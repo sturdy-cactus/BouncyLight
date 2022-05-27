@@ -58,20 +58,20 @@ public class Plane : IShape
 public class Sphere : IShape
 {
     //MEMBERS
-    public Material material;
+    public Material _material;
     private Transformation _tr;
     
     //CONSTRUCTOR
     public Sphere(Transformation? tr = null, Material? mat = null)
     {
         this._tr = tr ?? new Transformation();
-        this.material = mat ?? new Material();
+        this._material = mat ?? new Material();
     }
 
     //METHODS
     public Material GetMaterial()
     {
-        return material;
+        return _material;
     }
     
     public HitRecord? RayIntersection(Ray rayId)

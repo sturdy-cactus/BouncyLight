@@ -148,12 +148,12 @@ public struct Material
 {
     //MEMBERS
     public IBRDF brdf;
-    public IPigment emitted_radiance;
+    public IPigment EmittedRadiance;
 
     //CTOR
-    public Material(IPigment? emittedRadiance = null, IBRDF? brdf = null)
+    public Material(IPigment? EmittedRadiance = null, IBRDF? brdf = null)
     {
         this.brdf = brdf ?? new DiffusedBRDF();
-        this.emitted_radiance = emittedRadiance ?? new UniformPigment(new Color(0, 0, 0));
+        this.EmittedRadiance = EmittedRadiance ?? new UniformPigment(new Color(0, 0, 0));
     }
 }
