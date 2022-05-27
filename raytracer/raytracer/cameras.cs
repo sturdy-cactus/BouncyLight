@@ -1,7 +1,10 @@
-﻿using Geometry;
+﻿using System.Diagnostics;
+using BRDF;
+using Geometry;
 using PFMlib;
 using Shapes;
 using RandomNumber;
+using test;
 using Point = Geometry.Point;
 
 namespace Cameras;
@@ -148,7 +151,7 @@ public class ImgTracer
 
     public void PathTracer(World world, PCG pcg, int N, int maxDepth, int iterLimit, Color background)
     {
-        var tracer = new PTracer(world, pcg, N, maxDepth, iterLimit, background);
+        var tracer = new PathTracer(world, pcg, N, maxDepth, iterLimit, background);
         for (int col = 0; col < img.w; col++)
         {
             for (int row = 0; row < img.h; row++)
@@ -210,7 +213,7 @@ public struct Ray
     }
 }
 
-public class PTracer
+public class PathTracer
 {
     //MEMBERS
     private World _world;
@@ -219,10 +222,9 @@ public class PTracer
     private int _maxDepth;
     private int _iterLimit;
     private Color _background;
-    //private ImgTracer _imgTr;
-    
+
     //CTOR
-    public PTracer(World world, PCG pcg, int N, int maxDepth, int iterLimit, Color background)
+    public PathTracer(World world, PCG pcg, int N, int maxDepth, int iterLimit, Color background)
     {
         _world = world;
         _pcg = pcg;
@@ -230,7 +232,6 @@ public class PTracer
         _maxDepth = maxDepth;
         _iterLimit = iterLimit;
         _background = background;
-        //_imgTr = imgTr;
     }
     
     //METHODS
@@ -274,4 +275,35 @@ public class PTracer
     }
     
 }
+
+public struct test
+{
+    public static void FurnaceTest()
+    {
+        var pcg = new PCG();
+
+        for (int i = 0; i < 5; i++)
+        {
+            float reflectance = pcg.RandomFloat();
+            float emittedRad = 0.9f * pcg.RandomFloat();
+        
+            var world = new World();
+            var brdf = new DiffusedBRDF();
+            brdf.P = new UniformPigment(reflectance * new Color(1,1,1));
+            var matRad = new UniformPigment(emittedRad * new Color(1, 1, 1));
+
+            var encMat = new Material(matRad, brdf);
+            var s = new Sphere(material: encMat);
+            world.Add(s);
+
+            var ptracer = new PathTracer(world, pcg, 1, 100, 101, new Color());
+            var ray = new Ray(origin: new Point(), direction: new Vector(1, 0, 0));
+            var color = ptracer.Roulette(ray);
+
+            var expected = emittedRad / (1 - reflectance);
+            
+        }
+    }
+}
+
 

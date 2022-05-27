@@ -1,6 +1,6 @@
 using System.Diagnostics;
 using System.Numerics;
-using static test.TestGeometry;
+using static test.isClose;
 
 
 namespace Geometry;

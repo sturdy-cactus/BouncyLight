@@ -62,10 +62,10 @@ public class Sphere : IShape
     private Transformation _tr;
     
     //CONSTRUCTOR
-    public Sphere(Transformation? tr = null, Material? mat = null)
+    public Sphere(Transformation? tr = null, Material? material = null)
     {
         this._tr = tr ?? new Transformation();
-        this._material = mat ?? new Material();
+        this._material = material ?? new Material();
     }
 
     //METHODS
