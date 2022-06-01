@@ -144,14 +144,24 @@ public struct HitRecord
     public Material Mat;
     
     //CONSTRUCTOR
-    public HitRecord(Point? wPoint = null, Normal? n = null, Vector2D? sPoint = null, float? t = null, Ray? ray = null, Material? mat=null)
+    public HitRecord()
     {
-        this.WPoint = wPoint ?? new Point();
-        this.N = n ?? new Normal();
-        this.SPoint = sPoint ?? new Vector2D();
-        this.T = t ?? .0f;
-        this.Ray = ray ?? new Ray();
-        this.Mat = mat ?? new Material();
+        this.WPoint = new Point();
+        this.N = new Normal();
+        this.SPoint = new Vector2D();
+        this.T = .0f;
+        this.Ray = new Ray();
+        this.Mat = new Material();
+    }
+    
+    public HitRecord(Point wPoint, Normal n, Vector2D sPoint, float t, Ray ray, Material mat)
+    {
+        this.WPoint = wPoint;
+        this.N = n;
+        this.SPoint = sPoint;
+        this.T = t;
+        this.Ray = ray;
+        this.Mat = mat;
     }
 }
 

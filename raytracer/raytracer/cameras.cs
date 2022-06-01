@@ -249,7 +249,10 @@ public struct PathTracer
 
         var hR = hr.Value;
         var hitMaterial = hR.Mat;
-        var hitColor = hitMaterial.brdf.GetPigment().GetColor(hR.SPoint);
+        var hitBRDF = hitMaterial.brdf;
+        var hitPigment = hitBRDF.GetPigment();
+        var surfacepoint = hR.SPoint;
+        var hitColor = hitPigment.GetColor(surfacepoint);
         var emittedRad = hitMaterial.EmittedRadiance.GetColor(hR.SPoint);
         var hitColorLum = Math.Max(Math.Max(hitColor.r, hitColor.g), hitColor.b);
         

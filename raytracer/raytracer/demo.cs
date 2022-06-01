@@ -27,7 +27,7 @@ public struct demo
                 for (var k = -.5f; k < 1; k++)
                 {
                     var p = Translation(new Vector(i, j, k));
-                    mioMondo.Add(new Sphere(p * scala,new Material(arancione)));
+                    mioMondo.Add(new Sphere(p * scala,new Material(arancione,new DiffusedBRDF())));
                 }
             }
         }
@@ -35,20 +35,20 @@ public struct demo
         //check spheres
         var q = Translation(new Vector(0, 0, -.5f));
         var scacchi1 = new CheckeredPigment(new Color(79, 121, 66), new Color(255, 255, 0));
-        mioMondo.Add(new Sphere(q * scala, new Material(scacchi1)));
+        mioMondo.Add(new Sphere(q * scala, new Material(scacchi1,new DiffusedBRDF())));
 
         q = Translation(new Vector(0, .5f, 0));
         var scacchi2 = new CheckeredPigment(new Color(132, 60, 20), new Color(120, 12, 255),2);
-        mioMondo.Add(new Sphere(q * scala, new Material(scacchi2)));
+        mioMondo.Add(new Sphere(q * scala, new Material(scacchi2, new DiffusedBRDF())));
 
 
-        mioMondo.Add(new Plane(tr: Rotation((float)(Math.PI),'x')*Translation(new Vector(0,0,1)),mat: new Material(scacchi1)));
+        mioMondo.Add(new Plane(tr: Rotation((float)(Math.PI),'x')*Translation(new Vector(0,0,1)),mat: new Material(scacchi1, new DiffusedBRDF())));
         
         var myimg = new HdrImage(width, height);
         var myTracer = new ImgTracer(myimg, cam);
 
         var world = new World();
-        world.Add(new Sphere(Translation(new Vector()), new Material(new UniformPigment(new Color(1,2,3)))));
+        world.Add(new Sphere(Translation(new Vector()), new Material(new UniformPigment(new Color(100,200,300)),brdf:new DiffusedBRDF())));
         myTracer.PathTracer(world, new PCG(), 291200, 2, 4, new Color());
         myimg.SaveLdrImg(outfile,lum:20);
 

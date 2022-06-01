@@ -24,6 +24,12 @@ public class DiffusedBRDF : IBRDF
     public IPigment P;
     public float Reflectance;
 
+    public DiffusedBRDF()
+    {
+        this.P = new UniformPigment();
+        Reflectance = 0;
+    }
+    
     //METHODS
     public Color Eval(Normal n, Vector inw, Vector outw, Vector2D uv)
     {
@@ -88,11 +94,16 @@ public class UniformPigment : IPigment
     {
         this.color = color;
     }
+    
+    public UniformPigment()
+    {
+        this.color = new Color();
+    }
         
     //METHODS
     public Color GetColor(Vector2D vec)
     {
-        return color;
+        return this.color;
     }
 }
 
@@ -151,9 +162,15 @@ public struct Material
     public IPigment EmittedRadiance;
 
     //CTOR
-    public Material(IPigment? EmittedRadiance = null, IBRDF? brdf = null)
+    public Material(IPigment EmittedRadiance, IBRDF brdf)
     {
-        this.brdf = brdf ?? new DiffusedBRDF();
-        this.EmittedRadiance = EmittedRadiance ?? new UniformPigment(new Color(0, 0, 0));
+        this.brdf = brdf;
+        this.EmittedRadiance = EmittedRadiance;
+    }
+
+    public Material()
+    {
+        this.brdf = new DiffusedBRDF();
+        this.EmittedRadiance = new UniformPigment(new Color(0, 0, 0));
     }
 }
