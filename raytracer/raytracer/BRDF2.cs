@@ -8,9 +8,10 @@ namespace BRDF;
 
 public interface IBRDF
 {
- public Color Eval(Normal n, Vector inw, Vector outw, Vector2D uv);
- public Ray ScatterRay(PCG pcg, Vector IncDirection, Point IntPoint, Normal normal, int depth);
- public IPigment GetPigment();
+    public bool IsDiffused();
+    public Color Eval(Normal n, Vector inw, Vector outw, Vector2D uv);
+    public Ray ScatterRay(PCG pcg, Vector IncDirection, Point IntPoint, Normal normal, int depth);
+    public IPigment GetPigment();
 }
 
 public interface IPigment
@@ -26,8 +27,8 @@ public class DiffusedBRDF : IBRDF
 
     public DiffusedBRDF()
     {
-        this.P = new UniformPigment();
-        Reflectance = 0;
+        this.P = new UniformPigment(new Color(255,255,255));
+        Reflectance = 1;
     }
     
     public DiffusedBRDF(IPigment pigment, float reflectance)
@@ -42,6 +43,10 @@ public class DiffusedBRDF : IBRDF
         return (this.Reflectance / (float) Math.PI) * this.P.GetColor(uv);
     }
 
+    public bool IsDiffused()
+    {
+        return true;
+    }
     public Ray ScatterRay(PCG pcg, Vector IncDirection, Point IntPoint, Normal normal, int depth)
     {
         var basis = new ONB(normal);
@@ -49,9 +54,7 @@ public class DiffusedBRDF : IBRDF
         var cosTheta = (float)Math.Sqrt(cosThetaSq);
         var sinTheta = (float)Math.Sqrt(1 - cosThetaSq);
         var phi = 2 * Math.PI * pcg.RandomFloat();
-
         var dir = (float)(Math.Cos(phi) * cosTheta)*basis.e1 + (float)(Math.Sin(phi) * cosTheta)*basis.e2 + sinTheta*basis.e3;
-
         return new Ray(origin: IntPoint, direction: dir, tMin: 1e-3f, tMax: float.PositiveInfinity, depth: depth);
     }
 
@@ -67,12 +70,22 @@ public class SpecularBRDF : IBRDF
     public IPigment P;
     public float ThresholdAngleRad;
 
+    public SpecularBRDF(IPigment p, float thresholdAngleRad)
+    {
+        P = p;
+        ThresholdAngleRad = thresholdAngleRad;
+    }
+    
     //METHODS
     public Color Eval(Normal n, Vector inw, Vector outw, Vector2D uv)
     {
         throw new NotImplementedException();
     }
 
+    public bool IsDiffused()
+    {
+        return false;
+    }
     public Ray ScatterRay(PCG pcg, Vector IncDirection, Point IntPoint, Normal normal, int depth)
     {
         var direction = IncDirection;

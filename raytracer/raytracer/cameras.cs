@@ -151,16 +151,21 @@ public class ImgTracer
     }
 
     //il numero di raggi N non corrisponde al numero di pixel?
-    public void PathTracer(World world, PCG pcg, int N, int maxDepth, int iterLimit, Color background)
+    public void PathRenderer(World world, PCG pcg, int N, int maxDepth, int iterLimit, Color background)
     {
         var tracer = new PathTracer(world, pcg, N, maxDepth, iterLimit, background);
+        var progress = img.w / 40;
+        Console.WriteLine("\ngenerazione dell'immagine in corso...\n________________________________________");
         for (int col = 0; col < img.w; col++)
         {
+            if (col % progress == 0)
+                Console.Write("*");
             for (int row = 0; row < img.h; row++)
             {
                 var ray = FRay(col, row);
                 var color = tracer.Roulette(ray);
                 img.SetPixel(color, row, col);
+                Console.WriteLine($"{row}, {col}");
             }
         }
     }
@@ -276,7 +281,7 @@ public struct PathTracer
                 var newRad = Roulette(newRay);
                 cumRad = cumRad + newRad * hitColor;
             }
-
+        
         return emittedRad + (1.0f / _n) * cumRad;
     }
     
