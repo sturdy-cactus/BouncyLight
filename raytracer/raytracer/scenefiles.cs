@@ -174,31 +174,54 @@ public struct InputStream
     {
         SkipWhitespace();
         string Symbols = "()[]<>,*";
-        
+
         char character = (char) InputFile.Read();
-        
+
         if (character.ToString() == "")
-            return new StopToken(character.ToString(),Location);
+            return new StopToken(character.ToString(), Location);
 
         if (Symbols.Contains(character))
             return new SymbolToken(character.ToString(), Location);
 
         if (character == '"')
         {
+            character = (char) InputFile.Read();
             string myString = "";
-            while (character!='"')
+            while (character != '"')
             {
                 myString += character;
                 character = (char) InputFile.Read();
             }
 
-            return new StringToken(myString,Location);
+            return new StringToken(myString, Location);
+        }
+
+        if (char.IsDigit(character) || "+-.".Contains(character))
+        {
+            string myString = "";
+            while (char.IsDigit(character) || "+-.eE".Contains(character))
+            {
+                myString += character;
+                character = (char) InputFile.Read();
+            }
+
+            return new NumberToken(myString, Location);
+        }
+
+        if (char.IsLetter(character) || character == '_')
+        {
+            string myString = "";
+            while (!"\n\r ;".Contains(character))
+            {
+                myString += character;
+                character = (char) InputFile.Read();
+            }
+            
+            return new 
         }
         
-        if (char.IsDigit(character)){}
+        throw new Exception("Invalid character!");
     }
-    
-    
 }
 
 public struct SourceLocation
