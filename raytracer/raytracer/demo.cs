@@ -49,7 +49,7 @@ public struct demo
 
         var world = new World();
         world.Add(new Sphere(Translation(new Vector()), new Material(new UniformPigment(new Color(100,200,300)),brdf:new DiffusedBRDF())));
-        myTracer.PathTracer(world, new PCG(), 291200, 2, 4, new Color());
+        myTracer.PathTracer(world, new PCG(), 1000000, 2, 4, new Color());
         myimg.SaveLdrImg(outfile,lum:20);
 
         //mioMondo = new World();
