@@ -1,8 +1,8 @@
 using System.Globalization;
 using System.Numerics;
-using Microsoft.Extensions.CommandLineUtils;
 using PFMlib;
 using test;
+using RandomNumber;
 
 internal static partial class Program
 {
@@ -36,10 +36,9 @@ internal static partial class Program
             
             RandomNumber.test.testRand();
             OrthoNormalBasis.test.TestONB();
+            //Cameras.test.FurnaceTest();
         }
 
-        
-        
         var myParams = new Parameters(args);
 
         switch (myParams.Mode)

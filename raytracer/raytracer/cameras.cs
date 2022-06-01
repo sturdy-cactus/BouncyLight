@@ -5,6 +5,7 @@ using PFMlib;
 using Shapes;
 using RandomNumber;
 using test;
+using static test.isClose;
 using Point = Geometry.Point;
 
 namespace Cameras;
@@ -149,6 +150,7 @@ public class ImgTracer
         }
     }
 
+    //il numero di raggi N non corrisponde al numero di pixel?
     public void PathTracer(World world, PCG pcg, int N, int maxDepth, int iterLimit, Color background)
     {
         var tracer = new PathTracer(world, pcg, N, maxDepth, iterLimit, background);
@@ -213,7 +215,7 @@ public struct Ray
     }
 }
 
-public class PathTracer
+public struct PathTracer
 {
     //MEMBERS
     private World _world;
@@ -237,6 +239,7 @@ public class PathTracer
     //METHODS
     public Color Roulette(Ray ray)
     {
+        //prep
         if (ray.Depth > _maxDepth)
             return new Color();
                 
@@ -254,7 +257,7 @@ public class PathTracer
         //execution
         if (ray.Depth >= _iterLimit)
         {
-            if (_pcg.RandomFloat() > hitColorLum) //qual è l'intervallo in cui genera RandomFloat?
+            if (_pcg.RandomFloat() > hitColorLum) 
                 hitColor = (1.0f / (1 - hitColorLum)) * hitColor;
             else
                 return emittedRad;
@@ -262,7 +265,7 @@ public class PathTracer
         
         var cumRad = new Color();
                 
-        if (hitColorLum > 0) //potrebe anche essere minore di zero?
+        if (hitColorLum > 0) 
             for (int i = 0; i < _n; i++)
             {
                 var newRay =
@@ -301,7 +304,9 @@ public struct test
             var color = ptracer.Roulette(ray);
 
             var expected = emittedRad / (1 - reflectance);
-            
+            Debug.Assert(IsClose(expected, color.r));
+            Debug.Assert(IsClose(expected, color.g));
+            Debug.Assert(IsClose(expected, color.b));
         }
     }
 }

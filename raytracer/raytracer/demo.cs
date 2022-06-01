@@ -2,6 +2,7 @@ using BRDF;
 using Geometry;
 using PFMlib;
 using Cameras;
+using RandomNumber;
 using Shapes;
 using static Geometry.Transformation;
 
@@ -46,13 +47,13 @@ public struct demo
         var myimg = new HdrImage(width, height);
         var myTracer = new ImgTracer(myimg, cam);
 
-        myTracer.FlatRenderer(mioMondo);
-        
+        var world = new World();
+        world.Add(new Sphere(Translation(new Vector()), new Material(new UniformPigment(new Color(1,2,3)))));
+        myTracer.PathTracer(world, new PCG(), 291200, 2, 4, new Color());
         myimg.SaveLdrImg(outfile,lum:20);
 
-        mioMondo = new World();
-        myTracer.OnAndOffRenderer(mioMondo,background:new Color(1,2,3));
-        myimg.SaveLdrImg("testvuoto.png");
-
+        //mioMondo = new World();
+        //myTracer.OnAndOffRenderer(mioMondo,background:new Color(1,2,3));
+        //myimg.SaveLdrImg("testvuoto.png");
     }
 }
