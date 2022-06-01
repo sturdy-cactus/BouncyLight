@@ -30,6 +30,12 @@ public class DiffusedBRDF : IBRDF
         Reflectance = 0;
     }
     
+    public DiffusedBRDF(IPigment pigment, float reflectance)
+    {
+        this.P = pigment;
+        Reflectance = reflectance;
+    }
+    
     //METHODS
     public Color Eval(Normal n, Vector inw, Vector outw, Vector2D uv)
     {
@@ -168,6 +174,12 @@ public struct Material
         this.EmittedRadiance = EmittedRadiance;
     }
 
+    public Material(IBRDF brdf)
+    {
+        this.brdf = brdf;
+        this.EmittedRadiance = new UniformPigment(new Color(0,0,0));
+    }
+    
     public Material()
     {
         this.brdf = new DiffusedBRDF();
