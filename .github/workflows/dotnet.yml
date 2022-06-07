@@ -25,4 +25,4 @@ jobs:
       working-directory: ./raytracer
     - name: Test
       run: raytracer.exe --no-build --verbosity normal
-      working-directory: ./raytracer
+      working-directory: ./raytracer/raytracer/bin/Debug/net6.0>
