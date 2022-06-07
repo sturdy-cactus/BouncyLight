@@ -114,7 +114,7 @@ internal static partial class Program
             catch
             {
                 Console.WriteLine("Commands: PFMtoimg or demo");
-                Environment.Exit(3);
+                Environment.Exit(0);
             }
         }
     }
