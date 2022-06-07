@@ -90,7 +90,7 @@ internal static partial class Program
                         {
                             Console.WriteLine(
                                 "usage: raytracer.exe PFMtoimg \"input_file_name\" factor gamma \"output_file_name\"");
-                            Environment.Exit(1);
+                            Environment.Exit(0);
 
                         }
 
