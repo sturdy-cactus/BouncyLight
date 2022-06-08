@@ -48,7 +48,7 @@ public struct demo
         var myTracer = new ImgTracer(myimg, cam);
 
         var world = new World();
-        world.Add(new Sphere(Scaling(new Vector(.1f,.1f,.1f)), new Material(new UniformPigment(new Color(1000000,1000000,1000000)),brdf:new DiffusedBRDF())));
+        world.Add(new Sphere(Scaling(new Vector(.1f,.1f,.1f)), new Material(new UniformPigment(new Color(1,1,1)),brdf:new DiffusedBRDF())));
         //world.Add(new Plane(Translation(new Vector(0, 0, -.7f)),
         //    new Material(new SpecularBRDF(new UniformPigment(new Color(100,100,100)),1))));
         world.Add(new Sphere(Translation(new Vector(-1,.5f,0))*Scaling(new Vector(0.2f,0.2f,0.2f)),new Material(new DiffusedBRDF(new CheckeredPigment(new Color(100,50,300),new Color(200,200,10),10)))));
@@ -59,11 +59,9 @@ public struct demo
         world.Add(new Plane(Translation(new Vector(0,-2,0))*Rotation((float)Math.PI/2f,'x'),new Material(new DiffusedBRDF(new UniformPigment(new Color(300,200,300))))));
         world.Add(new Plane(Translation(new Vector(0,0,1.5f)),new Material(new DiffusedBRDF(new UniformPigment(new Color(300,100,100))))));
         world.Add(new Plane(Translation(new Vector(3,0,0))*Rotation((float)Math.PI/2f,'y'),new Material(new DiffusedBRDF(new UniformPigment(new Color(100,200,300))))));
-
-        
         
         //myTracer.FlatRenderer(world);
-        myTracer.PathRenderer(world, new PCG(60,200), 100, 2, 4, new Color());
+        myTracer.PathRenderer(world, new PCG(), 10, 3, 2, new Color());
 
         myimg.SaveLdrImg(outfile);
 

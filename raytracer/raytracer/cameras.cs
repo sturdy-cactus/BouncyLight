@@ -140,8 +140,8 @@ public class ImgTracer
                     color = colorOff;
                 else
                 {
-                    var mat = hr.Value.Mat;
-                    color = mat.EmittedRadiance.GetColor(hr.Value.SPoint);
+                    var hitr = hr.Value;
+                    color = hitr.Mat.EmittedRadiance.GetColor(hitr.SPoint)+hitr.Mat.brdf.GetPigment().GetColor(hitr.SPoint);
                 }
 
                 this.img.SetPixel(color, row, col);
@@ -263,8 +263,9 @@ public struct PathTracer
         //execution
         if (ray.Depth >= _iterLimit)
         {
-            if (_pcg.RandomFloat() > hitColorLum) 
-                hitColor = (1.0f / (1 - hitColorLum)) * hitColor;
+            var q = Math.Max(0.05f, 1 - hitColorLum);
+            if (_pcg.RandomFloat() > q)
+                hitColor = (1.0f / (1 - q)) * hitColor;
             else
                 return emittedRad;
         }
