@@ -48,12 +48,13 @@ public struct demo
         var myTracer = new ImgTracer(myimg, cam);
 
         var world = new World();
-        world.Add(new Sphere(Scaling(new Vector(.1f,.1f,.1f))*Translation(new Vector()), new Material(new UniformPigment(new Color(100,200,300)),brdf:new DiffusedBRDF())));
-        world.Add(new Plane(Translation(new Vector(0, 0, -.5f)),
-            new Material(new SpecularBRDF(new UniformPigment(new Color(100,100,100)),1))));
+        world.Add(new Sphere(Scaling(new Vector(.1f,.1f,.1f)), new Material(new UniformPigment(new Color(100,200,300)),brdf:new DiffusedBRDF())));
+        //world.Add(new Plane(Translation(new Vector(0, 0, -.7f)),
+        //    new Material(new SpecularBRDF(new UniformPigment(new Color(100,100,100)),1))));
         world.Add(new Sphere(Scaling(new Vector(0.2f,0.2f,0.2f))*Translation(new Vector(0,.5f,-.25f)),new Material(new DiffusedBRDF(new UniformPigment(new Color(250,120,43)),1))));
-        myTracer.PathRenderer(world, new PCG(), 1000, 2, 4, new Color());
-        myimg.SaveLdrImg(outfile,lum:20);
+        //myTracer.PathRenderer(world, new PCG(), 1000, 1, 4, new Color());
+        myTracer.OnAndOffRenderer(world);
+        myimg.SaveLdrImg(outfile);
 
         //mioMondo = new World();
         //myTracer.OnAndOffRenderer(mioMondo,background:new Color(1,2,3));

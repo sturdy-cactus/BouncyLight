@@ -37,6 +37,12 @@ public class DiffusedBRDF : IBRDF
         Reflectance = reflectance;
     }
     
+    public DiffusedBRDF(IPigment pigment)
+    {
+        this.P = pigment;
+        Reflectance = 1;
+    }
+    
     //METHODS
     public Color Eval(Normal n, Vector inw, Vector outw, Vector2D uv)
     {
@@ -47,6 +53,7 @@ public class DiffusedBRDF : IBRDF
     {
         return true;
     }
+    
     public Ray ScatterRay(PCG pcg, Vector IncDirection, Point IntPoint, Normal normal, int depth)
     {
         var basis = new ONB(normal);
