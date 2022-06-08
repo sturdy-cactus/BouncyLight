@@ -124,7 +124,6 @@ public class ImgTracer
     {
         var color = background ?? new Color();
         var colorOff = color;
-        var colorOn = new Color(1, 1, 1);
         var ray = new Ray();
         var progress = img.w / 40;
         Console.WriteLine("\ngenerazione dell'immagine in corso...\n________________________________________");
@@ -149,8 +148,7 @@ public class ImgTracer
             }
         }
     }
-
-    //il numero di raggi N non corrisponde al numero di pixel?
+    
     public void PathRenderer(World world, PCG pcg, int N, int maxDepth, int iterLimit, Color background)
     {
         var tracer = new PathTracer(world, pcg, N, maxDepth, iterLimit, background);
