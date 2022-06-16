@@ -23,30 +23,21 @@ public class DiffusedBRDF : IBRDF
 {
     //MEMBERS
     public IPigment P;
-    public float Reflectance;
 
     public DiffusedBRDF()
     {
         this.P = new UniformPigment(new Color(255,255,255));
-        Reflectance = 1;
-    }
-    
-    public DiffusedBRDF(IPigment pigment, float reflectance)
-    {
-        this.P = pigment;
-        Reflectance = reflectance;
     }
     
     public DiffusedBRDF(IPigment pigment)
     {
         this.P = pigment;
-        Reflectance = 1;
     }
-    
+
     //METHODS
     public Color Eval(Normal n, Vector inw, Vector outw, Vector2D uv)
     {
-        return (this.Reflectance / (float) Math.PI) * this.P.GetColor(uv);
+        return (1 / (float) Math.PI) * this.P.GetColor(uv);
     }
 
     public bool IsDiffused()

@@ -152,20 +152,48 @@ public class ImgTracer
     public void PathRenderer(World world, PCG pcg, int N, int maxDepth, int iterLimit, Color background)
     {
         var tracer = new PathTracer(world, pcg, N, maxDepth, iterLimit, background);
-        var progress = img.w / 40;
+        var progress = (float)img.w / 40f;
+        var halfprog = progress / 2;
         Console.WriteLine("\ngenerazione dell'immagine in corso...\n________________________________________");
-        for (int col = 0; col < img.w; col++)
+        var colnum = 0;
+        float lastrest = 0;
+        float rest;
+        float a;
+        /*Parallel.For(0, img.w, col =>
         {
-            if (col % progress == 0)
+            /*colnum++;
+            a = (float)colnum / progress;
+            rest = a - (float)Math.Floor(a);
+            if (lastrest > halfprog && rest < halfprog)
                 Console.Write("*");
-            for (int row = 0; row < img.h; row++)
+            lastrest = rest;
+            
+            for (var row = 0; row < img.h; row++)
             {
-                var ray = FRay(col, row);
-                var color = tracer.Roulette(ray);
+                ray = FRay(col, row);
+                color = tracer.Trace(ray);
                 img.SetPixel(color, row, col);
-                Console.WriteLine($"{row}, {col}");
             }
-        }
+        });*/
+        var counter = 0;
+        var tot = img.w * img.h;
+        Parallel.For(0, img.w, col =>
+        {
+            /*colnum++;
+            if (colnum % progress == 0)
+                Console.Write('*');*/
+            Parallel.For(0, img.h, row =>
+            {
+                if (++counter % 100 == 0)
+                    Console.WriteLine($"calculating pixel {counter} of {tot}");
+
+                var ray = FRay(col, row);
+                var color = tracer.Trace(ray);
+                img.SetPixel(color, row, col);
+            });
+        });
+
+
     }
     
     //INTERNAL METHODS
@@ -223,67 +251,73 @@ public struct PathTracer
     //MEMBERS
     private World _world;
     private PCG _pcg;
-    private int _n;
+    private int _rayNumber;
     private int _maxDepth;
-    private int _iterLimit;
+    private int _rouletteLimit;
     private Color _background;
 
     //CTOR
-    public PathTracer(World world, PCG pcg, int N, int maxDepth, int iterLimit, Color background)
+    public PathTracer(World world, PCG pcg, int numberOfRays, int maxDepth, int Limit, Color background)
     {
         _world = world;
         _pcg = pcg;
-        _n = N;
+        _rayNumber = numberOfRays;
         _maxDepth = maxDepth;
-        _iterLimit = iterLimit;
+        _rouletteLimit = Limit;
         _background = background;
     }
-    
-    //METHODS
-    public Color Roulette(Ray ray)
+
+    public PathTracer(World world)
     {
-        //prep
+        _world = world;
+        _pcg = new PCG();
+        _rayNumber = 10;
+        _maxDepth = 10;
+        _rouletteLimit = 3;
+        _background = new Color(0, 0, 0);
+    }
+
+    //METHODS
+    public Color Trace(Ray ray)
+    {
         if (ray.Depth > _maxDepth)
-            return new Color();
-                
-        HitRecord? hr = _world.RIntersection(ray);
-        if (hr == null)
+            return new Color(0, 0, 0);
+
+        HitRecord? record = _world.RIntersection(ray);
+
+        if (record == null)
             return _background;
 
-        var hR = hr.Value;
-        var hitMaterial = hR.Mat;
-        var hitBRDF = hitMaterial.brdf;
-        var hitPigment = hitBRDF.GetPigment();
-        var surfacepoint = hR.SPoint;
-        var hitColor = hitPigment.GetColor(surfacepoint);
-        var emittedRad = hitMaterial.EmittedRadiance.GetColor(hR.SPoint);
-        var hitColorLum = Math.Max(Math.Max(hitColor.r, hitColor.g), hitColor.b);
-        
-        
-        //execution
-        if (ray.Depth >= _iterLimit)
+        var hitRecord = record.Value;
+        var hitMaterial = hitRecord.Mat;
+        var hitColor = hitMaterial.brdf.GetPigment().GetColor(hitRecord.SPoint);
+        var emission = hitMaterial.EmittedRadiance.GetColor(hitRecord.SPoint);
+
+        var hitLum = Math.Max(hitColor.r, Math.Max(hitColor.g, hitColor.b));
+
+        //roulette here
+        if (ray.Depth >= _rouletteLimit)
         {
-            var q = Math.Max(0.05f, 1 - hitColorLum);
+            var q = (float)Math.Max(0.05, 1 - hitLum);
             if (_pcg.RandomFloat() > q)
-                hitColor = (1.0f / (1 - q)) * hitColor;
-            else
-                return emittedRad;
+                hitColor = (float)(1f / (1f - q)) * hitColor;
+            else return emission;
         }
-        
-        var cumRad = new Color();
-                
-        if (hitColorLum > 0) 
-            for (int i = 0; i < _n; i++)
+
+        var radianceSum = new Color(0, 0, 0);
+        if (hitLum > 0f)
+            for (int rayIndex = 0; rayIndex < _rayNumber; rayIndex++)
             {
-                var newRay =
-                    hitMaterial.brdf.ScatterRay(_pcg, hR.Ray.Direction, hR.WPoint, hR.N,hR.Ray.Depth + 1); //depth? giusto
-                var newRad = Roulette(newRay);
-                cumRad = cumRad + newRad * hitColor;
+                var newRay = hitMaterial.brdf.ScatterRay(_pcg, hitRecord.Ray.Direction, hitRecord.WPoint, hitRecord.N,
+                    ray.Depth + 1);
+                var newRadiance = Trace(newRay);
+
+                radianceSum += newRadiance * hitColor;
             }
-        
-        return emittedRad + (1.0f / _n) * cumRad;
+
+        return (1f / _rayNumber) * radianceSum + emission;
+
     }
-    
 }
 
 public struct test
@@ -308,7 +342,7 @@ public struct test
 
             var ptracer = new PathTracer(world, pcg, 1, 100, 101, new Color());
             var ray = new Ray(origin: new Point(), direction: new Vector(1, 0, 0));
-            var color = ptracer.Roulette(ray);
+            var color = ptracer.Trace(ray);
 
             var expected = emittedRad / (1 - reflectance);
             Debug.Assert(IsClose(expected, color.r));

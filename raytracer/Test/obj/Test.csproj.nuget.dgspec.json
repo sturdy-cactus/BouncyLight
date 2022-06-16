@@ -1,27 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Administrator\\RiderProjects\\BouncyLight\\raytracer\\Test\\Test.csproj": {}
+    "C:\\Users\\giuli\\RiderProjects\\BouncyLight\\raytracer\\Test\\Test.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Administrator\\RiderProjects\\BouncyLight\\raytracer\\Test\\Test.csproj": {
+    "C:\\Users\\giuli\\RiderProjects\\BouncyLight\\raytracer\\Test\\Test.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Administrator\\RiderProjects\\BouncyLight\\raytracer\\Test\\Test.csproj",
+        "projectUniqueName": "C:\\Users\\giuli\\RiderProjects\\BouncyLight\\raytracer\\Test\\Test.csproj",
         "projectName": "Test",
-        "projectPath": "C:\\Users\\Administrator\\RiderProjects\\BouncyLight\\raytracer\\Test\\Test.csproj",
-        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Administrator\\RiderProjects\\BouncyLight\\raytracer\\Test\\obj\\",
+        "projectPath": "C:\\Users\\giuli\\RiderProjects\\BouncyLight\\raytracer\\Test\\Test.csproj",
+        "packagesPath": "C:\\Users\\giuli\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\giuli\\RiderProjects\\BouncyLight\\raytracer\\Test\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\giuli\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -72,7 +70,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.200\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Users\\giuli\\.dotnet\\sdk\\6.0.300\\RuntimeIdentifierGraph.json"
         }
       }
     }
